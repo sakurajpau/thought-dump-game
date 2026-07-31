@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>思考の実況ゲーム</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #F7F5F2;
+    --surface: #FFFFFF;
+    --ink: #1C1C1C;
+    --ink-soft: #6B6660;
+    --positive: #9BB89B;
+    --neutral: #C4A882;
+    --negative: #B98080;
+    --accent: #3D3530;
+    --radius: 16px;
+  }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 20px 60px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  h1 span { font-weight: 500; }
+
+  .subtitle {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 300;
+  }
+
+  .screen { display: none; width: 100%; max-width: 480px; }
+  .screen.active { display: block; }
+
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .intro-card { text-align: left; }
+
+  .rule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0 28px;
+  }
+
+  .rule-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .rule-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--ink-soft);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    letter-spacing: 0.05em;
+  }
+
+  .btn:active { transform: scale(0.98); opacity: 0.9; }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink-soft);
+    font-size: 13px;
+    padding: 10px;
+    margin-top: 8px;
+    border: 1px solid #DDD;
+  }
+
+  /* GAME SCREEN */
+  .timer-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .timer-num {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 34px;
+    font-weight: 500;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .timer-label {
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  .count-badge {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink-soft);
+    background: var(--bg);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .progress-bar {
+    height: 4px;
+    background: #E0DDD9;
+    border-radius: 2px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 1s linear;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  #thought-input {
+    flex: 1;
+    padding: 14px 16px;
+    border: 1px solid #DDD9D3;
+    border-radius: 12px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 15px;
+    background: var(--surface);
+    outline: none;
+  }
+
+  #thought-input:focus { border-color: var(--accent); }
+
+  .add-btn {
+    width: 52px;
+    flex-shrink: 0;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 22px;
+    font-weight: 300;
+    cursor: pointer;
+  }
+
+  .add-btn:active { transform: scale(0.94); }
+
+  .thought-log {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+
+  .thought-item {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 14px;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-left: 4px solid var(--neutral);
+    animation: fadeIn 0.3s ease;
+  }
+
+  .thought-item.positive { border-left-color: var(--positive); }
+  .thought-item.negative { border-left-color: var(--negative); }
+
+  .thought-empty {
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-soft);
+    padding: 24px 0;
+  }
+
+  /* RESULT SCREEN */
+  .result-intro { text-align: center; margin-bottom: 32px; }
+  .result-intro h2 { font-size: 22px; font-weight: 300; margin-bottom: 6px; }
+  .result-intro p { font-size: 13px; color: var(--ink-soft); }
+
+  .chart-wrap {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 28px 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  canvas#pie {
+    max-width: 220px;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .scores {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .score-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .score-row:last-child { margin-bottom: 0; }
+
+  .score-label {
+    width: 78px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    flex-shrink: 0;
+  }
+
+  .score-bar-bg {
+    flex: 1;
+    height: 8px;
+    background: #F0EDEA;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .score-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1s ease;
+  }
+
+  .score-num {
+    width: 40px;
+    text-align: right;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .message-card {
+    background: var(--accent);
+    color: white;
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+    line-height: 1.7;
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  .message-card strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .quote-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 32px 24px 26px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    border-top: 3px solid var(--accent);
+  }
+
+  .quote-mark {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 36px;
+    color: #DDD9D3;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+
+  .quote-text {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .quote-from {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.05em;
+  }
+
+  .quote-from::before { content: '— '; }
+
+  .review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .note {
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    margin-bottom: 20px;
+    padding: 0 4px;
+  }
+
+  .retry-btn {
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid #DDD;
+    width: 100%;
+    padding: 13px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-family: 'Noto Sans JP', sans-serif;
+    cursor: pointer;
+  }
+
+  .fade-in { animation: fadeIn 0.4s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Thought Dump</div>
+  <h1>思考の<span>実況</span>ゲーム</h1>
+  <p class="subtitle">60秒間、頭に浮かんだことをそのまま出す</p>
+</header>
+
+<!-- INTRO -->
+<div class="screen active" id="screen-intro">
+  <div class="card intro-card fade-in">
+    <div class="rule-list">
+      <div class="rule-item">
+        <div class="rule-num">1</div>
+        <div>60秒間、頭に浮かんだことをそのまま入力して「＋」で追加していきます。</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">2</div>
+        <div>正しさや文章のきれいさは気にしなくてOK。単語だけでも大丈夫です。</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">3</div>
+        <div>60秒経つと自動的に終了し、書いた内容をポジティブ／ニュートラル／ネガティブに分けて割合を見せます。</div>
+      </div>
+    </div>
+    <button class="btn" onclick="startGame()">はじめる</button>
+  </div>
+</div>
+
+<!-- GAME -->
+<div class="screen" id="screen-game">
+  <div class="card fade-in">
+    <div class="timer-wrap">
+      <div>
+        <div class="timer-num" id="timer-num">60</div>
+        <div class="timer-label">のこり秒</div>
+      </div>
+      <div class="count-badge" id="count-badge">0個</div>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress" style="width:100%"></div>
+    </div>
+    <div class="input-row">
+      <input type="text" id="thought-input" placeholder="いま浮かんだこと…" autocomplete="off">
+      <button class="add-btn" onclick="addThought()">＋</button>
+    </div>
+    <div class="thought-log" id="thought-log">
+      <div class="thought-empty" id="thought-empty">ここに追加した思考が並びます</div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div class="screen" id="screen-result">
+  <div class="result-intro fade-in">
+    <h2>60秒、出し切りました</h2>
+    <p id="result-count"></p>
+  </div>
+
+  <div class="chart-wrap fade-in">
+    <canvas id="pie" width="220" height="220"></canvas>
+    <div class="legend">
+      <div class="legend-item"><span class="legend-dot" style="background:var(--positive)"></span>ポジティブ</div>
+      <div class="legend-item"><span class="legend-dot" style="background:var(--neutral)"></span>ニュートラル</div>
+      <div class="legend-item"><span class="legend-dot" style="background:var(--negative)"></span>ネガティブ</div>
+    </div>
+  </div>
+
+  <div class="scores fade-in">
+    <div class="score-row">
+      <span class="score-label">ポジティブ</span>
+      <div class="score-bar-bg"><div class="score-bar-fill" id="bar-positive" style="width:0%; background:var(--positive)"></div></div>
+      <span class="score-num" id="num-positive" style="color:var(--positive)">0%</span>
+    </div>
+    <div class="score-row">
+      <span class="score-label">ニュートラル</span>
+      <div class="score-bar-bg"><div class="score-bar-fill" id="bar-neutral" style="width:0%; background:var(--neutral)"></div></div>
+      <span class="score-num" id="num-neutral" style="color:var(--neutral)">0%</span>
+    </div>
+    <div class="score-row">
+      <span class="score-label">ネガティブ</span>
+      <div class="score-bar-bg"><div class="score-bar-fill" id="bar-negative" style="width:0%; background:var(--negative)"></div></div>
+      <span class="score-num" id="num-negative" style="color:var(--negative)">0%</span>
+    </div>
+  </div>
+
+  <div class="message-card fade-in" id="message-card">
+    <strong id="eval-title"></strong>
+    <span id="eval-body"></span>
+  </div>
+
+  <div class="quote-card fade-in" id="quote-card">
+    <div class="quote-mark">"</div>
+    <p class="quote-text" id="quote-text"></p>
+    <p class="quote-from" id="quote-from"></p>
+  </div>
+
+  <div class="review-list fade-in" id="review-list"></div>
+
+  <p class="note">※分類はキーワードによる簡易判定で、正式な心理診断ではありません。気持ちを眺めるための遊びとして使ってください。しんどさが続くときは、無理せず信頼できる人や専門家に相談してくださいね。</p>
+
+  <button class="retry-btn" onclick="resetGame()">もう一度やる</button>
+</div>
+
+<script>
+const POSITIVE_WORDS = ['嬉しい','うれしい','楽しい','たのしい','大好き','好き','すき','ありがとう','感謝','幸せ','しあわせ','最高','さいこう','ワクワク','わくわく','安心','あんしん','落ち着く','おちつく','元気','げんき','頑張る','がんばる','できた','成功','せいこう','綺麗','きれい','ラッキー','らっきー','スッキリ','すっきり','気持ちいい','きもちいい','面白い','おもしろい','助かる','たすかる','快適','かいてき','満足','まんぞく','順調','じゅんちょう','いいね','癒される','いやされる','良い','よい','いい感じ'];
+
+const NEGATIVE_WORDS = ['辛い','つらい','嫌い','きらい','嫌','いや','不安','ふあん','心配','しんぱい','疲れ','つかれ','だるい','最悪','さいあく','ムカつく','むかつく','イライラ','いらいら','怒り','いかり','悲しい','かなしい','さみしい','寂しい','さびしい','無理','むり','面倒','めんどう','めんどくさい','失敗','しっぱい','ダメ','だめ','痛い','いたい','苦しい','くるしい','焦り','あせり','怖い','こわい','ストレス','しんどい','きつい','憂鬱','ゆううつ','もやもや','後悔','こうかい','落ち込む','おちこむ','不満','ふまん','嫉妬','しっと'];
+
+const EVALUATIONS = {
+  positive: {
+    title: '今、気持ちが前を向いています',
+    body: 'ポジティブな言葉が多く出てきました。この調子を、まず自分でちゃんと認めてあげてください。',
+    quotes: [
+      { text: '笑う門には福来る', from: 'ことわざ' },
+      { text: '案ずるより産むが易し', from: 'ことわざ' },
+      { text: '果報は寝て待て', from: 'ことわざ' },
+      { text: '一日一善', from: 'ことわざ' }
+    ]
+  },
+  neutral: {
+    title: '今日は、静かに凪いでいます',
+    body: '大きく揺れることなく、淡々とした思考が多く出てきました。それも十分、整った状態です。',
+    quotes: [
+      { text: '日々是好日', from: '禅語' },
+      { text: '平常心是道', from: '禅語' },
+      { text: '一期一会', from: '茶道の言葉' }
+    ]
+  },
+  negative: {
+    title: '今日は、自分に優しくする日',
+    body: 'しんどい言葉が多く出てきました。無理に前向きにならなくて大丈夫。ここまで出し切ったこと自体を、よくやったと思ってください。',
+    quotes: [
+      { text: '雨降って地固まる', from: 'ことわざ' },
+      { text: '七転び八起き', from: 'ことわざ' },
+      { text: '急がば回れ', from: 'ことわざ' }
+    ]
+  },
+  balanced: {
+    title: 'いろんな気持ちが、同時にありました',
+    body: 'ポジティブもネガティブも、混ざり合って出てきました。それが自然なことです。全部があなたの"今"です。',
+    quotes: [
+      { text: '禍福は糾える縄の如し', from: 'ことわざ' },
+      { text: '山あり谷あり', from: 'ことわざ的表現' },
+      { text: '人間万事塞翁が馬', from: '故事成語' }
+    ]
+  },
+  empty: {
+    title: '何も出てこない日も、あります',
+    body: '無理に言葉を探さなくて大丈夫。今日はただ、60秒座ってみた——それだけで十分です。',
+    quotes: [
+      { text: '急がば回れ', from: 'ことわざ' }
+    ]
+  }
+};
+
+function getCategory(counts) {
+  const total = counts.positive + counts.neutral + counts.negative;
+  if (total === 0) return 'empty';
+  const max = Math.max(counts.positive, counts.neutral, counts.negative);
+  const top = Object.entries(counts).filter(([, v]) => v === max).map(([k]) => k);
+  return top.length > 1 ? 'balanced' : top[0];
+}
+
+function renderEvaluation(counts) {
+  const category = getCategory(counts);
+  const data = EVALUATIONS[category];
+  document.getElementById('eval-title').textContent = data.title;
+  document.getElementById('eval-body').textContent = data.body;
+  const quote = data.quotes[Math.floor(Math.random() * data.quotes.length)];
+  document.getElementById('quote-text').textContent = quote.text;
+  document.getElementById('quote-from').textContent = quote.from;
+}
+
+let timeLeft = 60;
+let timerId = null;
+let thoughts = []; // { text, category }
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function classify(text) {
+  for (const w of NEGATIVE_WORDS) if (text.includes(w)) return 'negative';
+  for (const w of POSITIVE_WORDS) if (text.includes(w)) return 'positive';
+  return 'neutral';
+}
+
+function startGame() {
+  thoughts = [];
+  timeLeft = 60;
+  document.getElementById('timer-num').textContent = timeLeft;
+  document.getElementById('progress').style.width = '100%';
+  document.getElementById('count-badge').textContent = '0個';
+  document.getElementById('thought-log').innerHTML = '<div class="thought-empty" id="thought-empty">ここに追加した思考が並びます</div>';
+  showScreen('screen-game');
+
+  const input = document.getElementById('thought-input');
+  input.value = '';
+  input.focus();
+
+  timerId = setInterval(() => {
+    timeLeft--;
+    document.getElementById('timer-num').textContent = timeLeft;
+    document.getElementById('progress').style.width = (timeLeft / 60 * 100) + '%';
+    if (timeLeft <= 0) endGame();
+  }, 1000);
+}
+
+function addThought() {
+  const input = document.getElementById('thought-input');
+  const text = input.value.trim();
+  if (!text || timeLeft <= 0) return;
+
+  const category = classify(text);
+  thoughts.push({ text, category });
+
+  const empty = document.getElementById('thought-empty');
+  if (empty) empty.remove();
+
+  const item = document.createElement('div');
+  item.className = 'thought-item ' + category;
+  item.textContent = text;
+  document.getElementById('thought-log').prepend(item);
+
+  document.getElementById('count-badge').textContent = thoughts.length + '個';
+  input.value = '';
+  input.focus();
+}
+
+document.getElementById('thought-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    addThought();
+  }
+});
+
+function endGame() {
+  clearInterval(timerId);
+  showResult();
+}
+
+function showResult() {
+  showScreen('screen-result');
+
+  const total = thoughts.length;
+  document.getElementById('result-count').textContent =
+    total === 0 ? '今回は何も追加されませんでした' : (total + '個の思考を出しました');
+
+  const counts = { positive: 0, neutral: 0, negative: 0 };
+  thoughts.forEach(t => counts[t.category]++);
+
+  const pct = {
+    positive: total ? Math.round(counts.positive / total * 100) : 0,
+    neutral: total ? Math.round(counts.neutral / total * 100) : 0,
+    negative: total ? Math.round(counts.negative / total * 100) : 0
+  };
+
+  setTimeout(() => {
+    document.getElementById('bar-positive').style.width = pct.positive + '%';
+    document.getElementById('bar-neutral').style.width = pct.neutral + '%';
+    document.getElementById('bar-negative').style.width = pct.negative + '%';
+    document.getElementById('num-positive').textContent = pct.positive + '%';
+    document.getElementById('num-neutral').textContent = pct.neutral + '%';
+    document.getElementById('num-negative').textContent = pct.negative + '%';
+  }, 100);
+
+  setTimeout(() => drawPie(counts, total), 200);
+
+  renderEvaluation(counts);
+
+  const reviewList = document.getElementById('review-list');
+  reviewList.innerHTML = '';
+  thoughts.slice().reverse().forEach(t => {
+    const el = document.createElement('div');
+    el.className = 'thought-item ' + t.category;
+    el.textContent = t.text;
+    reviewList.appendChild(el);
+  });
+}
+
+function drawPie(counts, total) {
+  const canvas = document.getElementById('pie');
+  const ctx = canvas.getContext('2d');
+  const cx = 110, cy = 110, r = 95, hole = 55;
+  ctx.clearRect(0, 0, 220, 220);
+
+  if (total === 0) {
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fillStyle = '#EAE7E3';
+    ctx.fill();
+  } else {
+    const segments = [
+      { value: counts.positive, color: '#9BB89B' },
+      { value: counts.neutral, color: '#C4A882' },
+      { value: counts.negative, color: '#B98080' }
+    ];
+    let start = -Math.PI / 2;
+    segments.forEach(seg => {
+      if (seg.value <= 0) return;
+      const angle = (seg.value / total) * Math.PI * 2;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, r, start, start + angle);
+      ctx.closePath();
+      ctx.fillStyle = seg.color;
+      ctx.fill();
+      start += angle;
+    });
+  }
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, hole, 0, Math.PI * 2);
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fill();
+
+  ctx.font = '500 24px "DM Sans", sans-serif';
+  ctx.fillStyle = '#3D3530';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(total, cx, cy - 8);
+  ctx.font = '11px "Noto Sans JP", sans-serif';
+  ctx.fillStyle = '#6B6660';
+  ctx.fillText('個の思考', cx, cy + 14);
+}
+
+function resetGame() {
+  clearInterval(timerId);
+  showScreen('screen-intro');
+}
+</script>
+</body>
+</html>
