@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f7f4ef">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="気づきノート">
+  <title>気づきノート</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="bar">
+    <button id="back" class="icon-btn" hidden aria-label="一覧に戻る">‹</button>
+    <h1 id="title">気づきノート</h1>
+    <button id="menu-btn" class="icon-btn" hidden aria-label="設定">⋯</button>
+  </header>
+
+  <main id="app">
+    <!-- 設定が済んでいないとき -->
+    <section id="view-setup" class="view card" hidden>
+      <h2>設定が必要です</h2>
+      <p><code>config.js</code> に Supabase の URL と anon key を入れてください。手順は README.md にあります。</p>
+    </section>
+
+    <!-- ログイン -->
+    <section id="view-login" class="view" hidden>
+      <form id="login-form" class="card">
+        <h2>ログイン</h2>
+        <label>メールアドレス
+          <input id="login-email" type="email" autocomplete="email" required>
+        </label>
+        <label>パスワード
+          <input id="login-password" type="password" autocomplete="current-password" required>
+        </label>
+        <button type="submit" class="primary">ログイン</button>
+        <p class="error" id="login-error" role="alert"></p>
+        <p class="hint">アカウントは麻美さんからお渡しします。パスワードを忘れたときも麻美さんにご連絡ください。</p>
+      </form>
+    </section>
+
+    <!-- はじめてのログインで名前を決める -->
+    <section id="view-name" class="view" hidden>
+      <form id="name-form" class="card">
+        <h2>はじめまして</h2>
+        <label><span id="name-label">麻美さんに表示されるお名前</span>
+          <input id="name-input" maxlength="40" required>
+        </label>
+        <button type="submit" class="primary">はじめる</button>
+        <p class="error" id="name-error" role="alert"></p>
+      </form>
+    </section>
+
+    <!-- クライアントのノート -->
+    <section id="view-journal" class="view" hidden>
+      <p class="notice" id="crisis-note"></p>
+      <ol id="journal-list" class="timeline" aria-live="polite"></ol>
+      <form id="journal-form" class="composer">
+        <textarea id="journal-input" rows="4" maxlength="4000" placeholder="今日気づいたこと、感じたことを書いてみましょう" required></textarea>
+        <div class="composer-row">
+          <span class="hint">書いたものは後から消せません</span>
+          <button type="submit" class="primary">ノートに書く</button>
+        </div>
+        <p class="error" id="journal-error" role="alert"></p>
+      </form>
+    </section>
+
+    <!-- 麻美さん：クライアント一覧 -->
+    <section id="view-clients" class="view" hidden>
+      <ul id="client-list" class="client-list"></ul>
+      <p id="client-empty" class="hint center" hidden>まだクライアントがいません。README.md の手順でアカウントを追加してください。</p>
+    </section>
+
+    <!-- 麻美さん：一人のノートと返信 -->
+    <section id="view-thread" class="view" hidden>
+      <ol id="thread-list" class="timeline" aria-live="polite"></ol>
+      <form id="reply-form" class="composer">
+        <textarea id="reply-input" rows="5" maxlength="4000" placeholder="まとめて返信を書く" required></textarea>
+        <div class="composer-row">
+          <span class="hint" id="reply-hint"></span>
+          <button type="submit" class="primary">返信する</button>
+        </div>
+        <p class="error" id="reply-error" role="alert"></p>
+      </form>
+    </section>
+
+    <!-- 設定 -->
+    <section id="view-settings" class="view" hidden>
+      <form id="settings-name-form" class="card">
+        <h2>表示名</h2>
+        <input id="settings-name" maxlength="40" required aria-label="表示名">
+        <button type="submit">変更する</button>
+      </form>
+      <form id="password-form" class="card">
+        <h2>パスワードの変更</h2>
+        <input id="new-password" type="password" minlength="8" autocomplete="new-password" placeholder="8文字以上" required aria-label="新しいパスワード">
+        <button type="submit">変更する</button>
+      </form>
+      <p class="hint center" id="settings-msg" role="status"></p>
+      <button id="logout" class="danger wide">ログアウト</button>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
