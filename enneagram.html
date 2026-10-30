@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>エニアグラムカード</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #F7F5F2;
+    --surface: #FFFFFF;
+    --ink: #1C1C1C;
+    --ink-soft: #6B6660;
+    --line: #E0DDD9;
+    --accent: #3D3530;
+    --radius: 16px;
+    --type-color: #3D3530;
+  }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 16px 60px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  h1 span { font-weight: 500; }
+
+  .subtitle {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 300;
+  }
+
+  .screen { display: none; width: 100%; max-width: 480px; }
+  .screen.active { display: block; }
+
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .rule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 4px 0 28px;
+  }
+
+  .rule-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .rule-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--ink-soft);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    letter-spacing: 0.05em;
+  }
+
+  .btn:active { transform: scale(0.98); opacity: 0.9; }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-weight: 400;
+    padding: 13px;
+    margin-top: 8px;
+    border: 1px solid #DDD;
+  }
+
+  .last-result {
+    display: none;
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+
+  .last-result button {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  /* QUIZ */
+  .quiz-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .quiz-count {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .back-btn {
+    background: none;
+    border: none;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    padding: 4px 0;
+  }
+
+  .back-btn:disabled { opacity: 0.3; cursor: default; }
+
+  .progress-bar {
+    height: 4px;
+    background: var(--line);
+    border-radius: 2px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+
+  .deck {
+    position: relative;
+    height: 240px;
+    margin-bottom: 24px;
+  }
+
+  .deck-shadow {
+    position: absolute;
+    inset: 0;
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .deck-shadow.s1 { transform: translateY(8px) scale(0.96); opacity: 0.7; }
+  .deck-shadow.s2 { transform: translateY(16px) scale(0.92); opacity: 0.4; }
+
+  .q-card {
+    position: absolute;
+    inset: 0;
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.28s ease, opacity 0.28s ease;
+  }
+
+  .q-card.out-right { transform: translateX(110%) rotate(8deg); opacity: 0; }
+  .q-card.out-left { transform: translateX(-110%) rotate(-8deg); opacity: 0; }
+  .q-card.in { animation: cardIn 0.28s ease; }
+
+  .q-mark {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 36px;
+    color: #DDD9D3;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .q-text {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.8;
+  }
+
+  .scale {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+
+  .scale-btn {
+    background: var(--surface);
+    border: 1px solid #DDD9D3;
+    border-radius: 12px;
+    padding: 12px 2px 10px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 10px;
+    line-height: 1.4;
+    color: var(--ink-soft);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    transition: border-color 0.15s, transform 0.1s;
+  }
+
+  .scale-btn:hover { border-color: var(--accent); }
+  .scale-btn:active { transform: scale(0.95); }
+
+  .scale-dot {
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .scale-hint {
+    text-align: center;
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 14px;
+  }
+
+  /* RESULT */
+  .result-intro { text-align: center; margin-bottom: 24px; }
+  .result-intro p { font-size: 13px; color: var(--ink-soft); }
+
+  .type-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    overflow: hidden;
+  }
+
+  .type-head {
+    background: var(--type-color);
+    color: white;
+    padding: 28px 24px 24px;
+    position: relative;
+  }
+
+  .type-num {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 64px;
+    font-weight: 300;
+    line-height: 1;
+    position: absolute;
+    right: 20px;
+    top: 16px;
+    opacity: 0.35;
+  }
+
+  .type-en {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 6px;
+  }
+
+  .type-name {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .type-keyword {
+    font-size: 13px;
+    font-weight: 300;
+    opacity: 0.9;
+  }
+
+  .wing-badge {
+    display: inline-block;
+    margin-top: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .type-body { padding: 24px; }
+
+  .type-desc {
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .fact {
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+
+  .fact-label {
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+
+  .fact-value {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .section-label {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .tag {
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--type-color);
+    color: var(--type-color);
+  }
+
+  .arrows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .arrow-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .arrow-chip {
+    flex-shrink: 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--bg);
+    color: var(--ink-soft);
+    white-space: nowrap;
+    min-width: 92px;
+    text-align: center;
+  }
+
+  .diagram-wrap {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    margin-bottom: 16px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .diagram-wrap svg { width: 100%; max-width: 260px; height: auto; display: block; margin: 0 auto; }
+
+  .diagram-legend {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 12px;
+    font-size: 11px;
+    color: var(--ink-soft);
+    flex-wrap: wrap;
+  }
+
+  .diagram-legend span::before {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 2px;
+    vertical-align: middle;
+    margin-right: 6px;
+    background: currentColor;
+  }
+
+  .legend-growth { color: #6F9A6F; }
+  .legend-stress { color: #B98080; }
+
+  .scores {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .score-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .score-row:last-child { margin-bottom: 0; }
+
+  .score-label {
+    width: 112px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .score-label b {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    color: var(--ink);
+    margin-right: 4px;
+  }
+
+  .score-bar-bg {
+    flex: 1;
+    height: 8px;
+    background: #F0EDEA;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .score-bar-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 4px;
+    transition: width 1s ease;
+  }
+
+  .score-num {
+    width: 38px;
+    text-align: right;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .message-card {
+    background: var(--accent);
+    color: white;
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+    line-height: 1.7;
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  .message-card strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .note {
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    margin-bottom: 20px;
+    padding: 0 4px;
+  }
+
+  /* LIBRARY */
+  .lib-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .lib-card {
+    aspect-ratio: 3 / 4;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    padding: 12px 10px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: 'Noto Sans JP', sans-serif;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    transition: transform 0.15s;
+  }
+
+  .lib-card:active { transform: scale(0.96); }
+
+  .lib-num {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 32px;
+    font-weight: 300;
+    line-height: 1;
+  }
+
+  .lib-name {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .lib-center {
+    font-size: 10px;
+    opacity: 0.85;
+    margin-top: 2px;
+  }
+
+  .fade-in { animation: fadeIn 0.4s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(16px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Enneagram Cards</div>
+  <h1>エニアグラム<span>カード</span></h1>
+  <p class="subtitle">36枚のカードで、9つのタイプから自分を見つける</p>
+</header>
+
+<!-- INTRO -->
+<div class="screen active" id="screen-intro">
+  <div class="card fade-in">
+    <div class="rule-list">
+      <div class="rule-item">
+        <div class="rule-num">1</div>
+        <div>カードに書かれた文が、ふだんの自分にどれくらい当てはまるかを5段階で選びます。</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">2</div>
+        <div>「こうありたい自分」ではなく、「実際の自分」で直感的に答えるのがコツです。</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">3</div>
+        <div>36枚すべて答えると、あなたに近いタイプとウイング、成長と疲れたときの傾向を表示します。</div>
+      </div>
+    </div>
+    <button class="btn" onclick="startQuiz()">カードをめくる</button>
+    <button class="btn btn-ghost" onclick="showLibrary()">9タイプの図鑑を見る</button>
+    <p class="last-result" id="last-result"></p>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="screen" id="screen-quiz">
+  <div class="quiz-top">
+    <button class="back-btn" id="back-btn" onclick="undo()">← ひとつ戻る</button>
+    <span class="quiz-count" id="quiz-count">1 / 36</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+  <div class="deck">
+    <div class="deck-shadow s2"></div>
+    <div class="deck-shadow s1"></div>
+    <div class="q-card" id="q-card">
+      <div class="q-mark">"</div>
+      <p class="q-text" id="q-text"></p>
+    </div>
+  </div>
+
+  <div class="scale" id="scale"></div>
+  <p class="scale-hint">キーボードの 1〜5 でも答えられます</p>
+</div>
+
+<!-- RESULT / DETAIL -->
+<div class="screen" id="screen-result">
+  <div class="result-intro fade-in" id="result-intro">
+    <p id="result-lead">あなたに一番近いのは</p>
+  </div>
+
+  <div class="type-card fade-in" id="type-card">
+    <div class="type-head">
+      <div class="type-num" id="t-num"></div>
+      <div class="type-en" id="t-en"></div>
+      <div class="type-name" id="t-name"></div>
+      <div class="type-keyword" id="t-keyword"></div>
+      <div class="wing-badge" id="t-wing"></div>
+    </div>
+    <div class="type-body">
+      <p class="type-desc" id="t-desc"></p>
+      <div class="facts">
+        <div class="fact"><div class="fact-label">根っこの願い</div><div class="fact-value" id="t-desire"></div></div>
+        <div class="fact"><div class="fact-label">根っこの怖れ</div><div class="fact-value" id="t-fear"></div></div>
+      </div>
+      <div class="section-label">持ち味</div>
+      <div class="tags" id="t-strengths"></div>
+      <div class="section-label">気をつけたいクセ</div>
+      <div class="tags" id="t-pitfalls"></div>
+      <div class="arrows">
+        <div class="arrow-row"><span class="arrow-chip" id="t-growth-chip"></span><span id="t-growth"></span></div>
+        <div class="arrow-row"><span class="arrow-chip" id="t-stress-chip"></span><span id="t-stress"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-wrap fade-in">
+    <svg id="diagram" viewBox="0 0 260 260" role="img" aria-label="エニアグラム図"></svg>
+    <div class="diagram-legend">
+      <span class="legend-growth">成長の方向</span>
+      <span class="legend-stress">ストレスの方向</span>
+    </div>
+  </div>
+
+  <div class="scores fade-in" id="scores"></div>
+
+  <div class="message-card fade-in" id="message-card">
+    <strong id="m-title"></strong>
+    <span id="m-body"></span>
+  </div>
+
+  <p class="note">※エニアグラムをもとにした簡易的なセルフチェックで、正式な診断ではありません。タイプは「自分を決めつけるラベル」ではなく、自分を眺めるための手がかりとして楽しんでください。</p>
+
+  <button class="btn" id="result-primary" onclick="startQuiz()">もう一度やる</button>
+  <button class="btn btn-ghost" onclick="showLibrary()">9タイプの図鑑を見る</button>
+</div>
+
+<!-- LIBRARY -->
+<div class="screen" id="screen-library">
+  <div class="result-intro fade-in">
+    <p>カードをタップすると詳しく見られます</p>
+  </div>
+  <div class="lib-grid fade-in" id="lib-grid"></div>
+  <button class="btn btn-ghost" onclick="goHome()">はじめに戻る</button>
+</div>
+
+<script>
+const CENTERS = { body: '本能センター', heart: '感情センター', head: '思考センター' };
+
+const TYPES = {
+  1: {
+    name: '改革する人', en: 'The Reformer', keyword: '正しさと誠実さを大切にする', color: '#7D8A9C', center: 'body',
+    desc: '物事をより良く、正しくしたいという強い気持ちを持つタイプ。責任感があり、筋の通らないことを見過ごせません。自分の中に高い基準があり、それに沿って誠実に生きようとします。',
+    desire: '正しく、善い人でありたい', fear: '間違っている・堕落していると思われること',
+    strengths: ['誠実', '責任感', '公正さ', '丁寧な仕事'],
+    pitfalls: ['自分を責めすぎる', '白黒つけたがる', '怒りをため込む'],
+    growth: 'ゆとりが出ると、7のように遊び心が生まれ、「完璧でなくても大丈夫」と肩の力が抜けます。',
+    stress: '追い詰められると、4のように「誰も分かってくれない」と落ち込みやすくなります。',
+    message: '今日できなかったことより、今日ちゃんとやったことを一つ数えてみてください。あなたはもう十分、誠実です。'
+  },
+  2: {
+    name: '助ける人', en: 'The Helper', keyword: '人とのつながりに心を注ぐ', color: '#C08A8A', center: 'heart',
+    desc: '人の気持ちに敏感で、誰かの役に立つことに喜びを感じるタイプ。あたたかく面倒見がよく、周りの人をよく見ています。そのぶん、自分の必要は後回しにしがちです。',
+    desire: '愛され、必要とされたい', fear: '誰からも必要とされないこと',
+    strengths: ['思いやり', '気配り', '人懐っこさ', '支える力'],
+    pitfalls: ['断れない', '見返りを期待してしまう', '自分のケアを忘れる'],
+    growth: 'ゆとりが出ると、4のように自分の本当の気持ちに目を向け、自分自身も大切にできるようになります。',
+    stress: '追い詰められると、8のように「こんなにしてあげたのに」と強く当たってしまうことがあります。',
+    message: '誰かのためでなく、自分のためだけの時間を少しだけ取ってみてください。あなたも、助けられていい人です。'
+  },
+  3: {
+    name: '達成する人', en: 'The Achiever', keyword: '目標に向かって輝く', color: '#C7A35A', center: 'heart',
+    desc: '目標を見つけると一直線に進み、結果を出すことに長けたタイプ。適応力があり、場に合わせて最善の自分を見せられます。周りを元気づける推進力の持ち主です。',
+    desire: '価値ある存在として認められたい', fear: '価値のない人間だと思われること',
+    strengths: ['行動力', '効率性', '自己プロデュース', '前向きさ'],
+    pitfalls: ['休むのが苦手', '評価に振り回される', '本音を置き去りにする'],
+    growth: 'ゆとりが出ると、6のように仲間と協力し、肩書きではなく信頼で人とつながれるようになります。',
+    stress: '追い詰められると、9のように急にやる気が抜け、何も手につかなくなることがあります。',
+    message: '何も成し遂げていない時間のあなたにも、ちゃんと価値があります。今日は「成果」ではなく「気分」を聞いてあげてください。'
+  },
+  4: {
+    name: '個性的な人', en: 'The Individualist', keyword: '自分らしさと深い感情を生きる', color: '#8A7BA8', center: 'heart',
+    desc: '感受性が豊かで、自分だけの世界観を大切にするタイプ。美しいものや本物に惹かれ、感情の機微を深く味わいます。ありきたりより、心から納得できる生き方を求めます。',
+    desire: '自分らしく、特別な存在でありたい', fear: '自分には何の個性もないこと',
+    strengths: ['感受性', '創造性', '共感の深さ', '美意識'],
+    pitfalls: ['他人と比べて落ち込む', '気分に飲まれる', 'ないものに目が向く'],
+    growth: 'ゆとりが出ると、1のように感情を形にし、コツコツと行動に移せるようになります。',
+    stress: '追い詰められると、2のように人に強く依存し、構ってほしくなることがあります。',
+    message: '今あるものの中にも、あなたらしさはちゃんと宿っています。今日見つけた小さな「好き」を、大事にしてください。'
+  },
+  5: {
+    name: '調べる人', en: 'The Investigator', keyword: '知ることで世界と向き合う', color: '#5F8C8C', center: 'head',
+    desc: '物事を深く理解したいという探究心を持つタイプ。冷静に観察し、自分の頭でじっくり考えます。一人の時間とエネルギーを大切にし、興味の対象にはとことん没頭します。',
+    desire: '有能で、物事を理解していたい', fear: '無力で、役に立たないこと',
+    strengths: ['洞察力', '集中力', '客観性', '専門性'],
+    pitfalls: ['頭で考えすぎる', '人と距離を置きすぎる', '準備が終わらない'],
+    growth: 'ゆとりが出ると、8のように知識を自信に変え、思い切って行動に移せるようになります。',
+    stress: '追い詰められると、7のように気が散り、あれこれに手を出して落ち着かなくなります。',
+    message: '完全に分かる前に、少しだけ踏み出してみても大丈夫。あなたはもう、十分に準備ができています。'
+  },
+  6: {
+    name: '忠実な人', en: 'The Loyalist', keyword: '安心と信頼を築く', color: '#6F8BA8', center: 'head',
+    desc: '危険やリスクにいち早く気づき、備えることができるタイプ。誠実で責任感が強く、信頼した人や仲間をとても大切にします。慎重さの裏に、深い思いやりがあります。',
+    desire: '安心して、支えられていたい', fear: '支えや導きを失うこと',
+    strengths: ['誠実さ', '危機管理', '協調性', '粘り強さ'],
+    pitfalls: ['心配しすぎる', '決断を人に委ねる', '疑い深くなる'],
+    growth: 'ゆとりが出ると、9のように穏やかになり、「なんとかなる」と自分を信頼できるようになります。',
+    stress: '追い詰められると、3のように焦って仕事に没頭し、自分を見失いがちです。',
+    message: 'これまで乗り越えてきた日々が、あなたが頼れる人である証拠です。今日は自分の判断を、少し信じてみてください。'
+  },
+  7: {
+    name: '熱中する人', en: 'The Enthusiast', keyword: '人生の楽しさを味わい尽くす', color: '#D19A6A', center: 'head',
+    desc: '好奇心旺盛で、新しい体験や可能性にワクワクするタイプ。明るく前向きで、周りの空気を軽くする力があります。アイデアが次々に湧き、人生を楽しむ天才です。',
+    desire: '満たされ、自由でいたい', fear: '痛みや退屈に閉じ込められること',
+    strengths: ['楽観性', '発想力', '行動の速さ', 'ムードメーカー'],
+    pitfalls: ['飽きっぽい', 'つらさから目をそらす', '予定を詰め込みすぎる'],
+    growth: 'ゆとりが出ると、5のように一つのことを深く味わい、落ち着いて集中できるようになります。',
+    stress: '追い詰められると、1のように批判的になり、周りにイライラしやすくなります。',
+    message: '次の楽しみを探す前に、いまここにある楽しさを、もう少しだけ味わってみてください。'
+  },
+  8: {
+    name: '挑戦する人', en: 'The Challenger', keyword: '力強く、自分の道を切り開く', color: '#A86B5A', center: 'body',
+    desc: 'エネルギッシュで決断力があり、困難にも正面から立ち向かうタイプ。正義感が強く、弱い立場の人を守ろうとします。率直で裏表がなく、頼れるリーダーになれる人です。',
+    desire: '自分の人生を自分でコントロールしたい', fear: '人に支配され、傷つけられること',
+    strengths: ['決断力', '行動力', '保護する力', '率直さ'],
+    pitfalls: ['強く出すぎる', '弱さを見せられない', '白か黒かで動く'],
+    growth: 'ゆとりが出ると、2のように優しさを素直に表し、人に心を開けるようになります。',
+    stress: '追い詰められると、5のように引きこもり、誰も寄せつけなくなることがあります。',
+    message: '強くいなくていい時間も、あなたには必要です。信頼できる誰かに、少しだけ寄りかかってみてください。'
+  },
+  9: {
+    name: '平和をもたらす人', en: 'The Peacemaker', keyword: '調和と穏やかさを守る', color: '#8FA88A', center: 'body',
+    desc: '穏やかで包容力があり、周りに安心感を与えるタイプ。さまざまな立場を理解でき、対立をやわらげる力があります。そのぶん、自分の意見や望みを後回しにしがちです。',
+    desire: '心の平和と、人との調和を保ちたい', fear: '争いや分裂によって、つながりを失うこと',
+    strengths: ['包容力', '聞く力', '安定感', '公平さ'],
+    pitfalls: ['先延ばしにする', '自分の意見を飲み込む', '流されやすい'],
+    growth: 'ゆとりが出ると、3のように自分の目標に向かって、主体的に動けるようになります。',
+    stress: '追い詰められると、6のように不安や心配が膨らみ、決められなくなります。',
+    message: 'あなたの「こうしたい」も、場の調和と同じくらい大切です。今日は小さな希望を、一つ口に出してみてください。'
+  }
+};
+
+// 成長（統合）とストレス（分裂）の方向
+const ARROWS = {
+  1: { growth: 7, stress: 4 }, 2: { growth: 4, stress: 8 }, 3: { growth: 6, stress: 9 },
+  4: { growth: 1, stress: 2 }, 5: { growth: 8, stress: 7 }, 6: { growth: 9, stress: 3 },
+  7: { growth: 5, stress: 1 }, 8: { growth: 2, stress: 5 }, 9: { growth: 3, stress: 6 }
+};
+
+const QUESTIONS = [
+  { type: 1, text: '物事は「正しいやり方」でやるべきだと思う' },
+  { type: 1, text: '細かいミスや乱れが、つい目についてしまう' },
+  { type: 1, text: '自分にも他人にも、厳しい基準を持っている' },
+  { type: 1, text: '気持ちより、筋が通っているかを大事にする' },
+  { type: 2, text: '人の役に立てたときが、一番うれしい' },
+  { type: 2, text: '困っている人を見ると、放っておけない' },
+  { type: 2, text: '頼まれると、自分の予定より相手を優先しがち' },
+  { type: 2, text: '相手が何を必要としているか、すぐに気づく' },
+  { type: 3, text: '目標を立てて、達成していくのが好きだ' },
+  { type: 3, text: '人からどう評価されているかが気になる' },
+  { type: 3, text: '効率よく結果を出すことを重視する' },
+  { type: 3, text: '場に合わせて「できる自分」を見せるのが得意だ' },
+  { type: 4, text: '自分は、他の人とどこか違うと感じる' },
+  { type: 4, text: '感情の深さや繊細さを大切にしている' },
+  { type: 4, text: 'ありきたりなものより、自分らしさを表現したい' },
+  { type: 4, text: '何かが欠けているような寂しさを感じることがある' },
+  { type: 5, text: '行動する前に、まず十分に理解したい' },
+  { type: 5, text: '一人で考える時間がないと、疲れてしまう' },
+  { type: 5, text: '興味のある分野は、とことん調べ込む' },
+  { type: 5, text: '気持ちを表に出すより、一歩引いて観察する方だ' },
+  { type: 6, text: '最悪の事態を想定して、備えておきたい' },
+  { type: 6, text: '信頼できる人や居場所があると、安心する' },
+  { type: 6, text: '決める前に、誰かの意見を聞きたくなる' },
+  { type: 6, text: '本当に大丈夫か、つい疑って確かめてしまう' },
+  { type: 7, text: '楽しそうなことがあると、すぐやってみたくなる' },
+  { type: 7, text: '予定がたくさんある方がワクワクする' },
+  { type: 7, text: 'つらいことも、なるべく前向きに捉え直す' },
+  { type: 7, text: '一つに縛られるより、選択肢を多く持っていたい' },
+  { type: 8, text: '自分の意見は、はっきり言う方だ' },
+  { type: 8, text: '人にコントロールされるのは我慢できない' },
+  { type: 8, text: '弱い立場の人を守りたいと強く思う' },
+  { type: 8, text: '困難な場面ほど、自分が前に出て引っ張る' },
+  { type: 9, text: '争いごとは、できるだけ避けたい' },
+  { type: 9, text: 'いろんな人の立場が分かって、決めきれないことがある' },
+  { type: 9, text: 'マイペースに、穏やかに過ごすのが一番だ' },
+  { type: 9, text: '自分の希望より、場の調和を優先しがち' }
+];
+
+const SCALE = [
+  { value: 0, label: 'ちがう', size: 6 },
+  { value: 1, label: 'やや\nちがう', size: 9 },
+  { value: 2, label: 'どちらとも', size: 12 },
+  { value: 3, label: 'やや\nそう', size: 15 },
+  { value: 4, label: 'そう', size: 18 }
+];
+
+const MAX_PER_TYPE = 4 * 4;
+const STORAGE_KEY = 'enneagram-cards-last';
+
+let deck = [];
+let answers = [];
+let busy = false;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function shuffle(list) {
+  const a = list.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildScale() {
+  const scale = document.getElementById('scale');
+  SCALE.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'scale-btn';
+    btn.onclick = () => answer(s.value);
+    btn.innerHTML = '<span class="scale-dot" style="width:' + s.size + 'px;height:' + s.size + 'px;opacity:' + (0.25 + s.value * 0.19) + '"></span>' +
+      s.label.replace('\n', '<br>');
+    scale.appendChild(btn);
+  });
+}
+
+function startQuiz() {
+  deck = shuffle(QUESTIONS);
+  answers = [];
+  busy = false;
+  showScreen('screen-quiz');
+  renderCard(false);
+}
+
+function renderCard(animate) {
+  const i = answers.length;
+  const card = document.getElementById('q-card');
+  document.getElementById('q-text').textContent = deck[i].text;
+  document.getElementById('quiz-count').textContent = (i + 1) + ' / ' + deck.length;
+  document.getElementById('progress').style.width = (i / deck.length * 100) + '%';
+  document.getElementById('back-btn').disabled = i === 0;
+  card.className = 'q-card';
+  if (animate) {
+    void card.offsetWidth;
+    card.classList.add('in');
+  }
+}
+
+function answer(value) {
+  if (busy || !document.getElementById('screen-quiz').classList.contains('active')) return;
+  busy = true;
+  answers.push({ type: deck[answers.length].type, value });
+  const card = document.getElementById('q-card');
+  card.classList.add(value >= 2 ? 'out-right' : 'out-left');
+  setTimeout(() => {
+    busy = false;
+    if (answers.length >= deck.length) {
+      document.getElementById('progress').style.width = '100%';
+      finish();
+    } else {
+      renderCard(true);
+    }
+  }, 260);
+}
+
+function undo() {
+  if (busy || answers.length === 0) return;
+  answers.pop();
+  renderCard(true);
+}
+
+document.addEventListener('keydown', (e) => {
+  const n = parseInt(e.key, 10);
+  if (n >= 1 && n <= 5) answer(n - 1);
+  if (e.key === 'Backspace' && document.getElementById('screen-quiz').classList.contains('active')) undo();
+});
+
+function computeScores() {
+  const scores = {};
+  for (let t = 1; t <= 9; t++) scores[t] = 0;
+  answers.forEach(a => { scores[a.type] += a.value; });
+  return scores;
+}
+
+function neighbors(t) {
+  return [t === 1 ? 9 : t - 1, t === 9 ? 1 : t + 1];
+}
+
+function rank(scores) {
+  return Object.keys(scores).map(Number).sort((a, b) => scores[b] - scores[a]);
+}
+
+function finish() {
+  const scores = computeScores();
+  const order = rank(scores);
+  const main = order[0];
+  const [l, r] = neighbors(main);
+  const wing = scores[l] >= scores[r] ? l : r;
+  const result = { main, wing, scores, date: new Date().toISOString() };
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(result)); } catch (e) {}
+  renderResult(result);
+}
+
+function renderResult(result) {
+  const { main, wing, scores } = result;
+  const order = rank(scores);
+  const tied = order.filter(t => scores[t] === scores[main] && t !== main);
+
+  document.getElementById('result-lead').textContent = tied.length
+    ? 'あなたに一番近いのは（タイプ' + tied.join('・') + 'と同点です）'
+    : 'あなたに一番近いのは';
+  renderTypeCard(main, wing);
+  renderScores(scores, main);
+  document.getElementById('scores').style.display = 'block';
+
+  document.getElementById('m-title').textContent = 'タイプ' + main + 'のあなたへ';
+  document.getElementById('m-body').textContent = TYPES[main].message;
+  document.getElementById('message-card').style.display = 'block';
+  document.getElementById('result-primary').textContent = 'もう一度やる';
+  document.getElementById('result-primary').onclick = startQuiz;
+
+  showScreen('screen-result');
+}
+
+function renderTypeCard(t, wing) {
+  const data = TYPES[t];
+  const card = document.getElementById('type-card');
+  card.style.setProperty('--type-color', data.color);
+  document.getElementById('t-num').textContent = t;
+  document.getElementById('t-en').textContent = data.en + ' · ' + CENTERS[data.center];
+  document.getElementById('t-name').textContent = 'タイプ' + t + '　' + data.name;
+  document.getElementById('t-keyword').textContent = data.keyword;
+
+  const wingEl = document.getElementById('t-wing');
+  if (wing) {
+    wingEl.textContent = t + 'w' + wing + '　ウイング：' + TYPES[wing].name;
+    wingEl.style.display = 'inline-block';
+  } else {
+    wingEl.style.display = 'none';
+  }
+
+  document.getElementById('t-desc').textContent = data.desc;
+  document.getElementById('t-desire').textContent = data.desire;
+  document.getElementById('t-fear').textContent = data.fear;
+  fillTags('t-strengths', data.strengths);
+  fillTags('t-pitfalls', data.pitfalls);
+
+  const arrow = ARROWS[t];
+  document.getElementById('t-growth-chip').textContent = '成長 → ' + arrow.growth;
+  document.getElementById('t-growth').textContent = data.growth;
+  document.getElementById('t-stress-chip').textContent = 'ストレス → ' + arrow.stress;
+  document.getElementById('t-stress').textContent = data.stress;
+
+  drawDiagram(t);
+}
+
+function fillTags(id, items) {
+  const el = document.getElementById(id);
+  el.innerHTML = '';
+  items.forEach(text => {
+    const tag = document.createElement('span');
+    tag.className = 'tag';
+    tag.textContent = text;
+    el.appendChild(tag);
+  });
+}
+
+function renderScores(scores, main) {
+  const el = document.getElementById('scores');
+  el.innerHTML = '';
+  rank(scores).forEach(t => {
+    const pct = Math.round(scores[t] / MAX_PER_TYPE * 100);
+    const row = document.createElement('div');
+    row.className = 'score-row';
+    row.innerHTML =
+      '<span class="score-label"><b>' + t + '</b>' + TYPES[t].name + '</span>' +
+      '<div class="score-bar-bg"><div class="score-bar-fill" style="background:' + TYPES[t].color + ';opacity:' + (t === main ? 1 : 0.6) + '"></div></div>' +
+      '<span class="score-num" style="color:' + TYPES[t].color + '">' + pct + '%</span>';
+    el.appendChild(row);
+    setTimeout(() => { row.querySelector('.score-bar-fill').style.width = pct + '%'; }, 100);
+  });
+}
+
+function pointOf(n, radius) {
+  const angle = (-90 + (n % 9) * 40) * Math.PI / 180;
+  return { x: 130 + radius * Math.cos(angle), y: 130 + radius * Math.sin(angle) };
+}
+
+function drawDiagram(active) {
+  const svg = document.getElementById('diagram');
+  const R = 100;
+  const p = n => pointOf(n, R);
+  const line = (a, b, attrs) =>
+    '<line x1="' + p(a).x + '" y1="' + p(a).y + '" x2="' + p(b).x + '" y2="' + p(b).y + '" ' + attrs + '/>';
+
+  let html = '<defs>' +
+    '<marker id="ah-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6F9A6F"/></marker>' +
+    '<marker id="ah-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#B98080"/></marker>' +
+    '</defs>';
+  html += '<circle cx="130" cy="130" r="' + R + '" fill="none" stroke="#E0DDD9" stroke-width="1.5"/>';
+
+  const base = 'stroke="#E0DDD9" stroke-width="1.2"';
+  [[3, 6], [6, 9], [9, 3]].forEach(([a, b]) => { html += line(a, b, base); });
+  [[1, 4], [4, 2], [2, 8], [8, 5], [5, 7], [7, 1]].forEach(([a, b]) => { html += line(a, b, base); });
+
+  if (active) {
+    const shorten = (a, b, gap) => {
+      const pa = p(a), pb = p(b);
+      const dx = pb.x - pa.x, dy = pb.y - pa.y, len = Math.hypot(dx, dy);
+      return { x1: pa.x + dx / len * gap, y1: pa.y + dy / len * gap, x2: pb.x - dx / len * gap, y2: pb.y - dy / len * gap };
+    };
+    const arrowLine = (to, color, marker, dash) => {
+      const s = shorten(active, to, 18);
+      return '<line x1="' + s.x1 + '" y1="' + s.y1 + '" x2="' + s.x2 + '" y2="' + s.y2 + '" stroke="' + color +
+        '" stroke-width="2" ' + (dash ? 'stroke-dasharray="4 3" ' : '') + 'marker-end="url(#' + marker + ')"/>';
+    };
+    html += arrowLine(ARROWS[active].growth, '#6F9A6F', 'ah-g', false);
+    html += arrowLine(ARROWS[active].stress, '#B98080', 'ah-s', true);
+  }
+
+  for (let n = 1; n <= 9; n++) {
+    const pt = p(n);
+    const on = n === active;
+    const color = TYPES[n].color;
+    html += '<circle cx="' + pt.x + '" cy="' + pt.y + '" r="' + (on ? 16 : 12) + '" fill="' + (on ? color : '#FFFFFF') +
+      '" stroke="' + color + '" stroke-width="1.5"/>';
+    html += '<text x="' + pt.x + '" y="' + (pt.y + 0.5) + '" text-anchor="middle" dominant-baseline="middle" ' +
+      'font-family="DM Sans, sans-serif" font-size="' + (on ? 14 : 12) + '" font-weight="500" fill="' + (on ? '#FFFFFF' : color) + '">' + n + '</text>';
+  }
+
+  svg.innerHTML = html;
+}
+
+function showLibrary() {
+  const grid = document.getElementById('lib-grid');
+  grid.innerHTML = '';
+  for (let t = 1; t <= 9; t++) {
+    const btn = document.createElement('button');
+    btn.className = 'lib-card';
+    btn.style.background = TYPES[t].color;
+    btn.innerHTML = '<span class="lib-num">' + t + '</span>' +
+      '<span><span class="lib-name">' + TYPES[t].name + '</span><span class="lib-center" style="display:block">' + CENTERS[TYPES[t].center] + '</span></span>';
+    btn.onclick = () => showTypeDetail(t);
+    grid.appendChild(btn);
+  }
+  showScreen('screen-library');
+}
+
+function showTypeDetail(t) {
+  document.getElementById('result-lead').textContent = '9タイプの図鑑';
+  renderTypeCard(t, null);
+  document.getElementById('scores').style.display = 'none';
+  document.getElementById('message-card').style.display = 'block';
+  document.getElementById('m-title').textContent = 'タイプ' + t + 'の人へのひとこと';
+  document.getElementById('m-body').textContent = TYPES[t].message;
+  document.getElementById('result-primary').textContent = '診断をはじめる';
+  document.getElementById('result-primary').onclick = startQuiz;
+  showScreen('screen-result');
+}
+
+function loadLast() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function goHome() {
+  const last = loadLast();
+  const el = document.getElementById('last-result');
+  if (last && TYPES[last.main]) {
+    el.innerHTML = '';
+    el.append('前回の結果：タイプ' + last.main + 'w' + last.wing + '（' + TYPES[last.main].name + '） ');
+    const btn = document.createElement('button');
+    btn.textContent = 'もう一度見る';
+    btn.onclick = () => renderResult(last);
+    el.appendChild(btn);
+    el.style.display = 'block';
+  } else {
+    el.style.display = 'none';
+  }
+  showScreen('screen-intro');
+}
+
+buildScale();
+goHome();
+</script>
+</body>
+</html>
