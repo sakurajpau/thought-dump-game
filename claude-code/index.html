@@ -217,6 +217,29 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
 .faq-item { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; text-align: left; background: var(--surface); border: 1.5px solid var(--line); border-radius: 14px; padding: 12px 14px; cursor: pointer; font-size: 15.5px; line-height: 1.5; }
 .faq-item:hover { border-color: var(--spark); }
 .faq-go { font-size: 13px; font-weight: 700; color: var(--spark); white-space: nowrap; }
+.howto-home { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+.howto-home h4 { margin: 0; font-family: var(--font-display); font-size: 16px; }
+.safe { background: var(--accent-soft); border-radius: 12px; padding: 12px 14px; font-size: 15px; line-height: 1.7; }
+.safe b { color: var(--accent); }
+.steps-list { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 6px; font-size: 15.5px; }
+.glow-sample { outline: 3px solid var(--spark); outline-offset: 2px; border-radius: 6px; padding: 0 4px; }
+details.howto { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px 14px; }
+details.howto[open] { padding-bottom: 14px; display: flex; flex-direction: column; gap: 10px; }
+.howto-home details.howto { background: var(--desk); }
+details.howto summary { cursor: pointer; font-weight: 700; font-size: 15px; min-height: 44px; display: flex; align-items: center; }
+.guide-list { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.guide-list > div { display: grid; grid-template-columns: 9.5em minmax(0, 1fr); gap: 10px; align-items: start; }
+.guide-list dt { margin: 0; }
+.guide-list dd { margin: 0; font-size: 14.5px; line-height: 1.6; }
+.mock { display: inline-block; font-size: 12.5px; line-height: 1.4; padding: 4px 9px; border-radius: 8px; border: 1.5px solid var(--line); background: var(--desk); white-space: nowrap; }
+.mock-goal { background: var(--desk); }
+.mock-file { font-family: var(--font-mono); }
+.mock-chat { font-family: var(--font-mono); color: var(--spark); font-weight: 600; background: var(--surface); }
+.mock-chip { border-style: dashed; border-color: var(--accent); border-radius: 999px; background: var(--surface); }
+.mock-input { color: var(--muted); background: var(--surface); }
+.mock-mode { font-weight: 700; }
+.mock-stop { background: var(--bad); color: #FFFFFF; border-color: var(--bad); font-weight: 700; }
+@media (max-width: 420px) { .guide-list > div { grid-template-columns: 1fr; gap: 4px; } }
 @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @keyframes pop { 0% { transform: scale(.9); } 60% { transform: scale(1.04); } 100% { transform: none; } }
 @keyframes blink { 50% { opacity: 0; } }
@@ -918,6 +941,18 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
     });
   }
 
+  var SAFE_NOTE = '<div class="safe"><b>これは練習用の画面です。</b>あなたのパソコンのフォルダやファイルには、いっさい さわりません。本物の Claude Code ともつながっていません。画面の中の「仕事フォルダ」は練習用の見本で、Claude の返事もあらかじめ用意したものです。何を押しても、何も壊れません。</div>';
+  var SCREEN_GUIDE =
+    '<dl class="guide-list">' +
+    '<div><dt><span class="mock mock-goal">☐ やること</span></dt><dd>このミッションでやることのリスト。できたものから ✓ がつき、全部そろうとクリアです。</dd></div>' +
+    '<div><dt><span class="mock mock-file">会議メモ.txt</span></dt><dd>練習用の「仕事フォルダ」の中のファイル。タップすると中身が見られます。Claude が書きかえると「●」がつきます。</dd></div>' +
+    '<div><dt><span class="mock mock-chat">Claude</span></dt><dd>Claude Code との会話。Claude の返事や、「読む」「直す」などの作業の記録が流れます。</dd></div>' +
+    '<div><dt><span class="mock mock-chip">おすすめのお願い</span></dt><dd>タップするだけで、そのお願いを送れます。文章を考えなくても最後まで進めます。</dd></div>' +
+    '<div><dt><span class="mock mock-input">お願いを書く…</span></dt><dd>自分で文章を書いて送ることもできます。ただし、この練習は決まった言葉にしか反応できません。</dd></div>' +
+    '<div><dt><span class="mock mock-mode">モード：ふつう</span></dt><dd>Claude の動き方を切りかえるボタン（ミッション5・6で使います）。</dd></div>' +
+    '<div><dt><span class="mock mock-stop">■ 止める</span></dt><dd>Claude が作業しているあいだだけ出ます。押すと作業が止まります。</dd></div>' +
+    '</dl>';
+
   /* ---------- rendering ---------- */
   function renderHome() {
     S = null;
@@ -930,7 +965,17 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
       '</header>' +
       '<div class="story"><b class="k">今日の設定</b><p>あなたは小さな会社の事務担当。パソコンの「仕事フォルダ」には、会議メモやアンケートが入っています。今日から <b>Claude Code</b> が、となりの席のアシスタントです。</p>' +
       '<p class="muted" style="font-size:14px">Claude Code は、あなたのフォルダの中のファイルを読んだり、作ったり、書きかえたりできるAIです。ふつうの日本語で頼めます。</p>' +
-      '<p class="gl-note">点線の下線がついた言葉は、タップすると意味が出ます。光っているところを押せば、次に進めます。</p></div>' +
+      '</div>' +
+      '<section class="howto-home"><h3>使い方</h3>' + SAFE_NOTE +
+      '<h4>進め方</h4><ol class="steps-list">' +
+      '<li>下のミッションを選ぶ（上から順番がおすすめ。困ったことから選んでもOK）</li>' +
+      '<li>上の「やること」を読む</li>' +
+      '<li><span class="glow-sample">光っているところ</span>を押していく。迷ったら光っているところを探せば大丈夫です</li>' +
+      '<li>「やること」に全部 ✓ がつくとクリア。覚えるコツと「本物の画面では（例）」が出ます</li>' +
+      '</ol>' +
+      '<details class="howto"><summary>ミッションの画面の見方</summary>' + SCREEN_GUIDE + '</details>' +
+      '<p class="muted" style="font-size:13px">点線の下線がついた言葉は、タップすると意味が出ます。クリアの記録は、このブラウザの中だけに残ります。</p>' +
+      '</section>' +
       '<div class="meter"><span>' + n + ' / ' + MISSIONS.length + ' クリア</span><div class="meter-bar"><div class="meter-fill" style="width:' + (n / MISSIONS.length * 100) + '%"></div></div></div>' +
       '<div class="m-list">';
     MISSIONS.forEach(function (m, i) {
@@ -968,9 +1013,10 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
       '<div class="topbar"><button class="back" id="back">← ミッション一覧</button><span class="eyebrow">ミッション ' + (i + 1) + ' / ' + MISSIONS.length + '</span></div>' +
       '<h2>' + def.title + '</h2>' +
       '<section class="goalcard"><p class="lead" id="lead">' + def.lead + '</p><ul class="goals" id="goals"></ul></section>' +
+      '<details class="howto"' + (i === 0 ? ' open' : '') + '><summary>画面の見方（練習用の画面です）</summary>' + SAFE_NOTE + SCREEN_GUIDE + '</details>' +
       '<div id="pre"></div>' +
       '<section class="desk">' +
-        '<div class="desk-head"><span>📁 仕事フォルダ</span><span class="app">Claude Code</span></div>' +
+        '<div class="desk-head"><span>📁 仕事フォルダ <small class="muted" style="font-weight:400">（練習用の見本）</small></span><span class="app">Claude Code（練習）</span></div>' +
         '<div class="files" id="files"></div><div class="files-hint">ファイル名をタップすると中身が見られます</div>' +
         '<div class="viewer" id="viewer" hidden><div class="viewer-head"><span id="vname"></span><button id="vclose">閉じる ×</button></div><pre id="vbody"></pre></div>' +
         '<div class="chat" id="chat" aria-live="polite"></div>' +
