@@ -207,6 +207,16 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
 .cmp-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
 .cmp .btn { border-radius: 0; border-width: 2px 0 0; }
 .cmp .msg.ai::before { content: "チャットAI"; color: var(--muted); }
+.real { display: flex; flex-direction: column; gap: 8px; }
+.real-h { font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: .05em; }
+.real pre { margin: 0; background: #131A18; color: #E2ECE8; font-family: var(--font-mono); font-size: 12.5px; line-height: 1.7; border-radius: 12px; padding: 12px 14px; white-space: pre-wrap; word-break: break-word; }
+.real p { font-size: 15px; }
+.real p b { color: var(--accent); }
+.faq { display: flex; flex-direction: column; gap: 10px; }
+.faq-list { display: flex; flex-direction: column; gap: 8px; }
+.faq-item { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; text-align: left; background: var(--surface); border: 1.5px solid var(--line); border-radius: 14px; padding: 12px 14px; cursor: pointer; font-size: 15.5px; line-height: 1.5; }
+.faq-item:hover { border-color: var(--spark); }
+.faq-go { font-size: 13px; font-weight: 700; color: var(--spark); white-space: nowrap; }
 @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @keyframes pop { 0% { transform: scale(.9); } 60% { transform: scale(1.04); } 100% { transform: none; } }
 @keyframes blink { 50% { opacity: 0; } }
@@ -474,6 +484,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
   var MISSIONS = [
     {
       title: 'AIに仕事を頼むってこういうこと',
+      real: { lines: '> 案内文の日付を12月21日に変えて\n\n● Read(案内文_下書き.txt)\n● Update(案内文_下書き.txt)\n  ⎿  Updated 案内文_下書き.txt', note: '「●」の行は、Claude Code が手を動かした記録です。<b>Read＝読む、Update＝直す、Write＝作る</b>。触ってみたときに流れていた英語の行は、これだったんです。' },
       short: 'チャットAIとのちがいを体験',
       lead: 'スマホなどで使うチャットAIと、Claude Code。同じお願いをしたらどうなるか、比べてみましょう。お願いは「案内文の日付を12月21日に変えて」です。',
       files: function () { return { '案内文_下書き.txt': DRAFT, '会議メモ_1104.txt': MEMO }; },
@@ -532,6 +543,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
     },
     {
       title: '仕事フォルダを見てもらう',
+      real: { lines: '> 会議メモには何が書いてある？\n\n● Read(会議メモ_1104.txt)\n  ⎿  Read 7 lines\n\n● 11月4日の定例会議のメモです。…', note: '<b>Read の行だけなら、ファイルは何も変わっていません。</b>読んだだけなので、確認も出てきません。' },
       short: 'まずは「読んで説明して」から',
       lead: 'Claude Code は、あなたのフォルダの中のファイルを読めます。まずは何も変えずに、中身を説明してもらいましょう。',
       files: function () { return { '会議メモ_1104.txt': MEMO, 'アンケート結果.csv': CSV, '案内文_下書き.txt': DRAFT }; },
@@ -577,6 +589,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
     },
     {
       title: '議事録を作ってもらう',
+      real: { lines: 'Do you want to create 議事録_1104.md?\n❯ 1. Yes\n  2. Yes, allow all edits during this session (shift+tab)\n  3. No, and tell Claude what to do differently (esc)', note: '触ってみたときに出てきた英語の質問は、これです。<b>1 が「はい」、2 が「この会話中は聞かずにOK」、3 が「いいえ、別の方法を伝える」</b>。上下の矢印キーで選んで Enter、または数字キーで選べます。' },
       short: '新しいファイルを作る・許可する',
       lead: '会議メモから、きちんとした議事録を作ってもらいましょう。ファイルを作る前に、Claude Code は「作ってもいい？」と聞いてきます。',
       files: function () { return { '会議メモ_1104.txt': MEMO, 'アンケート結果.csv': CSV, '案内文_下書き.txt': DRAFT }; },
@@ -625,6 +638,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
     },
     {
       title: '会話しながら仕上げる',
+      real: { lines: '> もっと短くして\n\n● Update(案内文_下書き.txt)\n…\n\n> 13時から16時まで', note: '<b>特別な操作はいりません。</b>Claude Code の返事のあとに、続けて日本語で書くだけで、前の話の続きとして直してくれます。' },
       short: 'やり直し・注文・AIからの質問',
       lead: '案内文の下書きを、お客さんに出せる文章に直してもらいます。一回で完璧じゃなくて大丈夫。会話しながら仕上げましょう。',
       files: function () { return { '会議メモ_1104.txt': MEMO, '案内文_下書き.txt': DRAFT }; },
@@ -684,6 +698,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
     },
     {
       title: '大きな仕事は計画から',
+      real: { lines: '⏸ plan mode on (shift+tab to cycle)\n\n…（計画が表示される）…\n\nWould you like to proceed?\n❯ 1. Yes, and auto-accept edits\n  2. Yes, and manually approve edits\n  3. No, keep planning', note: '入力欄の下に<b>「⏸ plan mode on」</b>と出ていれば計画モードです。計画のあとの質問は、<b>1＝計画OK・書きかえも自動で、2＝計画OK・書きかえは毎回確認、3＝まだ計画を練る</b>。迷ったら 2 が安心です。' },
       short: '「計画」モードで段取りを確認',
       lead: 'アンケートを集計して、レポートを作ってもらいます。大きめの仕事は、いきなり作業させずに、まず計画を見せてもらうと安心です。',
       files: function () { return { 'アンケート結果.csv': CSV, '会議メモ_1104.txt': MEMO }; },
@@ -734,6 +749,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
     },
     {
       title: 'まちがいを止める・戻す',
+      real: { lines: '⏵⏵ accept edits on (shift+tab to cycle)\n\n✻ Working… (esc to interrupt)\n\n> /rewind', note: '<b>「⏵⏵ accept edits on」</b>が自動OKモードの印。作業中に出る<b>「esc to interrupt」</b>は「Esc キーで止められます」という意味です。戻すときは /rewind と打つか、Esc キーを2回押します。' },
       short: '止める・巻き戻す・頼み直す',
       lead: 'AIもまちがえます。ぼんやり頼むと、変えてほしくないファイルまで変えてしまうことも。止める・戻す・頼み直すを練習しましょう。',
       mode: 'auto',
@@ -814,6 +830,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
     },
     {
       title: 'いつものルールを覚えさせる',
+      real: { lines: '> /init\n● Write(CLAUDE.md)\n\n> /clear', note: '<b>/init</b> で CLAUDE.md のひな形ができます。あとは「CLAUDE.md に〜を書き足して」と頼めばOK。<b>/clear</b> は会話のリセットです。' },
       short: 'CLAUDE.md に書いておく',
       lead: 'Claude Code は、新しい会話になると前の話を忘れます。毎回伝えたいルールは「CLAUDE.md」というメモに書いておくと、毎回読んで守ってくれます。',
       newChat: true,
@@ -907,9 +924,9 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
     var n = doneList.length;
     var html =
       '<header class="hero">' +
-      '<p class="eyebrow">AIがはじめての人のための 実務練習</p>' +
+      '<p class="eyebrow">Claude Code を触ってみたけど、まだよくわからない人へ</p>' +
       '<h1>Claude Code 実務練習帳</h1>' +
-      '<p>説明を読むより、まず触ってみる。ふだんの事務仕事を Claude Code に頼みながら、使い方を体で覚えます。本物のAIやパソコンにはつながっていないので、どこを押しても大丈夫です。</p>' +
+      '<p>一度触ってみたけど、何が起きていたのかよくわからなかった。そんな人のための練習帳です。ふだんの事務仕事を Claude Code に頼みながら、ひとつずつ体で覚えます。本物のAIやパソコンにはつながっていないので、どこを押しても大丈夫です。</p>' +
       '</header>' +
       '<div class="story"><b class="k">今日の設定</b><p>あなたは小さな会社の事務担当。パソコンの「仕事フォルダ」には、会議メモやアンケートが入っています。今日から <b>Claude Code</b> が、となりの席のアシスタントです。</p>' +
       '<p class="muted" style="font-size:14px">Claude Code は、あなたのフォルダの中のファイルを読んだり、作ったり、書きかえたりできるAIです。ふつうの日本語で頼めます。</p>' +
@@ -923,9 +940,21 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
         '<span class="st">' + (d ? 'クリア' : 'ミッション ' + (i + 1)) + '</span></button>';
     });
     html += '</div>';
+    var Q = [
+      ['結局、Claude Code は何をしているの？', 0],
+      ['何を頼めばいいのかわからない', 1],
+      ['英語で何か聞かれて、とりあえず Yes を押した', 2],
+      ['頼んだのとちがうものができた', 3],
+      ['大きなことを頼んだら、どんどん進んでこわかった', 4],
+      ['ファイルが勝手に変わって、あせった', 5],
+      ['毎回同じ注文をするのが面倒', 6]
+    ];
+    html += '<section class="faq"><h3>こんな「よくわからない」はありませんか？</h3><p class="muted" style="font-size:14px">当てはまるものを押すと、そのミッションから始められます。</p><div class="faq-list">' +
+      Q.map(function (q) { return '<button class="faq-item" data-i="' + q[1] + '"><span>「' + q[0] + '」</span><span class="faq-go">ミッション ' + (q[1] + 1) + ' →</span></button>'; }).join('') + '</div></section>';
     if (n === MISSIONS.length) html += '<button class="btn wide spark" id="fin">まとめを見る</button>';
     app.innerHTML = html;
     glossify(app.querySelector('.story'));
+    app.querySelectorAll('.faq-item').forEach(function (b) { b.onclick = function () { startMission(+b.dataset.i); }; });
     app.querySelectorAll('.m-card').forEach(function (b) { b.onclick = function () { startMission(+b.dataset.i); }; });
     var f = document.getElementById('fin'); if (f) f.onclick = renderFinish;
     window.scrollTo(0, 0);
@@ -1042,7 +1071,9 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
     var last = i === MISSIONS.length - 1;
     box.innerHTML = '';
     var c = h('<section class="clear"><div class="clear-top"><div class="stamp">CLEAR</div><div><h3>ミッション ' + (i + 1) + ' クリア！</h3><p class="muted" style="font-size:14px">' + MISSIONS[i].title + '</p></div></div>' +
-      '<div class="tip">' + MISSIONS[i].tip + '</div></section>');
+      '<div class="tip">' + MISSIONS[i].tip + '</div>' +
+      (MISSIONS[i].real ? '<div class="real"><div class="real-h">本物の画面では（例）</div><pre></pre><p></p></div>' : '') + '</section>');
+    if (MISSIONS[i].real) { c.querySelector('.real pre').textContent = MISSIONS[i].real.lines; c.querySelector('.real p').innerHTML = MISSIONS[i].real.note; }
     var nb = h('<button class="btn wide' + (last ? ' spark' : '') + '"></button>');
     if (!last) { nb.textContent = 'ミッション ' + (i + 2) + '「' + MISSIONS[i + 1].title + '」へ →'; nb.onclick = function () { startMission(i + 1); }; }
     else { nb.textContent = 'まとめへ →'; nb.onclick = renderFinish; }
@@ -1070,10 +1101,10 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
       '<li>まちがいに気づいたら、止める・戻す。頼むときは範囲をはっきり。</li>' +
       '<li>毎回のルールは CLAUDE.md に書いておく。</li>' +
       '</ol></section>' +
-      '<section class="panel"><h3>本物を使う前に</h3><ul class="tips">' +
+      '<section class="panel"><h3>本物に戻ったら</h3><ul class="tips">' +
       '<li>最初は、大事なファイルのコピーを入れた「練習用フォルダ」で試しましょう。</li>' +
       '<li>パスワードや個人情報は、お願いの文章にも CLAUDE.md にも書かないこと。</li>' +
-      '<li>本物の画面は、ボタンや確認の文が英語で表示されることがあります。この練習と同じ場面だと思えば大丈夫です。</li>' +
+      '<li>本物の画面は、確認の文などが英語で表示されます。各ミッションの「本物の画面では」と見比べれば、どの場面かわかります。英語の表示はバージョンによって少し変わることがあります。</li>' +
       '</ul><p><a href="https://code.claude.com/docs" target="_blank" rel="noopener">Claude Code 公式ドキュメント</a></p></section>' +
       '<button class="btn wide sub" id="reset">記録をリセットする</button>';
     document.getElementById('back').onclick = renderHome;
