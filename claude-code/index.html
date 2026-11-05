@@ -3,16 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Claude Code 練習帳</title>
+<title>Claude Code 実務練習帳</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: one narrow column like a workbook page; dark "terminal" panels are the recurring stage props. */
+/* Layout: one workbook column. Each mission = a goal card on top, a working "仕事フォルダ" desk below (files, chat with Claude, controls). */
 :root {
   --bg: #EEF2F0;
   --surface: #FFFFFF;
+  --desk: #F6F8F7;
   --ink: #17201D;
   --muted: #56635E;
   --line: #D3DCD8;
@@ -20,52 +21,45 @@
   --accent-ink: #FFFFFF;
   --accent-soft: #DCEDE6;
   --spark: #C8701F;
+  --spark-ink: #1A1006;
   --spark-soft: #FBEBDB;
   --good: #2C7A4B;
   --good-soft: #E0F1E6;
   --bad: #B0453A;
   --bad-soft: #F8E3E0;
-  --term-bg: #131A18;
-  --term-fg: #E2ECE8;
-  --term-dim: #81948D;
-  --term-hl: #F2A65A;
-  --term-green: #7FD3A8;
-  --term-red: #F08C82;
+  --plan: #4F5FA8;
+  --plan-soft: #E4E7F6;
   --font-display: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', 'Noto Sans JP', sans-serif;
   --font-body: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0E1312; --surface: #172120; --ink: #E5EEEA; --muted: #9DAEA7; --line: #2B3835;
+    --bg: #0E1312; --surface: #172120; --desk: #121A19; --ink: #E5EEEA; --muted: #9DAEA7; --line: #2B3835;
     --accent: #5FC3A5; --accent-ink: #062019; --accent-soft: #1D3530;
-    --spark: #F0A458; --spark-soft: #3A2A1A; --good: #74CF97; --good-soft: #1B3326;
-    --bad: #EE8E82; --bad-soft: #3A2120; --term-bg: #080C0B;
+    --spark: #F0A458; --spark-ink: #1A1006; --spark-soft: #3A2A1A; --good: #74CF97; --good-soft: #1B3326;
+    --bad: #EE8E82; --bad-soft: #3A2120; --plan: #A3B0F0; --plan-soft: #232A45;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0E1312; --surface: #172120; --ink: #E5EEEA; --muted: #9DAEA7; --line: #2B3835;
+  --bg: #0E1312; --surface: #172120; --desk: #121A19; --ink: #E5EEEA; --muted: #9DAEA7; --line: #2B3835;
   --accent: #5FC3A5; --accent-ink: #062019; --accent-soft: #1D3530;
-  --spark: #F0A458; --spark-soft: #3A2A1A; --good: #74CF97; --good-soft: #1B3326;
-  --bad: #EE8E82; --bad-soft: #3A2120; --term-bg: #080C0B;
+  --spark: #F0A458; --spark-ink: #1A1006; --spark-soft: #3A2A1A; --good: #74CF97; --good-soft: #1B3326;
+  --bad: #EE8E82; --bad-soft: #3A2120; --plan: #A3B0F0; --plan-soft: #232A45;
   color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--font-body);
-  font-size: 17px;
-  line-height: 1.8;
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 17px; line-height: 1.8;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: 20px 64px;
 }
-.wrap { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+.wrap { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
 h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.4; }
 h1 { font-size: 30px; font-weight: 700; }
 h2 { font-size: 24px; font-weight: 700; }
@@ -73,180 +67,145 @@ h3 { font-size: 19px; font-weight: 700; }
 p { margin: 0; }
 .eyebrow { font-size: 13px; letter-spacing: 0.12em; color: var(--muted); font-weight: 500; }
 .muted { color: var(--muted); }
-code, .mono { font-family: var(--font-mono); }
-:not(pre) > code { background: var(--accent-soft); color: var(--ink); padding: 1px 7px; border-radius: 6px; font-size: 0.92em; white-space: nowrap; }
-kbd { font-family: var(--font-mono); font-size: 0.88em; border: 1px solid var(--line); border-bottom-width: 3px; background: var(--surface); border-radius: 6px; padding: 0 7px; white-space: nowrap; }
 a { color: var(--accent); }
-.flow { display: flex; flex-direction: column; gap: 14px; }
-
-/* Buttons */
 button { font: inherit; color: inherit; }
+
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   min-height: 52px; padding: 10px 22px; border-radius: 14px; border: 2px solid transparent;
   background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 17px; cursor: pointer;
-  transition: transform .1s, opacity .2s, background .2s;
+  transition: transform .1s, opacity .2s;
 }
 .btn:active { transform: scale(.98); }
 .btn:disabled { opacity: .38; cursor: not-allowed; transform: none; }
 .btn.sub { background: var(--surface); color: var(--ink); border-color: var(--line); }
-.btn.spark { background: var(--spark); color: #1A1006; }
+.btn.spark { background: var(--spark); color: var(--spark-ink); }
 .btn.wide { width: 100%; }
-.btn:focus-visible, .choice:focus-visible, .stage-card:focus-visible, .opt:focus-visible { outline: 3px solid var(--spark); outline-offset: 3px; }
-.btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
-.btn-row .btn { flex: 1 1 200px; }
+:focus-visible { outline: 3px solid var(--spark); outline-offset: 2px; }
 
 /* Home */
 .hero { display: flex; flex-direction: column; gap: 12px; padding-top: 8px; }
-.hero h1 .tag { display: inline-block; font-family: var(--font-mono); font-size: 0.62em; background: var(--term-bg); color: var(--term-hl); padding: 2px 10px; border-radius: 8px; vertical-align: middle; margin-left: 4px; }
-.hero-term { background: var(--term-bg); color: var(--term-fg); border-radius: 16px; padding: 16px 18px; font-family: var(--font-mono); font-size: 14px; line-height: 1.7; overflow-x: auto; }
-.hero-term .dim { color: var(--term-dim); }
-.hero-term .hl { color: var(--term-hl); }
+.story { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 10px; font-size: 16px; }
+.story b.k { font-family: var(--font-display); }
 .meter { display: flex; align-items: center; gap: 12px; font-size: 15px; color: var(--muted); }
 .meter-bar { flex: 1; height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; }
 .meter-fill { height: 100%; background: var(--accent); border-radius: 99px; transition: width .5s; }
-.stage-list { display: flex; flex-direction: column; gap: 10px; }
-.stage-card {
+.m-list { display: flex; flex-direction: column; gap: 10px; }
+.m-card {
   display: grid; grid-template-columns: 48px 1fr auto; align-items: center; gap: 14px;
   background: var(--surface); border: 2px solid var(--line); border-radius: 16px; padding: 14px 16px;
   text-align: left; cursor: pointer; width: 100%;
 }
-.stage-card:hover { border-color: var(--accent); }
-.stage-num { width: 48px; height: 48px; border-radius: 12px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-family: var(--font-mono); font-weight: 600; font-size: 18px; }
-.stage-card.done .stage-num { background: var(--accent); color: var(--accent-ink); }
-.stage-card .t { font-family: var(--font-display); font-weight: 700; font-size: 18px; line-height: 1.4; }
-.stage-card .d { font-size: 14px; color: var(--muted); line-height: 1.5; }
-.stage-card .st { font-size: 13px; font-weight: 700; color: var(--muted); white-space: nowrap; }
-.stage-card.done .st { color: var(--good); }
-.note { background: var(--surface); border-radius: 16px; padding: 18px; border: 1px solid var(--line); font-size: 15px; }
+.m-card:hover { border-color: var(--accent); }
+.m-num { width: 48px; height: 48px; border-radius: 12px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-family: var(--font-mono); font-weight: 600; font-size: 18px; }
+.m-card.done .m-num { background: var(--accent); color: var(--accent-ink); }
+.m-card .t { font-family: var(--font-display); font-weight: 700; font-size: 18px; line-height: 1.4; }
+.m-card .d { font-size: 14px; color: var(--muted); line-height: 1.5; }
+.m-card .st { font-size: 13px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+.m-card.done .st { color: var(--good); }
 
-/* Stage screen */
+/* Mission */
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .back { background: none; border: none; color: var(--muted); font-size: 15px; cursor: pointer; padding: 8px 0; min-height: 44px; }
-.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-.step-pill { text-align: center; font-size: 13px; font-weight: 700; padding: 8px 2px; border-radius: 10px; background: var(--surface); color: var(--muted); border: 2px solid var(--line); line-height: 1.3; }
-.step-pill.now { border-color: var(--accent); color: var(--accent); }
-.step-pill.past { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-.panel { background: var(--surface); border-radius: 20px; padding: 22px 20px; border: 1px solid var(--line); display: flex; flex-direction: column; gap: 16px; min-width: 0; }
-.panel p { max-width: 62ch; }
-.analogy { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.analogy > div { border-radius: 14px; padding: 14px; font-size: 15px; line-height: 1.6; }
-.analogy .a1 { background: var(--bg); }
-.analogy .a2 { background: var(--spark-soft); }
-.analogy b { display: block; font-family: var(--font-display); font-size: 16px; margin-bottom: 4px; }
-.word { border-left: 4px solid var(--spark); padding: 4px 0 4px 14px; font-size: 15px; color: var(--muted); }
-.word b { color: var(--ink); }
-.hint { font-size: 14px; color: var(--muted); text-align: center; }
-.hint.ok { color: var(--good); font-weight: 700; }
+.goalcard { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.goalcard .lead { font-size: 16px; }
+.goals { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.goals li { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.55; padding: 8px 12px; border-radius: 10px; background: var(--desk); transition: background .3s; }
+.goals li::before { content: ""; width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--muted); flex-shrink: 0; margin-top: 1px; display: grid; place-items: center; font-size: 13px; color: var(--accent-ink); font-weight: 700; }
+.goals li.ok { background: var(--good-soft); }
+.goals li.ok::before { content: "✓"; background: var(--good); border-color: var(--good); }
+.goals li.ok.just { animation: pop .4s ease; }
 
-/* Terminal */
-.term { background: var(--term-bg); color: var(--term-fg); border-radius: 14px; font-family: var(--font-mono); font-size: 13.5px; line-height: 1.7; overflow: hidden; min-width: 0; }
-.term-head { display: flex; align-items: center; gap: 6px; padding: 9px 12px; background: rgba(255,255,255,.06); color: var(--term-dim); font-size: 12px; }
-.term-head i { width: 10px; height: 10px; border-radius: 50%; background: #5A6862; display: inline-block; }
-.term-head span { margin-left: 6px; }
-.term-body { padding: 12px 14px; min-height: 120px; max-height: 360px; overflow: auto; white-space: pre-wrap; word-break: break-word; }
-.term-body .ln { animation: rise .25s ease both; }
-.term .dim { color: var(--term-dim); }
-.term .hl { color: var(--term-hl); }
-.term .g { color: var(--term-green); }
-.term .r { color: var(--term-red); }
-.term .box { border: 1px solid var(--term-hl); border-radius: 8px; padding: 8px 12px; display: block; margin: 4px 0; white-space: normal; }
-.term .ja { display: block; font-family: var(--font-body); color: var(--term-dim); font-size: 12.5px; }
-.term-mode { padding: 6px 14px 10px; font-size: 12.5px; min-height: 28px; }
-.opt { display: block; width: 100%; text-align: left; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); color: var(--term-fg); font-family: var(--font-mono); font-size: 13.5px; padding: 10px 12px; border-radius: 8px; margin-top: 6px; cursor: pointer; white-space: normal; line-height: 1.5; }
-.opt:hover { border-color: var(--term-hl); }
-.opt .ja { margin-top: 2px; }
-.spin { display: inline-block; color: var(--term-hl); animation: pulse 1s ease-in-out infinite; }
-
-/* Stage 1 diagram */
-.scene { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; align-items: stretch; position: relative; }
-.actor { background: var(--bg); border: 2px solid var(--line); border-radius: 14px; padding: 12px 8px; text-align: center; font-size: 14px; line-height: 1.4; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: border-color .3s, background .3s; min-width: 0; }
-.actor .face { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: 15px; background: var(--surface); border: 2px solid var(--line); }
-.actor.ai .face { background: var(--spark-soft); border-color: var(--spark); color: var(--spark); }
-.actor.on { border-color: var(--spark); background: var(--spark-soft); }
-.files { display: flex; flex-direction: column; gap: 4px; width: 100%; }
-.file { font-family: var(--font-mono); font-size: 11.5px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 3px 4px; transition: all .3s; overflow-wrap: anywhere; }
-.file.touched { border-color: var(--spark); background: var(--spark-soft); }
+.desk { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
+.desk-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 14px; background: var(--desk); border-bottom: 1px solid var(--line); font-size: 14px; font-weight: 700; }
+.desk-head .app { font-family: var(--font-mono); font-size: 12px; color: var(--muted); font-weight: 400; }
+.files { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 14px 4px; }
+.file { font-family: var(--font-mono); font-size: 12.5px; background: var(--desk); border: 1.5px solid var(--line); border-radius: 8px; padding: 5px 10px; cursor: pointer; line-height: 1.4; }
+.file:hover { border-color: var(--accent); }
+.file.open { border-color: var(--accent); background: var(--accent-soft); }
+.file.changed { border-color: var(--spark); }
+.file.changed::after { content: " ●"; color: var(--spark); }
 .file.new { animation: pop .4s ease both; }
-.bubbles { display: flex; flex-direction: column; gap: 8px; min-height: 96px; }
-.bubble { border-radius: 14px; padding: 10px 14px; font-size: 15px; line-height: 1.6; animation: rise .35s ease both; max-width: 92%; }
-.bubble.you { background: var(--accent-soft); align-self: flex-end; }
-.bubble.ai { background: var(--spark-soft); align-self: flex-start; }
-.bubble.sys { background: var(--bg); align-self: center; font-size: 13px; color: var(--muted); text-align: center; }
+.files-hint { font-size: 12px; color: var(--muted); padding: 0 14px 8px; }
+.viewer { margin: 0 14px 10px; border: 1.5px solid var(--accent); border-radius: 12px; overflow: hidden; }
+.viewer-head { display: flex; justify-content: space-between; align-items: center; background: var(--accent-soft); padding: 4px 6px 4px 12px; font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; }
+.viewer-head button { background: none; border: none; cursor: pointer; font-size: 13px; color: var(--muted); min-height: 36px; padding: 0 10px; }
+.viewer pre { margin: 0; padding: 10px 12px; font-family: var(--font-body); font-size: 14px; line-height: 1.7; white-space: pre-wrap; word-break: break-word; max-height: 260px; overflow: auto; background: var(--surface); }
 
-/* Agent loop */
-.loop { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-.loop div { text-align: center; padding: 10px 2px; border-radius: 12px; background: var(--bg); border: 2px solid var(--line); font-size: 14px; font-weight: 700; color: var(--muted); transition: all .25s; line-height: 1.3; }
-.loop div small { display: block; font-weight: 400; font-size: 11px; font-family: var(--font-mono); }
-.loop div.lit { border-color: var(--spark); background: var(--spark-soft); color: var(--ink); transform: translateY(-2px); }
-.choices-col { display: flex; flex-direction: column; gap: 8px; }
-.prompt-btn { text-align: left; background: var(--bg); border: 2px solid var(--line); border-radius: 14px; padding: 12px 14px; cursor: pointer; font-size: 16px; line-height: 1.5; }
-.prompt-btn:hover { border-color: var(--accent); }
-.prompt-btn small { display: block; color: var(--muted); font-size: 12.5px; }
-.prompt-btn.picked { border-color: var(--accent); background: var(--accent-soft); }
+.chat { display: flex; flex-direction: column; gap: 10px; padding: 14px; min-height: 180px; max-height: 460px; overflow-y: auto; border-top: 1px solid var(--line); background: var(--desk); }
+.msg { max-width: 92%; border-radius: 14px; padding: 10px 14px; font-size: 15.5px; line-height: 1.7; animation: rise .3s ease both; white-space: pre-wrap; word-break: break-word; }
+.msg.you { align-self: flex-end; background: var(--accent); color: var(--accent-ink); border-bottom-right-radius: 4px; }
+.msg.ai { align-self: flex-start; background: var(--surface); border: 1px solid var(--line); border-bottom-left-radius: 4px; }
+.msg.ai::before { content: "Claude"; display: block; font-family: var(--font-mono); font-size: 11px; color: var(--spark); font-weight: 600; margin-bottom: 2px; }
+.msg.sys { align-self: stretch; max-width: none; background: var(--spark-soft); font-size: 14px; border-radius: 12px; }
+.msg.sys::before { content: "ガイド "; font-weight: 700; color: var(--spark); }
+.act { align-self: flex-start; display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--muted); animation: rise .25s ease both; }
+.tag { font-size: 12px; font-weight: 700; border-radius: 6px; padding: 1px 8px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+.tag.w { background: var(--spark-soft); color: var(--spark); }
+.tag.x { background: var(--bad-soft); color: var(--bad); }
+.tag.p { background: var(--plan-soft); color: var(--plan); }
+.act .fn { font-family: var(--font-mono); color: var(--ink); overflow-wrap: anywhere; }
+.act.working .fn::after { content: " …"; animation: blink 1s steps(2) infinite; }
 
-/* mini site preview */
-.site { border: 2px solid var(--line); border-radius: 14px; overflow: hidden; background: #FFFFFF; color: #222; }
-.site-bar { background: #E9ECEB; font-family: var(--font-mono); font-size: 11px; color: #667; padding: 5px 10px; }
-.site-body { padding: 14px; }
-.site-h { font-family: var(--font-display); font-weight: 700; font-size: 20px; transition: all .4s; }
-.site-h.big { font-size: 28px; color: #1E6B58; }
-.site-nav { display: flex; gap: 10px; font-size: 12px; color: #667; margin-top: 6px; flex-wrap: wrap; }
-.site-nav span.new { color: #C8701F; font-weight: 700; animation: pop .4s ease both; }
-.flash { animation: flash 1s ease; }
+.perm { align-self: stretch; background: var(--surface); border: 2px solid var(--spark); border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 8px; animation: rise .3s ease both; }
+.perm .q { font-weight: 700; font-size: 15.5px; }
+.perm .en { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); }
+.perm pre, .plan-card pre { margin: 0; font-family: var(--font-body); font-size: 13.5px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; border-radius: 8px; padding: 8px 10px; max-height: 220px; overflow: auto; }
+.perm pre.new { background: var(--good-soft); }
+.perm pre.old { background: var(--bad-soft); text-decoration: line-through; text-decoration-color: var(--bad); }
+.perm .lbl { font-size: 12px; font-weight: 700; color: var(--muted); }
+.perm .opts { display: flex; flex-direction: column; gap: 6px; }
+.perm .opts button { text-align: left; border: 1.5px solid var(--line); background: var(--desk); border-radius: 10px; padding: 10px 12px; cursor: pointer; font-size: 15px; line-height: 1.45; min-height: 46px; }
+.perm .opts button:hover:not(:disabled) { border-color: var(--accent); }
+.perm .opts button:disabled { cursor: default; opacity: .4; }
+.perm .opts button.chosen { opacity: 1; border-color: var(--accent); background: var(--accent-soft); }
+.plan-card { align-self: stretch; background: var(--plan-soft); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; animation: rise .3s ease both; }
+.plan-card .q { font-weight: 700; color: var(--plan); }
+.plan-card ol { margin: 0; padding-left: 1.4em; font-size: 15px; line-height: 1.7; }
+.plan-card ol li.ok { color: var(--muted); text-decoration: line-through; }
 
-/* Checklist (plan) */
-.plan { display: flex; flex-direction: column; gap: 6px; }
-.plan div { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.5; padding: 8px 12px; border-radius: 10px; background: var(--bg); animation: rise .3s ease both; }
-.plan div::before { content: ""; width: 18px; height: 18px; border-radius: 5px; border: 2px solid var(--muted); flex-shrink: 0; margin-top: 2px; }
-.plan div.ok::before { background: var(--good); border-color: var(--good); }
-.plan div.ok { color: var(--muted); }
+.controls { display: flex; flex-direction: column; gap: 10px; padding: 12px 14px 14px; border-top: 1px solid var(--line); }
+.ctl-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.mode-btn { display: inline-flex; flex-direction: column; align-items: flex-start; border: 2px solid var(--line); background: var(--desk); border-radius: 12px; padding: 4px 12px; cursor: pointer; line-height: 1.35; min-height: 46px; justify-content: center; }
+.mode-btn b { font-size: 14.5px; }
+.mode-btn small { font-size: 11px; color: var(--muted); }
+.mode-btn.auto { border-color: var(--spark); background: var(--spark-soft); }
+.mode-btn.plan { border-color: var(--plan); background: var(--plan-soft); }
+.mode-btn.flash { animation: ring 1.2s ease 2; }
+.small-btn { border: 2px solid var(--line); background: var(--desk); border-radius: 12px; padding: 0 14px; min-height: 46px; cursor: pointer; font-size: 14.5px; font-weight: 700; }
+.stop-btn { border: none; background: var(--bad); color: #FFFFFF; border-radius: 12px; padding: 0 18px; min-height: 46px; cursor: pointer; font-size: 15px; font-weight: 700; margin-left: auto; animation: ring 1s ease infinite; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips .lab { width: 100%; font-size: 12px; color: var(--muted); }
+.chip { border: 1.5px dashed var(--accent); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 6px 14px; font-size: 14px; cursor: pointer; text-align: left; line-height: 1.45; }
+.chip:hover { background: var(--accent-soft); }
+.inbox { display: flex; gap: 8px; }
+.inbox input { flex: 1; min-width: 0; font: inherit; font-size: 16px; border: 2px solid var(--line); border-radius: 12px; padding: 10px 12px; background: var(--surface); color: var(--ink); }
+.inbox input:focus { border-color: var(--accent); outline: none; }
+.inbox button { flex-shrink: 0; border: none; background: var(--accent); color: var(--accent-ink); font-weight: 700; border-radius: 12px; padding: 0 18px; cursor: pointer; min-height: 48px; }
+.inbox button:disabled, .inbox input:disabled { opacity: .45; cursor: not-allowed; }
 
-/* Command step */
-.cmd-list { display: flex; flex-direction: column; gap: 10px; }
-.cmd { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
-.cmd .c { font-family: var(--font-mono); font-weight: 600; font-size: 15px; background: var(--term-bg); color: var(--term-hl); border-radius: 8px; padding: 6px 10px; overflow-x: auto; white-space: nowrap; }
-.cmd .w { font-size: 15px; line-height: 1.6; }
+.clear { background: var(--surface); border: 2px solid var(--good); border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 12px; animation: rise .4s ease both; }
+.clear-top { display: flex; align-items: center; gap: 14px; }
+.stamp { width: 74px; height: 74px; border-radius: 50%; border: 4px solid var(--spark); color: var(--spark); display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: 16px; transform: rotate(-8deg); flex-shrink: 0; animation: stamp .5s cubic-bezier(.2,1.6,.4,1) both; }
+.tip { background: var(--desk); border-radius: 12px; padding: 12px 14px; font-size: 15.5px; }
+.tip b { color: var(--accent); }
 
-/* Quiz */
-.q { display: flex; flex-direction: column; gap: 10px; }
-.q + .q { border-top: 1px dashed var(--line); padding-top: 18px; }
-.q-title { font-weight: 700; font-size: 17px; }
-.choice { text-align: left; background: var(--bg); border: 2px solid var(--line); border-radius: 14px; padding: 12px 14px; cursor: pointer; font-size: 16px; line-height: 1.5; min-height: 52px; }
-.choice:hover:not(:disabled) { border-color: var(--accent); }
-.choice.right { border-color: var(--good); background: var(--good-soft); }
-.choice.wrong { border-color: var(--bad); background: var(--bad-soft); }
-.choice:disabled { cursor: default; }
-.feedback { font-size: 15px; border-radius: 12px; padding: 10px 14px; animation: rise .3s ease both; }
-.feedback.right { background: var(--good-soft); color: var(--ink); }
-.feedback.wrong { background: var(--bad-soft); color: var(--ink); }
-.feedback b { color: var(--good); }
-.feedback.wrong b { color: var(--bad); }
-
-.clear-box { text-align: center; display: flex; flex-direction: column; gap: 12px; align-items: center; padding: 8px 0; }
-.stamp { width: 96px; height: 96px; border-radius: 50%; border: 4px solid var(--spark); color: var(--spark); display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: 20px; transform: rotate(-8deg); animation: stamp .5s cubic-bezier(.2,1.6,.4,1) both; }
-
-/* Finish */
-.cheat { width: 100%; border-collapse: collapse; font-size: 15px; }
-.cheat td { border-top: 1px solid var(--line); padding: 10px 6px; vertical-align: top; line-height: 1.5; }
-.cheat td:first-child { font-family: var(--font-mono); font-weight: 600; white-space: nowrap; color: var(--accent); }
-.tablewrap { overflow-x: auto; }
-ul.tips { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 6px; }
+.panel { background: var(--surface); border-radius: 18px; padding: 20px; border: 1px solid var(--line); display: flex; flex-direction: column; gap: 12px; }
+ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 8px; font-size: 16px; }
 
 @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-@keyframes pop { 0% { transform: scale(.6); opacity: 0; } 70% { transform: scale(1.08); } 100% { transform: none; opacity: 1; } }
-@keyframes pulse { 50% { opacity: .35; } }
-@keyframes flash { 0% { background: var(--spark-soft); } 100% { background: transparent; } }
+@keyframes pop { 0% { transform: scale(.9); } 60% { transform: scale(1.04); } 100% { transform: none; } }
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes ring { 0%, 100% { box-shadow: 0 0 0 0 transparent; } 50% { box-shadow: 0 0 0 5px var(--spark-soft); } }
 @keyframes stamp { from { transform: scale(2) rotate(-8deg); opacity: 0; } to { transform: rotate(-8deg); opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
 @media (max-width: 420px) {
   body { font-size: 16px; }
   h1 { font-size: 26px; }
-  .analogy { grid-template-columns: 1fr; }
-  .stage-card { grid-template-columns: 40px 1fr; }
-  .stage-card .st { grid-column: 2; }
-  .stage-num { width: 40px; height: 40px; font-size: 16px; }
-  .term { font-size: 12.5px; }
+  .m-card { grid-template-columns: 40px 1fr; }
+  .m-card .st { grid-column: 2; }
+  .m-num { width: 40px; height: 40px; font-size: 16px; }
+  .chat { max-height: 400px; }
 }
 </style>
 </head>
@@ -258,607 +217,698 @@ ul.tips { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column;
 (function () {
   'use strict';
 
-  /* ---------- storage (per-viewer convenience only) ---------- */
-  var KEY = 'claude-code-renshu-v1';
+  /* ---------- per-viewer progress ---------- */
+  var KEY = 'claude-code-jitsumu-v1';
   function loadDone() { try { var v = JSON.parse(localStorage.getItem(KEY) || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; } }
-  function saveDone(arr) { try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {} }
-  var done = loadDone();
+  function saveDone() { try { localStorage.setItem(KEY, JSON.stringify(doneList)); } catch (e) {} }
+  var doneList = loadDone();
 
   var app = document.getElementById('app');
-  var timers = [];
-  function later(fn, ms) { var t = setTimeout(fn, ms); timers.push(t); return t; }
-  function clearTimers() { timers.forEach(clearTimeout); timers = []; }
   function h(html) { var d = document.createElement('div'); d.innerHTML = html.trim(); return d.firstElementChild; }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function has(t) { for (var i = 1; i < arguments.length; i++) if (t.indexOf(arguments[i]) !== -1) return true; return false; }
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
 
-  /* Terminal helper */
-  function makeTerm(title) {
-    var el = h('<div class="term"><div class="term-head"><i></i><i></i><i></i><span>' + esc(title) + '</span></div><div class="term-body"></div><div class="term-mode dim"></div></div>');
-    var body = el.querySelector('.term-body');
-    return {
-      el: el,
-      line: function (html) { var l = document.createElement('div'); l.className = 'ln'; l.innerHTML = html; body.appendChild(l); body.scrollTop = body.scrollHeight; return l; },
-      clear: function () { body.innerHTML = ''; },
-      mode: function (html) { el.querySelector('.term-mode').innerHTML = html || ''; },
-      body: body
-    };
+  /* ---------- sample files ---------- */
+  var MEMO = '11/4 定例 メモ\n参加：佐藤、鈴木、田中\n・年末イベントは12/14(土)に決定\n・会場は市民ホール。鈴木さんが予約する\n・チラシは田中さん、11/20までに案\n・予算は前年と同じ5万円\n・次回は11/18';
+  var CSV = '回答者,満足度,よかった点\nA,5,講師の説明\nB,4,資料\nC,3,時間\nD,5,講師の説明\nE,4,会場\nF,5,講師の説明\nG,4,資料\nH,4,資料';
+  var DRAFT = '年末イベントやります。12/14です。市民ホールでやるので来てください。申し込みは鈴木まで。';
+  function minutes(style) {
+    if (style === 'short') return '# 議事録（11/4）\n- 12/14(土) 市民ホールで年末イベント\n- 予算5万円\n- 鈴木さん：会場予約／田中さん：チラシ案（11/20まで）\n- 次回 11/18';
+    var todo = style === 'table'
+      ? '## やること\n| やること | 担当 | 締切 |\n|---|---|---|\n| 会場の予約 | 鈴木さん | （メモに記載なし） |\n| チラシの案 | 田中さん | 11月20日 |'
+      : '## やること\n- 会場の予約：鈴木さん\n- チラシの案：田中さん（11月20日まで）';
+    return '# 定例会議 議事録（11月4日）\n\n参加者：佐藤、鈴木、田中\n\n## 決まったこと\n- 年末イベントは12月14日（土）に開催\n- 会場は市民ホール\n- 予算は前年と同じ5万円\n\n' + todo + '\n\n## 次回\n11月18日';
   }
-  /* Show lines one after another */
-  function play(term, lines, gap, after) {
-    lines.forEach(function (ln, i) { later(function () { term.line(ln); }, gap * (i + 1)); });
-    if (after) later(after, gap * (lines.length + 1));
+  function annai(o) {
+    if (o.short) return '年末イベントのご案内\n\n12月14日（土）' + (o.time ? '13時〜16時に' : '') + '、市民ホールで年末イベントを開催します。\nお申し込みは鈴木までお願いいたします。';
+    return '年末イベントのご案内\n\n日ごろよりお世話になっております。\n下記のとおり年末イベントを開催いたします。ぜひご参加ください。\n\n日時：12月14日（土）' + (o.time ? ' 13:00〜16:00' : '') + '\n会場：市民ホール\nお申し込み：鈴木まで\n\nみなさまのご参加をお待ちしております。';
+  }
+  var SUM_PLAIN = '11月4日の定例会議のメモです。年末イベントを12月14日（土）に市民ホールで開くことが決まりました。予算は前年と同じ5万円で、次回の会議は11月18日です。';
+  var SUM_RULED = '結論：年末イベントは12月14日（土）に市民ホールで開催します。\n\n・会場の予約 … 鈴木さん（締切はメモに記載がありません）\n・チラシの案 … 田中さん／11月20日まで\n・予算 … 前年と同じ5万円\n\n次回の会議は11月18日です。';
+  var CLAUDE_MD = '# 仕事のルール\n- 文章は敬語で書く\n- まとめるときは、最初に結論を1行で書く\n- 「だれが」「いつまでに」を必ず書く';
+  function report(graph) {
+    return '# アンケート集計レポート\n\n回答数：8人\n満足度の平均：4.3（5点満点）\n\n## よかった点\n| よかった点 | 人数 |\n|---|---|\n| 講師の説明 | 3 |\n| 資料 | 3 |\n| 会場 | 1 |\n| 時間 | 1 |\n' +
+      (graph ? '\n## グラフ\n満足度5 ■■■ 3人\n満足度4 ■■■■ 4人\n満足度3 ■ 1人\n' : '') +
+      '\n## ひとこと\n「講師の説明」と「資料」の評価が高く、満足度3は1人だけでした。';
+  }
+  var MEMO_PROSE = '11月4日に定例会議を行いました。参加者は佐藤さん、鈴木さん、田中さんです。会議では、年末イベントの日程と会場について話し合いました。';
+
+  /* ---------- engine ---------- */
+  var S = null; // current mission state
+  var MODES = {
+    normal: { name: 'ふつう', sub: '変えるときは毎回聞く' },
+    auto: { name: '自動OK', sub: '書きかえを聞かずに進める' },
+    plan: { name: '計画', sub: '読むだけ。計画を立てる' }
+  };
+  var ORDER = ['normal', 'auto', 'plan'];
+
+  var api = {
+    say: function (who, text, isHtml) {
+      var m = h('<div class="msg ' + who + '"></div>');
+      if (isHtml) m.innerHTML = text; else m.textContent = text;
+      return push(m);
+    },
+    act: function (kind, name, working) {
+      var cls = { '読む': '', '作る': 'w', '直す': 'w', '戻す': 'p', '計画': 'p' }[kind] || '';
+      return push(h('<div class="act' + (working ? ' working' : '') + '"><span class="tag ' + cls + '">' + kind + '</span><span class="fn">' + esc(name) + '</span></div>'));
+    },
+    wait: function (ms) {
+      var tok = S.token;
+      return new Promise(function (res) { setTimeout(function () { res(S && tok === S.token); }, ms); });
+    },
+    goal: function (id) {
+      if (S.goals[id]) return;
+      S.goals[id] = true;
+      renderGoals(id);
+      var all = S.def.goals.every(function (g) { return S.goals[g.id]; });
+      var mi = S.i;
+      if (all) setTimeout(function () { if (S && S.i === mi) showClear(); }, 900);
+    },
+    setFile: function (name, text) {
+      var isNew = !(name in S.files);
+      S.files[name] = text; S.changed[name] = true;
+      renderFiles(isNew ? name : null);
+      if (S.viewing === name) openFile(name, true);
+    },
+    permit: function (o) {
+      // o: { kind:'作る'|'直す', file, before, after }
+      if (S.mode === 'plan') {
+        api.say('ai', '今は「計画」モードなので、ファイルは変えません。\nやるとしたら、' + o.file + ' を' + (o.kind === '作る' ? '作ります' : '書きかえます') + '。作業してほしいときは、モードを「ふつう」に戻してください。');
+        return Promise.resolve('plan');
+      }
+      if (S.mode === 'auto' || S.allowAll) {
+        api.act(o.kind, o.file + '（自動OKなので聞かずに進めます）');
+        return Promise.resolve('yes');
+      }
+      return new Promise(function (resolve) {
+        var card = h('<div class="perm"><div class="q">' + esc(o.file) + ' を' + (o.kind === '作る' ? '作ってもいいですか？' : '書きかえてもいいですか？') + '</div>' +
+          '<div class="en">本物の画面では英語で「Do you want to ' + (o.kind === '作る' ? 'create' : 'make this edit to') + ' ' + esc(o.file) + '?」と出ます</div></div>');
+        if (o.before != null) { card.appendChild(h('<div class="lbl">いまの内容</div>')); var p0 = document.createElement('pre'); p0.className = 'old'; p0.textContent = o.before; card.appendChild(p0); }
+        card.appendChild(h('<div class="lbl">' + (o.before != null ? '書きかえたあと' : 'できあがる内容') + '</div>'));
+        var p1 = document.createElement('pre'); p1.className = 'new'; p1.textContent = o.after; card.appendChild(p1);
+        var opts = h('<div class="opts"><button data-v="yes">1. はい</button><button data-v="always">2. はい。この会話のあいだは聞かずにOK</button><button data-v="no">3. いいえ。どうしてほしいか伝える</button></div>');
+        card.appendChild(opts);
+        push(card);
+        S.pending = function (v) {
+          S.pending = null;
+          opts.querySelectorAll('button').forEach(function (b) { b.disabled = true; if (b.dataset.v === v) b.classList.add('chosen'); });
+          if (v === 'always') { S.allowAll = true; api.say('sys', 'この会話のあいだは、ファイルの書きかえを聞かれなくなりました。'); }
+          if (v !== 'stop') setBusy(true);
+          resolve(v === 'stop' ? 'no' : v);
+        };
+        opts.querySelectorAll('button').forEach(function (b) { b.onclick = function () { S.pending && S.pending(b.dataset.v); }; });
+        setBusy(true, true);
+      });
+    },
+    plan: function (items, onOk) {
+      var card = h('<div class="plan-card"><div class="q">計画</div><ol></ol></div>');
+      items.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; card.querySelector('ol').appendChild(li); });
+      if (onOk) {
+        var b = h('<button class="btn wide">この計画で進めて</button>');
+        b.onclick = function () { if (S.busy) return; b.disabled = true; onOk(card); };
+        card.appendChild(b);
+      }
+      return push(card);
+    },
+    setMode: function (m) { S.mode = m; renderMode(); },
+    refresh: function () { renderChips(); }
+  };
+
+  function push(node) {
+    var chat = document.getElementById('chat');
+    chat.querySelectorAll('.act.working').forEach(function (x) { x.classList.remove('working'); });
+    chat.appendChild(node);
+    chat.scrollTop = chat.scrollHeight;
+    return node;
   }
 
-  /* ---------- STAGES ---------- */
-  var STAGES = [
-    {
-      title: 'AIエージェントってなに？',
-      short: 'チャットAIとの違いを知る',
-      explain:
-        '<p><b>AI</b>は、文章で話しかけると、文章で答えてくれる道具です。スマホのチャットで使うAIがその代表です。</p>' +
-        '<p><b>AIエージェント</b>は、そこからもう一歩進んで、<b>自分で手を動かすAI</b>です。ファイルを読んだり、書き直したり、パソコンに命令を出したりして、頼まれた仕事を最後まで進めます。</p>' +
-        '<div class="analogy"><div class="a1"><b>チャットAI</b>電話で相談できる先生。やり方は教えてくれるけど、作業するのはあなた。</div>' +
-        '<div class="a2"><b>AIエージェント</b>となりに座ってくれるアシスタント。「これ直しておいて」と頼むと、実際に直してくれる。</div></div>' +
-        '<p><b>Claude Code（クロード・コード）</b>は、あなたのパソコンのフォルダの中で働くAIエージェントです。</p>' +
-        '<div class="word"><b>フォルダ</b>…ファイルをまとめて入れておく入れ物。Claude Code はこの中のファイルを読んだり書いたりします。</div>',
-      sim: function (root, finish) {
-        var tried = { chat: false, agent: false };
-        root.appendChild(h('<p>同じお願い「<b>サイトの見出しを『ようこそ』に変えて</b>」を、2種類のAIに頼んでみましょう。</p>'));
-        var scene = h('<div class="scene">' +
-          '<div class="actor" id="a-you"><div class="face">あなた</div>頼む人</div>' +
-          '<div class="actor ai" id="a-ai"><div class="face">AI</div><span id="ai-label">AI</span></div>' +
-          '<div class="actor" id="a-folder"><div class="face mono">📁</div><div class="files"><div class="file" id="f-index">index.html</div><div class="file">style.css</div></div></div>' +
-          '</div>');
-        root.appendChild(scene);
-        var bubbles = h('<div class="bubbles"></div>');
-        root.appendChild(bubbles);
-        var row = h('<div class="btn-row"><button class="btn sub" id="b-chat">チャットAIに頼む</button><button class="btn spark" id="b-agent">AIエージェントに頼む</button></div>');
-        root.appendChild(row);
-        var hint = h('<p class="hint">両方のボタンを押して、違いを見てみよう。</p>');
-        root.appendChild(hint);
-        var bChat = row.querySelector('#b-chat'), bAgent = row.querySelector('#b-agent');
-        var ai = scene.querySelector('#a-ai'), folder = scene.querySelector('#a-folder'), fIndex = scene.querySelector('#f-index');
-        function reset(label) {
-          clearTimers(); bubbles.innerHTML = '';
-          ai.classList.remove('on'); folder.classList.remove('on'); fIndex.classList.remove('touched'); fIndex.textContent = 'index.html';
-          scene.querySelector('#ai-label').textContent = label;
-        }
-        function say(cls, text, ms) { later(function () { bubbles.appendChild(h('<div class="bubble ' + cls + '">' + text + '</div>')); }, ms); }
-        function check() {
-          if (tried.chat && tried.agent) { hint.textContent = 'ちがいが見えたね！ 次へ進もう。'; hint.className = 'hint ok'; finish(); }
-        }
-        bChat.onclick = function () {
-          reset('チャットAI');
-          say('you', 'サイトの見出しを「ようこそ」に変えて', 100);
-          later(function () { ai.classList.add('on'); }, 600);
-          say('ai', 'index.html の &lt;h1&gt; の中を「ようこそ」に書きかえてください。', 1200);
-          say('sys', 'フォルダには何も起きていません。ファイルを開いて直すのは、あなたの仕事です。', 2100);
-          later(function () { tried.chat = true; check(); }, 2200);
-        };
-        bAgent.onclick = function () {
-          reset('Claude Code');
-          say('you', 'サイトの見出しを「ようこそ」に変えて', 100);
-          later(function () { ai.classList.add('on'); }, 600);
-          say('ai', 'index.html を読んでいます…', 1000);
-          later(function () { folder.classList.add('on'); fIndex.classList.add('touched'); }, 1500);
-          later(function () { fIndex.textContent = 'index.html ✎'; }, 2100);
-          say('ai', '見出しを「ようこそ」に変えました！', 2400);
-          say('sys', 'AIが自分でファイルを開いて、直すところまでやりました。', 3000);
-          later(function () { tried.agent = true; check(); }, 3100);
-        };
-      },
-      cmd: [
-        ['claude', 'Claude Code を呼び出す合言葉。ターミナルにこれを打つと始まります（次のステージで練習します）。'],
-        ['ふつうの日本語', '起動したあとは、命令を覚えなくて大丈夫。「〜して」と日本語で話しかけます。']
-      ],
-      quiz: [
-        { q: 'AIエージェントが、チャットAIと大きくちがうところは？', c: ['日本語が話せる', '自分でファイルを読んだり書き直したりして、作業を進める', 'いつも必ず正しい答えを出す'], a: 1,
-          why: 'エージェントは「答える」だけでなく「手を動かす」AIです。ただし、まちがえることもあるので確認は大事です。' },
-        { q: 'Claude Code が作業する場所はどこ？', c: ['あなたのパソコンのフォルダの中', 'インターネット上のすべてのサイト', 'スマホの写真アプリ'], a: 0,
-          why: 'Claude Code は、あなたが指定したフォルダの中のファイルを読んだり書いたりします。' }
-      ]
-    },
-    {
-      title: 'Claude Code を起動する',
-      short: 'ターミナルで呼び出す',
-      explain:
-        '<p>Claude Code は<b>ターミナル</b>という画面で使います。黒い背景に文字だけが並ぶ、ちょっとこわそうな画面ですが、やることは3つだけです。</p>' +
-        '<div class="word"><b>ターミナル</b>…文字を打ってパソコンに指示を出す窓。Mac なら「ターミナル」、Windows なら「PowerShell」などのアプリです。</div>' +
-        '<p>大事なポイントは、<b>Claude Code は「起動したフォルダ」を作業場所にする</b>こと。だから最初に、作業したいフォルダへ移動してから呼び出します。</p>' +
-        '<p class="muted">※ デスクトップアプリやブラウザ版もありますが、考え方は同じです。</p>',
-      sim: function (root, finish) {
-        root.appendChild(h('<p>上から順番にボタンを押して、Claude Code を起動しましょう。</p>'));
-        var t = makeTerm('ターミナル');
-        root.appendChild(t.el);
-        t.line('<span class="dim">（まだ何も開いていません）</span>');
-        var row = h('<div class="flow">' +
-          '<button class="btn wide" id="s1">① ターミナルを開く</button>' +
-          '<button class="btn wide" id="s2" disabled>② cd my-site で作業フォルダへ移動</button>' +
-          '<button class="btn wide spark" id="s3" disabled>③ claude と打って起動</button></div>');
-        root.appendChild(row);
-        var hint = h('<p class="hint">①から順に押してね。</p>');
-        root.appendChild(hint);
-        var s1 = row.querySelector('#s1'), s2 = row.querySelector('#s2'), s3 = row.querySelector('#s3');
-        s1.onclick = function () {
-          t.clear(); t.line('<span class="g">~</span> $ <span class="dim">▍</span>');
-          t.line('<span class="ja">「~」はあなたのホーム（いちばん上の場所）にいる、という意味です。</span>');
-          s1.disabled = true; s2.disabled = false;
-        };
-        s2.onclick = function () {
-          t.line('<span class="g">~</span> $ cd my-site');
-          t.line('<span class="g">~/my-site</span> $ <span class="dim">▍</span>');
-          t.line('<span class="ja">cd は「フォルダに入る」命令。my-site フォルダに移動しました。</span>');
-          s2.disabled = true; s3.disabled = false;
-        };
-        s3.onclick = function () {
-          s3.disabled = true;
-          t.line('<span class="g">~/my-site</span> $ claude');
-          play(t, [
-            '<span class="box"><span class="hl">✻</span> Welcome to Claude Code!<br><span class="dim">/help for help</span><br><span class="dim">cwd: ~/my-site</span></span>',
-            '<span class="ja">起動しました！ cwd（今の作業場所）が my-site になっています。</span>',
-            '<span class="hl">&gt;</span> <span class="dim">ここに日本語でお願いを書きます ▍</span>'
-          ], 500, function () { hint.textContent = '起動できた！ ここからは日本語で話しかけるだけ。'; hint.className = 'hint ok'; finish(); });
-        };
-      },
-      cmd: [
-        ['cd my-site', '「my-site」というフォルダに移動する。フォルダ名は自分のものに置きかえます。'],
-        ['claude', 'Claude Code を起動する。起動した場所が作業場所になります。'],
-        ['/help', '使い方の一覧を出す。困ったらまずこれ。'],
-        ['/exit', 'Claude Code を終わらせる。']
-      ],
-      quiz: [
-        { q: 'Claude Code を起動するときにターミナルに打つ言葉は？', c: ['start ai', 'open claude', 'claude'], a: 2,
-          why: '「claude」と打って Enter を押すと起動します。' },
-        { q: '起動する前に cd でフォルダへ移動するのはなぜ？', c: ['起動したフォルダが Claude Code の作業場所になるから', '移動すると動きが速くなるから', '移動しないと日本語が使えないから'], a: 0,
-          why: 'Claude Code は起動したフォルダの中で仕事をします。関係ないフォルダで起動しないように気をつけましょう。' }
-      ]
-    },
-    {
-      title: '上手にお願いする',
-      short: 'プロンプトのコツ',
-      explain:
-        '<p>Claude Code へのお願いの文章を<b>プロンプト</b>と呼びます。むずかしい言葉はいりません。ふつうの日本語で大丈夫です。</p>' +
-        '<p>ただし、人に頼むときと同じで、<b>ぼんやりしたお願いは、ぼんやりした結果</b>になります。<b>「どこを」「どうしたいか」</b>を入れると、ぐっと伝わります。</p>' +
-        '<p>お願いを受けた Claude Code は、<b>読む → 考える → 直す → 確かめる</b> を何回もくり返して仕事を進めます。これが「エージェント」らしい動き方です。</p>' +
-        '<div class="word"><b>プロンプト</b>…AIへのお願いや質問の文章のこと。</div>',
-      sim: function (root, finish) {
-        root.appendChild(h('<p>お願いを1つ選んで送ってみましょう。ちがうお願いも試してみてね。</p>'));
-        var opts = [
-          { text: 'いい感じにして', note: 'ぼんやりしたお願い', kind: 'vague' },
-          { text: 'トップページの見出しを「ようこそ」に変えて、文字を大きくして', note: '「どこを」「どうしたいか」が入ったお願い', kind: 'good' }
-        ];
-        var col = h('<div class="choices-col"></div>');
-        opts.forEach(function (o, i) { col.appendChild(h('<button class="prompt-btn" data-i="' + i + '">「' + o.text + '」<small>' + o.note + '</small></button>')); });
-        root.appendChild(col);
-        var loop = h('<div class="loop"><div>読む<small>Read</small></div><div>考える<small>Think</small></div><div>直す<small>Update</small></div><div>確かめる<small>Check</small></div></div>');
-        root.appendChild(loop);
-        var t = makeTerm('claude  ~/my-site');
-        root.appendChild(t.el);
-        t.line('<span class="hl">&gt;</span> <span class="dim">お願いを選んでね ▍</span>');
-        var site = h('<div class="site"><div class="site-bar">my-site / index.html</div><div class="site-body"><div class="site-h" id="sh">こんにちは</div><div class="site-nav"><span>ホーム</span><span>作品</span></div></div></div>');
-        root.appendChild(site);
-        var hint = h('<p class="hint">2つのお願いを両方試すと、次へ進めます。</p>');
-        root.appendChild(hint);
-        var cells = loop.children, tried = {};
-        function light(n) { for (var k = 0; k < cells.length; k++) cells[k].classList.toggle('lit', k === n); }
-        col.addEventListener('click', function (e) {
-          var b = e.target.closest('.prompt-btn'); if (!b) return;
-          clearTimers();
-          col.querySelectorAll('.prompt-btn').forEach(function (x) { x.classList.toggle('picked', x === b); });
-          var o = opts[+b.dataset.i];
-          var sh = site.querySelector('#sh'); sh.textContent = 'こんにちは'; sh.classList.remove('big');
-          t.clear(); t.line('<span class="hl">&gt;</span> ' + esc(o.text));
-          if (o.kind === 'vague') {
-            later(function () { light(0); t.line('<span class="hl">●</span> Read(index.html)'); }, 500);
-            later(function () { light(1); t.line('<span class="dim">✻ 考えています…</span>'); }, 1300);
-            later(function () {
-              light(-1);
-              t.line('<span class="hl">●</span> サイトを見ました。どこを、どうしたいですか？<span class="ja">　例：色を変える／文字を大きくする／ページを増やす</span>');
-              t.line('<span class="ja">↑ 何をすればいいかわからず、聞き返されました。これでも会話は進みますが、遠回りです。</span>');
-              tried.vague = true; check();
-            }, 2300);
-          } else {
-            later(function () { light(0); t.line('<span class="hl">●</span> Read(index.html)'); }, 500);
-            later(function () { light(1); t.line('<span class="dim">✻ 見出しは &lt;h1&gt; にあるので、そこを直します</span>'); }, 1300);
-            later(function () { light(2); t.line('<span class="hl">●</span> Update(index.html)'); t.line('  <span class="r">- &lt;h1&gt;こんにちは&lt;/h1&gt;</span>'); t.line('  <span class="g">+ &lt;h1 class="big"&gt;ようこそ&lt;/h1&gt;</span>'); sh.textContent = 'ようこそ'; sh.classList.add('big'); site.classList.remove('flash'); void site.offsetWidth; site.classList.add('flash'); }, 2200);
-            later(function () { light(3); t.line('<span class="hl">●</span> Read(index.html)  <span class="dim">← 直せたか確かめる</span>'); }, 3200);
-            later(function () { light(-1); t.line('<span class="hl">●</span> 見出しを「ようこそ」に変えて、文字を大きくしました。'); tried.good = true; check(); }, 4100);
-          }
-        });
-        function check() {
-          if (tried.vague && tried.good) { hint.textContent = '「どこを」「どうしたいか」を入れると一発で伝わるね！'; hint.className = 'hint ok'; finish(); }
-        }
-      },
-      cmd: [
-        ['> 〇〇を△△して', 'お願いの基本形。「どこを（〇〇）」「どうしたいか（△△）」を入れる。'],
-        ['> 〜して。理由も教えて', '何をしたのか説明してもらうと、学びにもなります。'],
-        ['> このフォルダには何がある？', '最初は「読んで説明して」と頼むのもおすすめ。何も書きかえずに教えてくれます。']
-      ],
-      quiz: [
-        { q: 'いちばん伝わりやすいお願いはどれ？', c: ['いい感じにして', 'なんとかして', 'トップページの見出しを「ようこそ」に変えて'], a: 2,
-          why: '「どこを（トップページの見出し）」「どうしたいか（ようこそに変える）」が入っています。' },
-        { q: 'Claude Code はどうやって仕事を進める？', c: ['何も見ずに、一度で全部書く', '読む → 考える → 直す → 確かめる をくり返す', 'インターネットで答えをコピーする'], a: 1,
-          why: 'ファイルを読んで、考えて、直して、確かめる。このくり返しがエージェントの動き方です。' }
-      ]
-    },
-    {
-      title: '許可する・止める',
-      short: 'Yes / No と Esc',
-      explain:
-        '<p>Claude Code は、ファイルを書きかえる前や、パソコンに命令を出す前に、<b>「やってもいい？」とあなたに聞いてきます</b>。勝手に進めないための安全装置です。</p>' +
-        '<p>聞かれたら、<b>何をしようとしているか読んでから</b>答えましょう。いいなら Yes。ちがうなら No を選んで、どうしてほしいか伝えます。</p>' +
-        '<p>作業の途中で「あ、ちがう！」と思ったら、<kbd>Esc</kbd> キーで<b>いつでも止められます</b>。</p>' +
-        '<div class="word"><b>差分（さぶん）</b>…書きかえの前とあとのちがい。<span class="mono">-</span> が消える行、<span class="mono">+</span> が増える行です。</div>',
-      sim: function (root, finish) {
-        var part = { decided: false, stopped: false };
-        root.appendChild(h('<p>Claude Code が見出しを書きかえたいと言っています。中身を読んで、答えてみましょう。</p>'));
-        var t = makeTerm('claude  ~/my-site');
-        root.appendChild(t.el);
-        var site = h('<div class="site"><div class="site-bar">my-site / index.html</div><div class="site-body"><div class="site-h" id="sh">こんにちは</div></div></div>');
-        root.appendChild(site);
-        var escRow = h('<div class="btn-row"><button class="btn sub" id="more" disabled>次の作業をお願いする</button><button class="btn spark" id="escb" disabled>Esc で止める</button></div>');
-        root.appendChild(escRow);
-        var hint = h('<p class="hint">ターミナルの中の選択肢を押してね。</p>');
-        root.appendChild(hint);
-        var sh = site.querySelector('#sh');
-        var more = escRow.querySelector('#more'), escb = escRow.querySelector('#escb');
+  /* run a Claude "turn" that can be stopped */
+  function run(fn) {
+    setBusy(true);
+    var tok = S.token;
+    Promise.resolve(fn()).then(function () { if (S && tok === S.token && !S.pending) setBusy(false); });
+  }
+  function stopNow() {
+    if (!S.busy) return;
+    if (S.pending) { S.pending('stop'); }
+    S.token++;
+    document.querySelectorAll('.act.working').forEach(function (a) { a.classList.remove('working'); });
+    setBusy(false);
+    api.say('sys', '止めました。（本物では Esc キー）');
+    if (S.def.onStop) S.def.onStop(api, S);
+    renderChips();
+  }
 
-        function ask(newText) {
-          t.line('<span class="hl">●</span> Update(index.html)');
-          t.line('  <span class="r">- &lt;h1&gt;こんにちは&lt;/h1&gt;</span>');
-          t.line('  <span class="g">+ &lt;h1&gt;' + newText + '&lt;/h1&gt;</span>');
-          var box = t.line('<span class="box">Do you want to make this edit to index.html?<span class="ja">この書きかえをしてもいいですか？</span>' +
-            '<button class="opt" data-v="1">1. Yes<span class="ja">はい</span></button>' +
-            '<button class="opt" data-v="2">2. Yes, allow all edits during this session<span class="ja">はい。この会話のあいだは、ファイルの書きかえは聞かずに進めてOK</span></button>' +
-            '<button class="opt" data-v="3">3. No, and tell Claude what to do differently (esc)<span class="ja">いいえ。どうしてほしいか伝える</span></button></span>');
-          box.querySelectorAll('.opt').forEach(function (b) {
-            b.onclick = function () {
-              box.querySelectorAll('.opt').forEach(function (x) { x.disabled = true; x.style.opacity = x === b ? '1' : '.35'; });
-              var v = b.dataset.v;
-              if (v === '3') {
-                t.line('<span class="hl">&gt;</span> 「ようこそ」じゃなくて「いらっしゃいませ」にして');
-                t.line('<span class="ja">No を選ぶと、どうしてほしいか伝えられます。Claude Code が直した案を出し直します。</span>');
-                later(function () { ask('いらっしゃいませ'); }, 900);
-                return;
-              }
-              sh.textContent = newText; site.classList.remove('flash'); void site.offsetWidth; site.classList.add('flash');
-              t.line('<span class="hl">●</span> 見出しを「' + newText + '」に変えました。');
-              if (v === '2') { t.mode('<span class="hl">⏵⏵ accept edits on</span>'); t.line('<span class="ja">この会話のあいだは、ファイルの書きかえを聞かずに進めます。</span>'); }
-              part.decided = true; more.disabled = false;
-              hint.textContent = '次は「次の作業をお願いする」を押して、途中で止めてみよう。'; hint.className = 'hint';
-            };
-          });
-        }
-        t.line('<span class="hl">&gt;</span> 見出しを「ようこそ」に変えて');
-        ask('ようこそ');
+  function setBusy(b, waitingPermission) {
+    S.busy = b;
+    var stop = document.getElementById('stop');
+    stop.hidden = !b || !!waitingPermission;
+    document.getElementById('inp').disabled = b;
+    document.getElementById('send').disabled = b;
+    document.getElementById('chips').hidden = b;
+    if (!b) renderChips();
+  }
 
-        more.onclick = function () {
-          more.disabled = true;
-          t.line('<span class="hl">&gt;</span> ページ全体の色を青っぽくして');
-          t.line('<span class="spin">✻</span> 作業しています… <span class="dim">(esc to interrupt)</span>');
-          t.line('<span class="ja">↑ 「esc to interrupt」＝ Esc で止められます、という意味。</span>');
-          escb.disabled = false; escb.focus();
-          later(function () { if (!part.stopped) t.line('<span class="hl">●</span> Read(style.css)'); }, 1200);
-        };
-        escb.onclick = function () {
-          escb.disabled = true; clearTimers(); part.stopped = true;
-          t.line('<span class="r">⎿ Interrupted</span> <span class="dim">· What should Claude do instead?</span>');
-          t.line('<span class="ja">止まりました！ 「かわりに何をする？」と聞かれているので、新しいお願いを書けばOK。</span>');
-          hint.textContent = '許可も、ストップもできたね！'; hint.className = 'hint ok';
-          finish();
-        };
-      },
-      cmd: [
-        ['1. Yes', 'その1回だけ許可する。迷ったらまずこれ。'],
-        ['3. No (esc)', '断って、どうしてほしいか伝える。断っても怒られません。'],
-        ['Esc', '作業の途中で止める。何度押しても大丈夫。'],
-        ['/rewind', '少し前の状態に巻き戻す。「やっぱり元に戻して」と頼むのも OK。']
+  function send(text) {
+    text = text.trim();
+    if (!text || S.busy) return;
+    api.say('you', text);
+    document.getElementById('inp').value = '';
+    var t = text.replace(/\s/g, '');
+    run(function () { return S.def.onSend(t, api, S); });
+  }
+
+  /* ---------- MISSIONS ---------- */
+  var MISSIONS = [
+    {
+      title: '仕事フォルダを見てもらう',
+      short: 'まずは「読んで説明して」から',
+      lead: 'Claude Code は、あなたのフォルダの中のファイルを読めます。まずは何も変えずに、中身を説明してもらいましょう。',
+      files: function () { return { '会議メモ_1104.txt': MEMO, 'アンケート結果.csv': CSV, '案内文_下書き.txt': DRAFT }; },
+      goals: [
+        { id: 'a', text: 'フォルダに何があるか、聞いてみる' },
+        { id: 'b', text: 'ファイルを1つ選んで、中身をまとめてもらう' },
+        { id: 'c', text: 'そのファイルをタップして開き、AIの説明が合っているか自分の目で確かめる' }
       ],
-      quiz: [
-        { q: '「Do you want to make this edit?」と出たら、どうする？', c: ['書きかえの中身を読んで、よければ Yes、ちがえば No', '何も読まずに、全部 Yes', 'こわいのでパソコンの電源を切る'], a: 0,
-          why: '許可は、あなたが中身を確かめるためのチャンスです。No で断って、どうしてほしいか伝えられます。' },
-        { q: '作業の途中で「止めて！」と思ったら押すキーは？', c: ['Enter', 'Esc', 'スペース'], a: 1,
-          why: 'Esc でいつでも止められます。止めたあと、新しいお願いを書けば続きができます。' }
-      ]
+      chips: function (S) {
+        if (!S.goals.a) return ['このフォルダに何があるか教えて'];
+        if (!S.goals.b) return ['会議メモには何が書いてある？短くまとめて', 'アンケート結果はどんな内容？'];
+        if (!S.goals.c) return [];
+        return [];
+      },
+      hint: function (S) { return S.goals.b && !S.goals.c ? '上のファイル名をタップすると、中身が開きます' : ''; },
+      onSend: async function (t, api, S) {
+        var which = has(t, '会議', 'メモ') ? '会議メモ_1104.txt' : has(t, 'アンケート', 'csv', 'CSV') ? 'アンケート結果.csv' : has(t, '案内', '下書き') ? '案内文_下書き.txt' : null;
+        if (!which && has(t, '何が', 'なにが', '中身', '一覧', 'どんな', 'ある', 'フォルダ', 'ファイル')) {
+          api.act('読む', '仕事フォルダ', true);
+          if (!await api.wait(900)) return;
+          api.say('ai', '仕事フォルダには3つのファイルがあります。\n・会議メモ_1104.txt … 11月4日の会議のメモ\n・アンケート結果.csv … 8人分のアンケートの表（エクセルのような形式）\n・案内文_下書き.txt … 年末イベントの案内文の下書き');
+          api.goal('a'); return;
+        }
+        if (which) {
+          api.act('読む', which, true);
+          if (!await api.wait(1000)) return;
+          var out = which === '会議メモ_1104.txt' ? SUM_PLAIN
+            : which === 'アンケート結果.csv' ? '8人分のアンケート結果です。満足度は5点満点で、平均すると4.3点くらいです。よかった点は「講師の説明」と「資料」が多いです。'
+            : '年末イベントの案内文の下書きです。12月14日に市民ホールで開くこと、申し込みは鈴木さんへ、ということが書かれています。少しくだけた書き方です。';
+          api.say('ai', out);
+          S.ctx.summarized = which;
+          api.goal('b');
+          api.say('sys', '「' + which + '」をタップして、本当にそう書いてあるか見てみよう。');
+          return;
+        }
+        if (!await api.wait(600)) return;
+        api.say('ai', 'どのファイルについて知りたいですか？\nたとえば「会議メモには何が書いてある？」のように聞いてください。');
+      },
+      onOpen: function (name, api, S) { if (S.goals.b && S.ctx.summarized === name) api.goal('c'); },
+      tip: '<b>読むだけなら許可はいりません。</b>ファイルは何も変わらないので、最初は「読んで説明して」から始めると安心です。AIの答えはまちがうこともあるので、<b>元のファイルと見比べるクセ</b>をつけましょう。'
     },
     {
-      title: 'まず計画を立ててもらう',
-      short: 'プランモード',
-      explain:
-        '<p>大きな仕事を頼むときは、いきなり作業させずに、<b>まず計画を立ててもらう</b>と安心です。そのためのしくみが<b>プランモード</b>です。</p>' +
-        '<p>プランモードの Claude Code は、ファイルを<b>読んで調べるだけ</b>で、書きかえはしません。「こういう順番でやります」という計画を見せてくれるので、OK なら作業に進んでもらいます。</p>' +
-        '<p><kbd>Shift</kbd> + <kbd>Tab</kbd> を押すたびに、モードが切りかわります。</p>' +
-        '<div class="word"><b>ふつう</b> → <b>accept edits</b>（書きかえを自動で許可） → <b>plan mode</b>（計画だけ） → ふつう… の順にぐるぐる回ります。</div>',
-      sim: function (root, finish) {
-        var modes = ['', '<span class="hl">⏵⏵ accept edits on</span> <span class="dim">(shift+tab to cycle)</span>', '<span class="g">⏸ plan mode on</span> <span class="dim">(shift+tab to cycle)</span>'];
-        var names = ['ふつう', '書きかえ自動OK', 'プランモード'];
-        var m = 0;
-        root.appendChild(h('<p>「<b>お問い合わせページを作って</b>」という大きめの仕事を、プランモードで頼んでみましょう。</p>'));
-        var t = makeTerm('claude  ~/my-site');
-        root.appendChild(t.el);
-        t.line('<span class="hl">&gt;</span> お問い合わせページを作って <span class="dim">▍</span>');
-        t.mode('<span class="dim">今のモード：ふつう</span>');
-        var row = h('<div class="btn-row"><button class="btn sub" id="st">Shift + Tab を押す</button><button class="btn" id="send">Enter で送る</button></div>');
-        root.appendChild(row);
-        var planBox = h('<div class="plan" hidden></div>');
-        root.appendChild(planBox);
-        var approve = h('<button class="btn spark wide" hidden>この計画で進めて！</button>');
-        root.appendChild(approve);
-        var site = h('<div class="site"><div class="site-bar">my-site</div><div class="site-body"><div class="site-h">ようこそ</div><div class="site-nav" id="nav"><span>ホーム</span><span>作品</span></div></div></div>');
-        root.appendChild(site);
-        var hint = h('<p class="hint">Shift + Tab でプランモード（⏸ plan mode on）にしてから送ってね。</p>');
-        root.appendChild(hint);
-        var st = row.querySelector('#st'), send = row.querySelector('#send');
-        st.onclick = function () {
-          m = (m + 1) % 3;
-          t.mode(modes[m] || '<span class="dim">今のモード：ふつう</span>');
-          st.textContent = 'Shift + Tab を押す（今：' + names[m] + '）';
-        };
-        send.onclick = function () {
-          if (m !== 2) {
-            hint.textContent = 'このまま送ると、いきなり作業が始まります。大きな仕事はプランモードで頼んでみよう。';
-            hint.className = 'hint';
-            t.line('<span class="ja">（今のモードは「' + names[m] + '」です。Shift + Tab を押して ⏸ plan mode on にしてみよう）</span>');
+      title: '議事録を作ってもらう',
+      short: '新しいファイルを作る・許可する',
+      lead: '会議メモから、きちんとした議事録を作ってもらいましょう。ファイルを作る前に、Claude Code は「作ってもいい？」と聞いてきます。',
+      files: function () { return { '会議メモ_1104.txt': MEMO, 'アンケート結果.csv': CSV, '案内文_下書き.txt': DRAFT }; },
+      goals: [
+        { id: 'a', text: '会議メモから議事録を作るように頼む' },
+        { id: 'b', text: 'できあがる内容を読んでから、許可する（気に入らなければ「いいえ」で注文してもOK）' },
+        { id: 'c', text: 'できた議事録ファイルを開いて確かめる' }
+      ],
+      chips: function (S) {
+        if (S.ctx.rejected && !S.goals.b) return ['担当と締切を表にして', 'もっと短くして'];
+        if (!S.goals.a) return ['会議メモから議事録を作って、議事録_1104.md に保存して'];
+        return [];
+      },
+      hint: function (S) { return S.goals.b && !S.goals.c ? '「議事録_1104.md」をタップして開いてみよう' : ''; },
+      onSend: async function (t, api, S) {
+        var style = has(t, '表') ? 'table' : has(t, '短') ? 'short' : null;
+        var makeReq = has(t, '議事録') || (has(t, '作') && has(t, '会議', 'メモ'));
+        if (!makeReq && !(style && S.ctx.asked)) {
+          if (!await api.wait(600)) return;
+          api.say('ai', '何を作りましょうか？ 元にするファイルと、作ってほしいものを教えてください。\n例：「会議メモから議事録を作って」');
+          return;
+        }
+        S.ctx.asked = true;
+        api.goal('a');
+        var exists = '議事録_1104.md' in S.files;
+        api.act('読む', '会議メモ_1104.txt', true);
+        if (!await api.wait(1000)) return;
+        var after = minutes(style || S.ctx.style);
+        api.say('ai', exists ? '議事録を直しました。' : '会議メモから議事録を作りました。「議事録_1104.md」として保存します。\n（.md は、見出しや箇条書きを書ける文章ファイルの形式です）');
+        var v = await api.permit({ kind: exists ? '直す' : '作る', file: '議事録_1104.md', before: exists ? S.files['議事録_1104.md'] : null, after: after });
+        if (v === 'yes' || v === 'always') {
+          api.setFile('議事録_1104.md', after);
+          S.ctx.style = style || S.ctx.style;
+          api.say('ai', '保存しました。');
+          api.goal('b');
+          api.say('sys', 'フォルダに「議事録_1104.md」が増えました。タップして中身を見てみよう。');
+        } else if (v === 'no') {
+          S.ctx.rejected = true;
+          api.say('ai', 'わかりました、保存はやめておきます。どこを変えればいいですか？');
+        }
+      },
+      onOpen: function (name, api, S) { if (name === '議事録_1104.md') api.goal('c'); },
+      tip: '<b>ファイルを作るとき・書きかえるときは、必ず「いいですか？」と聞いてくれます。</b>中身を読んでから「はい」。気に入らなければ「いいえ」を選んで、「表にして」「短くして」と注文をつけられます。'
+    },
+    {
+      title: '会話しながら仕上げる',
+      short: 'やり直し・注文・AIからの質問',
+      lead: '案内文の下書きを、お客さんに出せる文章に直してもらいます。一回で完璧じゃなくて大丈夫。会話しながら仕上げましょう。',
+      files: function () { return { '会議メモ_1104.txt': MEMO, '案内文_下書き.txt': DRAFT }; },
+      goals: [
+        { id: 'a', text: '案内文を丁寧な文章に直してもらう' },
+        { id: 'b', text: 'できあがりに、もう一言注文をつけて直してもらう' },
+        { id: 'c', text: 'AIからの質問に答えて、足りない情報を伝える' }
+      ],
+      chips: function (S) {
+        if (S.ctx.askTime) return ['13時から16時まで'];
+        if (!S.ctx.v) return ['案内文の下書きを、お客さん向けの丁寧な文章に直して'];
+        var c = [];
+        if (!S.ctx.time) c.push('開始時間も入れて');
+        if (!S.ctx.short) c.push('もっと短くして');
+        return c;
+      },
+      hint: function () { return ''; },
+      onSend: async function (t, api, S) {
+        var c = S.ctx;
+        var next = null;
+        if (c.askTime && /[0-9０-９]|時|じ/.test(t)) { next = { short: c.short, time: true }; c.askTime = false; }
+        else if (has(t, '時間', '時刻', '何時', '開始')) {
+          api.act('読む', '会議メモ_1104.txt', true);
+          if (!await api.wait(900)) return;
+          api.say('ai', '会議メモにも下書きにも、開始時間は書かれていませんでした。\n何時から何時までですか？');
+          c.askTime = true;
+          api.say('sys', 'AIは、わからないことを勝手に決めずに聞いてくれます。答えてあげよう。');
+          return;
+        }
+        else if (has(t, '短', 'シンプル', '簡単')) next = { short: true, time: c.time };
+        else if (has(t, '丁寧', 'ていねい', '直して', 'きれい', '案内', 'お客', '敬語')) next = { short: c.short, time: c.time };
+        if (!next) {
+          if (!await api.wait(600)) return;
+          api.say('ai', 'どのように直しましょうか？ たとえば「もっと短くして」「開始時間も入れて」のように教えてください。');
+          return;
+        }
+        api.act('読む', '案内文_下書き.txt', true);
+        if (!await api.wait(900)) return;
+        var after = annai(next);
+        if (after === S.files['案内文_下書き.txt']) { api.say('ai', 'すでにその形になっています。ほかに直したいところはありますか？'); return; }
+        api.say('ai', !c.v ? 'お客さん向けに、丁寧な文章に直しました。' : '直しました。');
+        var v = await api.permit({ kind: '直す', file: '案内文_下書き.txt', before: S.files['案内文_下書き.txt'], after: after });
+        if (v === 'yes' || v === 'always') {
+          var first = !c.v;
+          api.setFile('案内文_下書き.txt', after);
+          c.v = true; c.short = next.short; c.time = next.time;
+          api.say('ai', '保存しました。ほかに直したいところはありますか？');
+          if (first) { api.goal('a'); api.say('sys', 'もう一言、注文をつけてみよう。下のおすすめから選んでもOK。'); }
+          else api.goal('b');
+          if (next.time) api.goal('c');
+        } else if (v === 'no') {
+          api.say('ai', 'わかりました。どう直せばいいですか？');
+        }
+      },
+      tip: '<b>一回で完璧をめざさなくてOK。</b>人に頼むときと同じで、「もっと短く」「ここも入れて」と会話しながら仕上げます。AIはわからないことを<b>聞き返してくれる</b>ので、きちんと答えてあげましょう。'
+    },
+    {
+      title: '大きな仕事は計画から',
+      short: '「計画」モードで段取りを確認',
+      lead: 'アンケートを集計して、レポートを作ってもらいます。大きめの仕事は、いきなり作業させずに、まず計画を見せてもらうと安心です。',
+      files: function () { return { 'アンケート結果.csv': CSV, '会議メモ_1104.txt': MEMO }; },
+      goals: [
+        { id: 'a', text: '下の「モード」ボタンを押して「計画」にする' },
+        { id: 'b', text: 'アンケートの集計を頼んで、計画を見せてもらう' },
+        { id: 'c', text: '計画をOKして、レポートを作ってもらう' }
+      ],
+      chips: function (S) {
+        if (S.ctx.planned && !S.ctx.edited && !S.goals.c) return ['グラフはいらない。表だけにして'];
+        if (!S.goals.b) return ['アンケート結果を集計して、レポートを作って'];
+        return [];
+      },
+      hint: function (S) { return !S.goals.a ? '「モード：ふつう」ボタンを2回押すと「計画」になります' : ''; },
+      onMode: function (m, api, S) { if (m === 'plan') api.goal('a'); },
+      onSend: async function (t, api, S) {
+        var c = S.ctx;
+        if (c.planned && has(t, 'グラフ', '表だけ', 'いらない')) {
+          api.act('計画', '計画を見直しています', true);
+          if (!await api.wait(800)) return;
+          c.edited = true;
+          api.say('ai', 'わかりました。グラフはやめて、表だけにします。');
+          showPlan(api, S);
+          return;
+        }
+        if (!has(t, 'アンケート', '集計', 'レポート', 'まとめ')) {
+          if (!await api.wait(600)) return;
+          api.say('ai', '何をしましょうか？ 例：「アンケート結果を集計して、レポートを作って」');
+          return;
+        }
+        if (S.mode !== 'plan') {
+          if (!await api.wait(400)) return;
+          api.say('sys', '大きめの仕事です。このまま頼むと、すぐに作業が始まります。先に「モード」を「計画」にしてから頼んでみよう。');
+          document.getElementById('modeb').classList.add('flash');
+          return;
+        }
+        api.act('読む', 'アンケート結果.csv', true);
+        if (!await api.wait(1100)) return;
+        api.say('ai', 'ファイルを読んで、計画を立てました。まだ何も作っていません。');
+        c.planned = true;
+        showPlan(api, S);
+        api.goal('b');
+        api.say('sys', '計画の段階なら、注文をつけるのもカンタン。よければ「この計画で進めて」を押そう。');
+      },
+      tip: '<b>大きな仕事は「計画」モードで。</b>AIはファイルを読んで段取りを立てるだけで、何も変えません。<b>計画の段階で注文をつけるのが、いちばんラク</b>です。本物では Shift キー + Tab キーでモードを切りかえます。'
+    },
+    {
+      title: 'まちがいを止める・戻す',
+      short: '止める・巻き戻す・頼み直す',
+      lead: 'AIもまちがえます。ぼんやり頼むと、変えてほしくないファイルまで変えてしまうことも。止める・戻す・頼み直すを練習しましょう。',
+      mode: 'auto',
+      files: function () { return { '会議メモ_1104.txt': MEMO, '議事録_1104.md': minutes(), '案内文_下書き.txt': annai({}) }; },
+      goals: [
+        { id: 'a', text: '「ファイルを見やすく整えて」と、ぼんやり頼んでみる' },
+        { id: 'b', text: 'まちがった作業を「止める」ボタンで止めるか、「元に戻して」と頼んで戻す' },
+        { id: 'c', text: '変えてほしくないものをはっきり書いて、頼み直す' }
+      ],
+      chips: function (S) {
+        if (!S.goals.a) return ['ファイルを見やすく整えて'];
+        if (!S.goals.b) return ['元に戻して'];
+        if (!S.goals.c) return (S.ctx.snap ? ['元に戻して'] : []).concat(['議事録_1104.md の見出しだけ整えて。会議メモは変えないで']);
+        return [];
+      },
+      hint: function (S) { return ''; },
+      intro: function (api) { api.say('sys', 'このミッションは「自動OK」モードから始まります。書きかえのたびに聞かれないので、作業が速いぶん、まちがいにも気づきにくくなります。'); },
+      onStop: function (api, S) {
+        if (!S.ctx.running) return;
+        S.ctx.running = false;
+        var safe = S.files['会議メモ_1104.txt'] === MEMO;
+        api.say('ai', safe ? '止めました。会議メモ_1104.txt は書きかえる前に止まりました。\n議事録_1104.md はもう整えてしまったので、戻すなら「元に戻して」と言ってください。' : '止めました。');
+        api.goal('b');
+      },
+      onSend: async function (t, api, S) {
+        var c = S.ctx;
+        if (has(t, '戻', 'もど', 'rewind', '取り消', 'とりけ')) {
+          if (!c.snap) { if (!await api.wait(500)) return; api.say('ai', 'まだ戻す作業はありません。'); return; }
+          api.act('戻す', '作業の前の状態へ', true);
+          if (!await api.wait(900)) return;
+          Object.keys(c.snap).forEach(function (k) { if (S.files[k] !== c.snap[k]) api.setFile(k, c.snap[k]); });
+          S.changed = {}; renderFiles();
+          c.snap = null;
+          api.say('ai', '作業の前の状態に戻しました。会議メモ_1104.txt も元どおりです。');
+          api.say('sys', '本物では /rewind と打つか、Esc キーを2回押すと巻き戻せます。');
+          api.goal('b');
+          return;
+        }
+        var clear = has(t, 'だけ', '変えないで', 'かえないで', 'そのまま', '触らないで', 'さわらないで');
+        if (has(t, '整え', 'ととの', 'きれい', '整理', '見やすく', '片付')) {
+          c.snap = clone(S.files);
+          if (clear) {
+            api.act('読む', '議事録_1104.md', true);
+            if (!await api.wait(900)) return;
+            var a1 = S.files['議事録_1104.md'].replace(/^## (?![■◆])/gm, '## ■ ');
+            var v1 = await api.permit({ kind: '直す', file: '議事録_1104.md', before: S.files['議事録_1104.md'], after: a1 });
+            if (v1 !== 'yes' && v1 !== 'always') return;
+            api.setFile('議事録_1104.md', a1);
+            api.say('ai', '議事録_1104.md の見出しだけ整えました。会議メモ_1104.txt には触れていません。');
+            api.goal('c');
             return;
           }
-          send.disabled = true; st.disabled = true;
-          t.line('<span class="hl">●</span> Read(index.html)');
-          play(t, ['<span class="hl">●</span> Read(style.css)', '<span class="dim">✻ 計画を考えています…（ファイルは変えません）</span>', '<span class="hl">●</span> 計画ができました。下を見てください。'], 600, function () {
-            planBox.hidden = false;
-            ['contact.html を新しく作る（名前・メール・メッセージの入力欄）', 'トップページのメニューに「お問い合わせ」を追加', '今の色やデザインに合わせて見た目を整える', 'リンクがちゃんと開くか確かめる'].forEach(function (s, i) {
-              later(function () { planBox.appendChild(h('<div>' + (i + 1) + '. ' + s + '</div>')); }, 200 * i);
-            });
-            later(function () { approve.hidden = false; hint.textContent = '計画を読んで、よければ進めてもらおう。'; }, 1000);
-          });
-        };
-        approve.onclick = function () {
-          approve.disabled = true; m = 0; t.mode('<span class="dim">今のモード：ふつう（作業中）</span>');
-          t.line('<span class="ja">計画を OK すると、プランモードが終わって作業が始まります。</span>');
-          var items = planBox.children;
-          for (var i = 0; i < items.length; i++) {
-            (function (i) {
-              later(function () {
-                items[i].classList.add('ok');
-                if (i === 0) { t.line('<span class="hl">●</span> Write(contact.html)'); site.querySelector('.site-bar').textContent = 'my-site  (+ contact.html)'; }
-                if (i === 1) { t.line('<span class="hl">●</span> Update(index.html)'); site.querySelector('#nav').appendChild(h('<span class="new">お問い合わせ</span>')); }
-                if (i === 2) t.line('<span class="hl">●</span> Update(style.css)');
-                if (i === 3) { t.line('<span class="hl">●</span> お問い合わせページができました！'); hint.textContent = '計画 → OK → 作業、の流れができたね！'; hint.className = 'hint ok'; finish(); }
-              }, 900 * (i + 1));
-            })(i);
-          }
-        };
+          api.goal('a');
+          c.running = true;
+          api.act('読む', '仕事フォルダ', true);
+          if (!await api.wait(900)) return;
+          var a2 = S.files['議事録_1104.md'].replace(/^## (?![■◆])/gm, '## ◆ ');
+          var v2 = await api.permit({ kind: '直す', file: '議事録_1104.md', before: S.files['議事録_1104.md'], after: a2 });
+          if (v2 !== 'yes' && v2 !== 'always') { c.running = false; return; }
+          api.setFile('議事録_1104.md', a2);
+          if (!await api.wait(900)) return;
+          api.say('ai', '会議メモ_1104.txt も、見やすい文章に書きかえます。');
+          api.act('直す', '会議メモ_1104.txt', true);
+          api.say('sys', 'あれ？ 会議メモは元のまま残しておきたいのに…！ 下の赤い「止める」ボタンを押して！');
+          if (!await api.wait(4500)) return;
+          document.querySelectorAll('.act.working').forEach(function (a) { a.classList.remove('working'); });
+          api.setFile('会議メモ_1104.txt', MEMO_PROSE);
+          c.running = false;
+          api.say('ai', 'すべてのファイルを整えました。');
+          api.say('sys', '会議メモが書きかえられて、元のメモが消えてしまいました！ でも大丈夫。「元に戻して」と頼めば戻せます。');
+          return;
+        }
+        if (!await api.wait(600)) return;
+        api.say('ai', 'どのファイルを、どうしたいですか？');
       },
-      cmd: [
-        ['Shift + Tab', 'モードを切りかえる。ふつう → 書きかえ自動OK → プランモード の順。'],
-        ['⏸ plan mode on', '画面の下にこれが出ていたらプランモード。計画を立てるだけで、ファイルは変えません。'],
-        ['> まず計画を見せて', 'モードを変えなくても、こうお願いすれば計画を先に出してくれます。']
-      ],
-      quiz: [
-        { q: 'プランモードの Claude Code がすることは？', c: ['ファイルを読んで計画を立てる（書きかえはしない）', '聞かずに全部作って完成させる', 'インターネットを止める'], a: 0,
-          why: 'プランモードは「調べて計画するだけ」。計画を OK してから作業が始まります。' },
-        { q: 'モードを切りかえるキーは？', c: ['Ctrl + Z', 'F5', 'Shift + Tab'], a: 2,
-          why: 'Shift + Tab を押すたびに、ふつう → accept edits → plan mode と切りかわります。' }
-      ]
+      tip: '<b>まちがいに気づいたら、すぐ「止める」（Esc キー）。</b>やってしまったあとでも「元に戻して」（/rewind）で戻せます。頼むときは<b>「〇〇だけ」「〇〇は変えないで」</b>と範囲をはっきり書くと、まちがいが減ります。'
     },
     {
-      title: 'ルールを覚えてもらう',
-      short: 'CLAUDE.md',
-      explain:
-        '<p>Claude Code は、新しい会話を始めると、前の会話の内容を<b>忘れてしまいます</b>。毎回「やさしい言葉で説明してね」と言うのは大変ですよね。</p>' +
-        '<p>そこで使うのが <b>CLAUDE.md（クロード・エムディー）</b>というファイルです。作業フォルダにこのファイルを置いておくと、Claude Code は<b>起動するたびに最初に読んで</b>、書かれたルールを守ってくれます。</p>' +
-        '<p>CLAUDE.md のひな形は <code>/init</code> で作れます。あとは、自分で好きなルールを書き足すだけです。</p>' +
-        '<div class="word"><b>.md</b>…「マークダウン」という、ふつうの文章を書くためのファイルの種類。メモ帳のようなものです。</div>',
-      sim: function (root, finish) {
-        root.appendChild(h('<p>上から順にボタンを押して、CLAUDE.md の効き目を見てみましょう。</p>'));
-        var scene = h('<div class="scene" style="grid-template-columns:1fr 2fr">' +
-          '<div class="actor" id="fold"><div class="face mono">📁</div>my-site<div class="files"><div class="file">index.html</div><div class="file">style.css</div></div></div>' +
-          '<div class="actor" id="md" style="align-items:stretch;text-align:left"><b class="mono" style="font-size:13px">CLAUDE.md</b><div class="mono muted" id="mdbody" style="font-size:12.5px;white-space:pre-wrap">（まだありません）</div></div></div>');
-        root.appendChild(scene);
-        var t = makeTerm('claude  ~/my-site');
-        root.appendChild(t.el);
-        var col = h('<div class="flow">' +
-          '<button class="btn wide sub" id="q1">① 質問する「HTMLってなに？」</button>' +
-          '<button class="btn wide" id="q2" disabled>② /init で CLAUDE.md を作る</button>' +
-          '<button class="btn wide" id="q3" disabled>③ ルールを書き足す</button>' +
-          '<button class="btn wide spark" id="q4" disabled>④ /clear で新しい会話にして、もう一度質問</button></div>');
-        root.appendChild(col);
-        var hint = h('<p class="hint">①から順に押してね。</p>');
-        root.appendChild(hint);
-        var b = function (id) { return col.querySelector(id); };
-        var mdbody = scene.querySelector('#mdbody'), mdBox = scene.querySelector('#md'), files = scene.querySelector('.files');
-        b('#q1').onclick = function () {
-          b('#q1').disabled = true;
-          t.line('<span class="hl">&gt;</span> HTMLってなに？');
-          later(function () { t.line('<span class="hl">●</span> HTML は HyperText Markup Language の略で、DOM ツリーを構成するマークアップ言語です。要素はタグで…'); t.line('<span class="ja">↑ むずかしい言葉ばかり…。毎回「やさしく」と頼むのは面倒です。</span>'); b('#q2').disabled = false; }, 700);
-        };
-        b('#q2').onclick = function () {
-          b('#q2').disabled = true;
-          t.line('<span class="hl">&gt;</span> /init');
-          play(t, ['<span class="hl">●</span> Read(index.html)', '<span class="hl">●</span> Write(CLAUDE.md)', '<span class="hl">●</span> CLAUDE.md を作りました。'], 500, function () {
-            files.appendChild(h('<div class="file new touched">CLAUDE.md</div>'));
-            mdbody.textContent = '# my-site\n自己紹介サイト。\nindex.html と style.css でできている。';
-            mdBox.classList.add('on');
-            b('#q3').disabled = false;
-          });
-        };
-        b('#q3').onclick = function () {
-          b('#q3').disabled = true;
-          mdbody.textContent += '\n\n## ルール\n- 説明は中学生にもわかる言葉で\n- 書きかえる前に、何をするか一言教えて';
-          mdBox.classList.remove('flash'); void mdBox.offsetWidth; mdBox.classList.add('flash');
-          t.line('<span class="ja">CLAUDE.md にルールを書き足しました。（自分で書いても、Claude Code に「CLAUDE.md に〜を書き足して」と頼んでもOK）</span>');
-          b('#q4').disabled = false;
-        };
-        b('#q4').onclick = function () {
-          b('#q4').disabled = true;
-          t.line('<span class="hl">&gt;</span> /clear');
-          t.line('<span class="dim">（会話がリセットされました。前の話は忘れています）</span>');
-          t.line('<span class="dim">✻ CLAUDE.md を読んでいます…</span>');
-          later(function () { t.line('<span class="hl">&gt;</span> HTMLってなに？'); }, 700);
-          later(function () {
-            t.line('<span class="hl">●</span> HTML は、ホームページの「骨組み」を書くための言葉です。「ここは見出し」「ここは文章」と、紙に印をつけるように書いていきます。');
-            t.line('<span class="ja">↑ 会話を忘れても、CLAUDE.md のルールどおり、やさしく説明してくれました！</span>');
-            hint.textContent = 'CLAUDE.md は Claude Code への「いつものお願いメモ」だね。'; hint.className = 'hint ok';
-            finish();
-          }, 1600);
-        };
-      },
-      cmd: [
-        ['/init', 'フォルダを調べて CLAUDE.md のひな形を作る。'],
-        ['CLAUDE.md', '毎回守ってほしいルールを書くメモ。起動するたびに読まれます。'],
-        ['/clear', '会話をリセットして新しい話を始める。話題が変わったら使うと、まちがいが減ります。']
+      title: 'いつものルールを覚えさせる',
+      short: 'CLAUDE.md に書いておく',
+      lead: 'Claude Code は、新しい会話になると前の話を忘れます。毎回伝えたいルールは「CLAUDE.md」というメモに書いておくと、毎回読んで守ってくれます。',
+      newChat: true,
+      files: function () { return { '会議メモ_1104.txt': MEMO, 'アンケート結果.csv': CSV }; },
+      goals: [
+        { id: 'a', text: 'いつものルールを CLAUDE.md に書いてもらう' },
+        { id: 'b', text: '「新しい会話」ボタンを押して、会話をリセットする' },
+        { id: 'c', text: '会議メモのまとめを頼んで、ルールが守られるか確かめる' }
       ],
-      quiz: [
-        { q: 'CLAUDE.md はどんなファイル？', c: ['パスワードを保存するファイル', 'Claude Code に毎回伝えたいルールを書いておくメモ', '写真を入れるファイル'], a: 1,
-          why: '起動するたびに読まれる「いつものお願いメモ」です。パスワードなど秘密の情報は書かないようにしましょう。' },
-        { q: 'CLAUDE.md のひな形を作るコマンドは？', c: ['/init', '/clear', '/exit'], a: 0,
-          why: '/init はフォルダを調べて CLAUDE.md を作ります。/clear は会話のリセット、/exit は終了です。' }
-      ]
+      chips: function (S) {
+        var c = [];
+        if (!S.goals.a) {
+          if (!S.ctx.before) c.push('会議メモをまとめて');
+          c.push('毎回のルールを CLAUDE.md に書いておいて：敬語で、最初に結論、だれがいつまでにを必ず書く');
+          return c;
+        }
+        if (S.goals.b && !S.goals.c) return ['会議メモをまとめて'];
+        return [];
+      },
+      hint: function (S) { return S.goals.a && !S.goals.b ? '下の「新しい会話」ボタンを押してみよう' : ''; },
+      intro: function (api) { api.say('sys', 'まずは「会議メモをまとめて」と頼んで、ふだんのまとめ方を見ておくと、あとで違いがよくわかります。'); },
+      onNewChat: function (api, S) {
+        api.say('sys', '新しい会話です。前の話は覚えていません。でも CLAUDE.md だけは、毎回最初に読みます。（本物では /clear）');
+        if ('CLAUDE.md' in S.files) api.goal('b');
+      },
+      onSend: async function (t, api, S) {
+        if (has(t, 'CLAUDE', 'claude', 'ルール', '覚え', 'いつも', '毎回')) {
+          api.act('読む', '仕事フォルダ', true);
+          if (!await api.wait(800)) return;
+          var exists = 'CLAUDE.md' in S.files;
+          api.say('ai', 'CLAUDE.md にルールを書きます。次からは、会話が変わってもこのルールを守ります。');
+          var v = await api.permit({ kind: exists ? '直す' : '作る', file: 'CLAUDE.md', before: exists ? S.files['CLAUDE.md'] : null, after: CLAUDE_MD });
+          if (v === 'yes' || v === 'always') {
+            api.setFile('CLAUDE.md', CLAUDE_MD);
+            api.say('ai', '書きました。');
+            api.goal('a');
+            api.say('sys', '「新しい会話」ボタンで会話をリセットしても、覚えているかな？');
+          } else if (v === 'no') api.say('ai', 'わかりました。どんなルールにしますか？');
+          return;
+        }
+        if (has(t, '会議', 'メモ', 'まとめ')) {
+          var ruled = 'CLAUDE.md' in S.files;
+          if (ruled) api.act('読む', 'CLAUDE.md');
+          api.act('読む', '会議メモ_1104.txt', true);
+          if (!await api.wait(1000)) return;
+          api.say('ai', ruled ? SUM_RULED : SUM_PLAIN);
+          if (!ruled) { S.ctx.before = true; api.say('sys', 'これが、ふだんのまとめ方。次は、いつものルールを CLAUDE.md に書いてもらおう。'); }
+          else if (S.goals.b) { api.goal('c'); api.say('sys', '会話をリセットしても、「結論が先」「だれが・いつまでに」のルールが守られています！'); }
+          else api.say('sys', 'ルールどおりになりました。「新しい会話」にしても覚えているか、確かめてみよう。');
+          return;
+        }
+        if (!await api.wait(600)) return;
+        api.say('ai', '何をしましょうか？');
+      },
+      tip: '<b>毎回伝えたいことは CLAUDE.md へ。</b>会話が変わっても、起動するたびに読まれる「いつものお願いメモ」です。ただし<b>パスワードや個人情報は書かない</b>こと。本物では /init と打つと、ひな形を作ってくれます。'
     }
   ];
 
-  var STEP_NAMES = ['説明', 'やってみる', 'コマンド', '確認問題'];
+  function showPlan(api, S) {
+    var items = ['アンケート結果.csv の8人分を読む', '満足度の平均を出す', '「よかった点」を種類ごとに数えて表にする'];
+    if (!S.ctx.edited) items.push('満足度のグラフを入れる');
+    items.push('レポート.md に保存する');
+    api.plan(items, function (card) {
+      run(async function () {
+        api.setMode('normal');
+        api.say('sys', '計画をOKすると、「計画」モードが終わって作業が始まります。');
+        var lis = card.querySelectorAll('li');
+        for (var i = 0; i < lis.length - 1; i++) {
+          if (!await api.wait(700)) return;
+          lis[i].classList.add('ok');
+        }
+        var after = report(!S.ctx.edited);
+        var v = await api.permit({ kind: '作る', file: 'レポート.md', after: after });
+        if (v === 'yes' || v === 'always') {
+          lis[lis.length - 1].classList.add('ok');
+          api.setFile('レポート.md', after);
+          api.say('ai', 'レポート.md を作りました。');
+          api.goal('c');
+        } else if (v === 'no') {
+          api.say('ai', 'わかりました、保存はやめておきます。どう変えますか？');
+        }
+      });
+    });
+  }
 
-  /* ---------- HOME ---------- */
+  /* ---------- rendering ---------- */
   function renderHome() {
-    clearTimers();
-    var n = done.length;
+    S = null;
+    var n = doneList.length;
     var html =
       '<header class="hero">' +
-      '<p class="eyebrow">AIがはじめての人のための体験教室</p>' +
-      '<h1>Claude Code 練習帳</h1>' +
-      '<p>AIに「お願い」して、パソコンの作業を代わりにやってもらう。そんな<b>AIエージェント</b>を、画面の中で安全に体験できます。本物のAIやパソコンには何もしないので、どこを押しても大丈夫です。</p>' +
-      '<div class="hero-term"><span class="dim">~/my-site $</span> claude<br><span class="hl">&gt;</span> 見出しを「ようこそ」に変えて<br><span class="hl">●</span> Update(index.html)<br><span class="hl">●</span> 見出しを「ようこそ」に変えました。</div>' +
-      '<div class="meter"><span>' + n + ' / 6 クリア</span><div class="meter-bar"><div class="meter-fill" style="width:' + (n / 6 * 100) + '%"></div></div></div>' +
+      '<p class="eyebrow">AIがはじめての人のための 実務練習</p>' +
+      '<h1>Claude Code 実務練習帳</h1>' +
+      '<p>説明を読むより、まず触ってみる。ふだんの事務仕事を Claude Code に頼みながら、使い方を体で覚えます。本物のAIやパソコンにはつながっていないので、どこを押しても大丈夫です。</p>' +
       '</header>' +
-      '<div class="stage-list">';
-    STAGES.forEach(function (s, i) {
-      var isDone = done.indexOf(i) !== -1;
-      html += '<button class="stage-card' + (isDone ? ' done' : '') + '" data-i="' + i + '">' +
-        '<span class="stage-num">' + (isDone ? '✓' : (i + 1)) + '</span>' +
-        '<span><span class="t">' + s.title + '</span><br><span class="d">' + s.short + '</span></span>' +
-        '<span class="st">' + (isDone ? 'クリア' : 'ステージ ' + (i + 1)) + '</span></button>';
+      '<div class="story"><b class="k">今日の設定</b><p>あなたは小さな会社の事務担当。パソコンの「仕事フォルダ」には、会議メモやアンケートが入っています。今日から <b>Claude Code</b> が、となりの席のアシスタントです。</p>' +
+      '<p class="muted" style="font-size:14px">Claude Code は、あなたのフォルダの中のファイルを読んだり、作ったり、書きかえたりできるAIです。ふつうの日本語で頼めます。</p></div>' +
+      '<div class="meter"><span>' + n + ' / 6 クリア</span><div class="meter-bar"><div class="meter-fill" style="width:' + (n / 6 * 100) + '%"></div></div></div>' +
+      '<div class="m-list">';
+    MISSIONS.forEach(function (m, i) {
+      var d = doneList.indexOf(i) !== -1;
+      html += '<button class="m-card' + (d ? ' done' : '') + '" data-i="' + i + '"><span class="m-num">' + (d ? '✓' : i + 1) + '</span>' +
+        '<span><span class="t">' + m.title + '</span><br><span class="d">' + m.short + '</span></span>' +
+        '<span class="st">' + (d ? 'クリア' : 'ミッション ' + (i + 1)) + '</span></button>';
     });
-    html += '</div>' +
-      '<div class="note"><b>すすめ方</b>　各ステージは「説明 → やってみる → コマンド → 確認問題」の順に進みます。1つ10分くらい。上から順番がおすすめです。</div>';
-    if (n === 6) html += '<button class="btn wide spark" id="to-finish">まとめページを見る</button>';
+    html += '</div>';
+    if (n === 6) html += '<button class="btn wide spark" id="fin">まとめを見る</button>';
     app.innerHTML = html;
-    app.querySelectorAll('.stage-card').forEach(function (c) { c.onclick = function () { openStage(+c.dataset.i, 0); }; });
-    var tf = document.getElementById('to-finish'); if (tf) tf.onclick = renderFinish;
+    app.querySelectorAll('.m-card').forEach(function (b) { b.onclick = function () { startMission(+b.dataset.i); }; });
+    var f = document.getElementById('fin'); if (f) f.onclick = renderFinish;
     window.scrollTo(0, 0);
   }
 
-  /* ---------- STAGE ---------- */
-  function openStage(i, step) {
-    clearTimers();
-    var s = STAGES[i];
+  function startMission(i) {
+    if (S) S.token++;
+    var def = MISSIONS[i];
+    S = { i: i, def: def, files: def.files(), changed: {}, mode: def.mode || 'normal', busy: false, token: 0, goals: {}, ctx: {}, allowAll: false, pending: null, viewing: null };
     app.innerHTML =
-      '<div class="topbar"><button class="back" id="back">← ステージ一覧</button><span class="eyebrow">ステージ ' + (i + 1) + ' / 6</span></div>' +
-      '<h2>' + s.title + '</h2>' +
-      '<div class="steps">' + STEP_NAMES.map(function (n, k) { return '<div class="step-pill' + (k < step ? ' past' : k === step ? ' now' : '') + '">' + (k + 1) + '. ' + n + '</div>'; }).join('') + '</div>' +
-      '<section class="panel" id="panel"></section>' +
-      '<button class="btn wide" id="next"></button>';
-    document.getElementById('back').onclick = renderHome;
-    var panel = document.getElementById('panel'), next = document.getElementById('next');
-    window.scrollTo(0, 0);
-
-    if (step === 0) {
-      panel.innerHTML = '<h3>説明</h3>' + s.explain;
-      next.textContent = 'やってみる →';
-      next.onclick = function () { openStage(i, 1); };
-    } else if (step === 1) {
-      panel.appendChild(h('<h3>やってみる</h3>'));
-      next.textContent = 'コマンドを見る →'; next.disabled = true;
-      next.onclick = function () { openStage(i, 2); };
-      s.sim(panel, function () { next.disabled = false; });
-    } else if (step === 2) {
-      panel.appendChild(h('<h3>このステージで使った言葉・キー</h3>'));
-      panel.appendChild(h('<p class="muted">さっきの体験は、本物の Claude Code ではこう打ちます。</p>'));
-      var list = h('<div class="cmd-list"></div>');
-      s.cmd.forEach(function (c) { list.appendChild(h('<div class="cmd"><div class="c">' + esc(c[0]) + '</div><div class="w">' + c[1] + '</div></div>')); });
-      panel.appendChild(list);
-      next.textContent = '確認問題へ →';
-      next.onclick = function () { openStage(i, 3); };
-    } else {
-      renderQuiz(i, panel, next);
-    }
-  }
-
-  function renderQuiz(i, panel, next) {
-    var s = STAGES[i];
-    panel.appendChild(h('<h3>確認問題</h3>'));
-    var ok = 0;
-    next.textContent = 'ステージクリア！'; next.disabled = true;
-    s.quiz.forEach(function (qq, qi) {
-      var q = h('<div class="q"><div class="q-title">Q' + (qi + 1) + '. ' + qq.q + '</div></div>');
-      var fb = null;
-      qq.c.forEach(function (c, ci) {
-        var b = h('<button class="choice">' + c + '</button>');
-        b.onclick = function () {
-          if (fb) fb.remove();
-          if (ci === qq.a) {
-            q.querySelectorAll('.choice').forEach(function (x) { x.disabled = true; x.classList.remove('wrong'); });
-            b.classList.add('right');
-            fb = h('<div class="feedback right"><b>正解！</b> ' + qq.why + '</div>');
-            ok++;
-            if (ok === s.quiz.length) next.disabled = false;
-          } else {
-            b.classList.add('wrong'); b.disabled = true;
-            fb = h('<div class="feedback wrong"><b>おしい！</b> もう一度えらんでみよう。</div>');
-          }
-          q.appendChild(fb);
-        };
-        q.appendChild(b);
-      });
-      panel.appendChild(q);
-    });
-    next.onclick = function () {
-      if (done.indexOf(i) === -1) { done.push(i); saveDone(done); }
-      panel.innerHTML = '';
-      var last = done.length === 6;
-      panel.appendChild(h('<div class="clear-box"><div class="stamp">CLEAR</div><h3>ステージ ' + (i + 1) + ' クリア！</h3><p class="muted">' + s.title + ' をマスターしました。</p></div>'));
-      document.querySelectorAll('.step-pill').forEach(function (p) { p.className = 'step-pill past'; });
-      if (i < 5) {
-        next.textContent = 'ステージ ' + (i + 2) + '「' + STAGES[i + 1].title + '」へ →';
-        next.onclick = function () { openStage(i + 1, 0); };
-      } else {
-        next.textContent = last ? 'まとめページへ →' : 'ステージ一覧へ';
-        next.onclick = last ? renderFinish : renderHome;
-      }
+      '<div class="topbar"><button class="back" id="back">← ミッション一覧</button><span class="eyebrow">ミッション ' + (i + 1) + ' / 6</span></div>' +
+      '<h2>' + def.title + '</h2>' +
+      '<section class="goalcard"><p class="lead">' + def.lead + '</p><ul class="goals" id="goals"></ul></section>' +
+      '<section class="desk">' +
+        '<div class="desk-head"><span>📁 仕事フォルダ</span><span class="app">Claude Code</span></div>' +
+        '<div class="files" id="files"></div><div class="files-hint">ファイル名をタップすると中身が見られます</div>' +
+        '<div class="viewer" id="viewer" hidden><div class="viewer-head"><span id="vname"></span><button id="vclose">閉じる ×</button></div><pre id="vbody"></pre></div>' +
+        '<div class="chat" id="chat" aria-live="polite"></div>' +
+        '<div class="controls">' +
+          '<div class="ctl-row"><button class="mode-btn" id="modeb"></button>' + (def.newChat ? '<button class="small-btn" id="newchat">新しい会話</button>' : '') + '<button class="stop-btn" id="stop" hidden>■ 止める</button></div>' +
+          '<div class="chips" id="chips"></div>' +
+          '<form class="inbox" id="form"><input id="inp" type="text" autocomplete="off" placeholder="Claude にお願いを書く…" aria-label="お願いを書く"><button id="send" type="submit">送る</button></form>' +
+        '</div>' +
+      '</section>' +
+      '<div id="clearbox"></div>';
+    document.getElementById('back').onclick = function () { S.token++; renderHome(); };
+    document.getElementById('vclose').onclick = function () { closeFile(); };
+    document.getElementById('modeb').onclick = function () {
+      if (S.busy) return;
+      this.classList.remove('flash');
+      var m = ORDER[(ORDER.indexOf(S.mode) + 1) % 3];
+      S.mode = m; renderMode();
+      api.say('sys', 'モードを「' + MODES[m].name + '」にしました。' + (m === 'plan' ? 'ファイルは変えずに、計画だけ立てます。' : m === 'auto' ? 'ファイルの書きかえを聞かずに進めます。' : '書きかえる前に毎回聞きます。'));
+      if (def.onMode) def.onMode(m, api, S);
     };
+    document.getElementById('stop').onclick = stopNow;
+    var nc = document.getElementById('newchat');
+    if (nc) nc.onclick = function () {
+      if (S.busy) return;
+      document.getElementById('chat').innerHTML = '';
+      S.allowAll = false;
+      def.onNewChat(api, S);
+      renderChips();
+    };
+    document.getElementById('form').addEventListener('submit', function (e) { e.preventDefault(); send(document.getElementById('inp').value); });
+    renderGoals(); renderFiles(); renderMode();
+    api.say('ai', 'こんにちは。仕事フォルダを開いています。何をしましょうか？');
+    if (def.intro) def.intro(api);
+    renderChips();
+    window.scrollTo(0, 0);
   }
 
-  /* ---------- FINISH ---------- */
+  function renderGoals(justId) {
+    var ul = document.getElementById('goals'); if (!ul) return;
+    ul.innerHTML = '';
+    S.def.goals.forEach(function (g) {
+      var li = document.createElement('li');
+      li.textContent = g.text;
+      if (S.goals[g.id]) li.className = 'ok' + (g.id === justId ? ' just' : '');
+      ul.appendChild(li);
+    });
+    renderChips();
+  }
+  function renderFiles(newName) {
+    var box = document.getElementById('files'); if (!box) return;
+    box.innerHTML = '';
+    Object.keys(S.files).forEach(function (name) {
+      var b = document.createElement('button');
+      b.className = 'file' + (S.viewing === name ? ' open' : '') + (S.changed[name] ? ' changed' : '') + (name === newName ? ' new' : '');
+      b.textContent = name;
+      b.onclick = function () { if (S.viewing === name) closeFile(); else openFile(name); };
+      box.appendChild(b);
+    });
+  }
+  function openFile(name, silent) {
+    S.viewing = name;
+    document.getElementById('viewer').hidden = false;
+    document.getElementById('vname').textContent = name;
+    document.getElementById('vbody').textContent = S.files[name];
+    renderFiles();
+    if (!silent && S.def.onOpen) S.def.onOpen(name, api, S);
+    renderChips();
+  }
+  function closeFile() { S.viewing = null; document.getElementById('viewer').hidden = true; renderFiles(); }
+  function renderMode() {
+    var b = document.getElementById('modeb'); if (!b) return;
+    b.className = 'mode-btn ' + S.mode;
+    b.innerHTML = '<b>モード：' + MODES[S.mode].name + '</b><small>' + MODES[S.mode].sub + '（押すと切りかえ）</small>';
+  }
+  function renderChips() {
+    var box = document.getElementById('chips'); if (!box || !S) return;
+    box.innerHTML = '';
+    var list = S.def.chips(S);
+    var hint = S.def.hint ? S.def.hint(S) : '';
+    if (list.length) {
+      box.appendChild(h('<span class="lab">おすすめのお願い（タップで送信。自分で書いてもOK）</span>'));
+      list.forEach(function (t) { var c = document.createElement('button'); c.className = 'chip'; c.type = 'button'; c.textContent = t; c.onclick = function () { send(t); }; box.appendChild(c); });
+    }
+    if (hint) box.appendChild(h('<span class="lab" style="color:var(--spark);font-weight:700">👉 ' + esc(hint) + '</span>'));
+  }
+
+  function showClear() {
+    if (!S) return;
+    var i = S.i;
+    if (doneList.indexOf(i) === -1) { doneList.push(i); saveDone(); }
+    var box = document.getElementById('clearbox'); if (!box) return;
+    var last = i === MISSIONS.length - 1;
+    box.innerHTML = '';
+    var c = h('<section class="clear"><div class="clear-top"><div class="stamp">CLEAR</div><div><h3>ミッション ' + (i + 1) + ' クリア！</h3><p class="muted" style="font-size:14px">' + MISSIONS[i].title + '</p></div></div>' +
+      '<div class="tip">' + MISSIONS[i].tip + '</div></section>');
+    var nb = h('<button class="btn wide' + (last ? ' spark' : '') + '"></button>');
+    if (!last) { nb.textContent = 'ミッション ' + (i + 2) + '「' + MISSIONS[i + 1].title + '」へ →'; nb.onclick = function () { startMission(i + 1); }; }
+    else { nb.textContent = 'まとめへ →'; nb.onclick = renderFinish; }
+    c.appendChild(nb);
+    var again = h('<button class="btn wide sub">もう一度このミッションを触る</button>');
+    again.onclick = function () { startMission(i); };
+    c.appendChild(again);
+    box.appendChild(c);
+    c.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   function renderFinish() {
-    clearTimers();
-    var rows = [
-      ['claude', '起動する（作業したいフォルダで）'],
-      ['/help', '使い方を見る'],
-      ['Esc', '作業を止める'],
-      ['Shift+Tab', 'モード切りかえ（プランモードなど）'],
-      ['/rewind', '前の状態に巻き戻す'],
-      ['/init', 'CLAUDE.md を作る'],
-      ['/clear', '会話をリセットする'],
-      ['/exit', '終わる']
-    ];
+    S = null;
     app.innerHTML =
-      '<div class="topbar"><button class="back" id="back">← ステージ一覧</button><span class="eyebrow">ぜんぶクリア</span></div>' +
-      '<div class="clear-box"><div class="stamp">全制覇</div><h2>おめでとう！</h2><p>AIエージェントに「お願いして、確かめて、任せる」流れを体験できました。</p></div>' +
-      '<section class="panel"><h3>早見表</h3><div class="tablewrap"><table class="cheat"><tbody>' +
-      rows.map(function (r) { return '<tr><td>' + esc(r[0]) + '</td><td>' + r[1] + '</td></tr>'; }).join('') +
-      '</tbody></table></div></section>' +
-      '<section class="panel"><h3>本物を使うときの約束</h3><ul class="tips">' +
-      '<li>パスワードや個人情報は、お願いの文章や CLAUDE.md に書かない。</li>' +
-      '<li>「やってもいい？」と聞かれたら、読んでから答える。わからなければ「これは何をするの？」と聞き返してOK。</li>' +
-      '<li>大事なフォルダで試す前に、練習用のフォルダで慣れる。</li>' +
-      '<li>こまめに保存（GitHub の「コミット」）しておくと、失敗してもすぐ戻せます。</li>' +
-      '</ul></section>' +
-      '<section class="panel"><h3>次の一歩</h3><p>インストールの方法や、もっとくわしい使い方は公式ドキュメントにまとまっています。</p>' +
-      '<p><a href="https://code.claude.com/docs" target="_blank" rel="noopener">Claude Code 公式ドキュメント</a></p></section>' +
-      '<button class="btn wide sub" id="reset">記録をリセットして最初から</button>';
+      '<div class="topbar"><button class="back" id="back">← ミッション一覧</button><span class="eyebrow">ぜんぶクリア</span></div>' +
+      '<section class="clear"><div class="clear-top"><div class="stamp">全制覇</div><div><h2>おつかれさまでした！</h2><p class="muted">「頼む → 確かめる → 任せる」の流れを体験できました。</p></div></div></section>' +
+      '<section class="panel"><h3>実務で使うときの6つのコツ</h3><ol class="tips">' +
+      '<li>まずは「読んで説明して」から。読むだけならファイルは変わらない。</li>' +
+      '<li>「いいですか？」と聞かれたら、中身を読んでから答える。</li>' +
+      '<li>一回で完璧をめざさず、会話しながら仕上げる。</li>' +
+      '<li>大きな仕事は「計画」モードで段取りを先に見る。</li>' +
+      '<li>まちがいに気づいたら、止める・戻す。頼むときは範囲をはっきり。</li>' +
+      '<li>毎回のルールは CLAUDE.md に書いておく。</li>' +
+      '</ol></section>' +
+      '<section class="panel"><h3>本物を使う前に</h3><ul class="tips">' +
+      '<li>最初は、大事なファイルのコピーを入れた「練習用フォルダ」で試しましょう。</li>' +
+      '<li>パスワードや個人情報は、お願いの文章にも CLAUDE.md にも書かないこと。</li>' +
+      '<li>本物の画面は、ボタンや確認の文が英語で表示されることがあります。この練習と同じ場面だと思えば大丈夫です。</li>' +
+      '</ul><p><a href="https://code.claude.com/docs" target="_blank" rel="noopener">Claude Code 公式ドキュメント</a></p></section>' +
+      '<button class="btn wide sub" id="reset">記録をリセットする</button>';
     document.getElementById('back').onclick = renderHome;
     var r = document.getElementById('reset');
     r.onclick = function () {
-      if (r.dataset.armed) { done = []; saveDone(done); renderHome(); return; }
+      if (r.dataset.armed) { doneList = []; saveDone(); renderHome(); return; }
       r.dataset.armed = '1'; r.textContent = 'もう一度押すとリセットします';
     };
     window.scrollTo(0, 0);
