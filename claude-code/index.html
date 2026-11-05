@@ -51,6 +51,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0; background: var(--bg); color: var(--ink);
@@ -193,6 +194,19 @@ button { font: inherit; color: inherit; }
 .panel { background: var(--surface); border-radius: 18px; padding: 20px; border: 1px solid var(--line); display: flex; flex-direction: column; gap: 12px; }
 ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 8px; font-size: 16px; }
 
+.gl { border-bottom: 2px dotted var(--spark); cursor: help; }
+.gl:hover { background: var(--spark-soft); }
+.gl-note { font-size: 13px; color: var(--muted); background: var(--desk); border-radius: 10px; padding: 8px 12px; }
+.sheet { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.35); display: flex; align-items: flex-end; justify-content: center; }
+.sheet-in { background: var(--surface); color: var(--ink); width: 100%; max-width: 640px; border-radius: 20px 20px 0 0; padding: 20px max(20px, env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 10px; animation: rise .2s ease both; }
+.sheet-k { font-family: var(--font-display); font-weight: 700; font-size: 20px; }
+.guide { outline: 3px solid var(--spark) !important; outline-offset: 3px; animation: guide 1.1s ease-in-out infinite !important; }
+@keyframes guide { 50% { outline-offset: 7px; } }
+.cmp { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; }
+.cmp-head { padding: 10px 14px; background: var(--desk); border-bottom: 1px solid var(--line); font-size: 14px; font-weight: 700; }
+.cmp-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+.cmp .btn { border-radius: 0; border-width: 2px 0 0; }
+.cmp .msg.ai::before { content: "チャットAI"; color: var(--muted); }
 @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @keyframes pop { 0% { transform: scale(.9); } 60% { transform: scale(1.04); } 100% { transform: none; } }
 @keyframes blink { 50% { opacity: 0; } }
@@ -218,7 +232,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
   'use strict';
 
   /* ---------- per-viewer progress ---------- */
-  var KEY = 'claude-code-jitsumu-v1';
+  var KEY = 'claude-code-jitsumu-v2';
   function loadDone() { try { var v = JSON.parse(localStorage.getItem(KEY) || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; } }
   function saveDone() { try { localStorage.setItem(KEY, JSON.stringify(doneList)); } catch (e) {} }
   var doneList = loadDone();
@@ -267,6 +281,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
     say: function (who, text, isHtml) {
       var m = h('<div class="msg ' + who + '"></div>');
       if (isHtml) m.innerHTML = text; else m.textContent = text;
+      if (who === 'sys') glossify(m);
       return push(m);
     },
     act: function (kind, name, working) {
@@ -310,6 +325,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
         var opts = h('<div class="opts"><button data-v="yes">1. はい</button><button data-v="always">2. はい。この会話のあいだは聞かずにOK</button><button data-v="no">3. いいえ。どうしてほしいか伝える</button></div>');
         card.appendChild(opts);
         push(card);
+        setTimeout(applyFocus, 0);
         S.pending = function (v) {
           S.pending = null;
           opts.querySelectorAll('button').forEach(function (b) { b.disabled = true; if (b.dataset.v === v) b.classList.add('chosen'); });
@@ -331,9 +347,84 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
       }
       return push(card);
     },
+    fallback: function (text) {
+      api.say('ai', text);
+      api.say('sys', 'うまく伝わらなかったみたい。この練習は、決まった言葉にしか反応できません（本物の Claude Code は、もっと自由に話せます）。下の「おすすめのお願い」をタップしてみよう。');
+      S.ctx.fb = true;
+    },
     setMode: function (m) { S.mode = m; renderMode(); },
     refresh: function () { renderChips(); }
   };
+
+  var GLOSS = {
+    'Claude Code': 'Anthropic という会社が作ったAI。あなたのパソコンのフォルダの中で、ファイルを読んだり、作ったり、書きかえたりできます。',
+    'CLAUDE.md': 'Claude Code が毎回いちばん最初に読む「いつものお願いメモ」。仕事フォルダの中に置いておくファイルです。',
+    'AIエージェント': '答えるだけでなく、自分で手を動かして仕事を進めるAIのこと。Claude Code はその一つです。',
+    'チャットAI': 'スマホやブラウザで、文章で質問すると文章で答えてくれるAI。あなたのファイルを直接さわることはできません。',
+    'AI': '人工知能。人の言葉を理解して、文章を書いたり作業を手伝ったりしてくれるコンピューターのしくみ。',
+    'フォルダ': 'ファイルをまとめて入れておく入れ物。紙の書類を入れる「ファイルケース」のようなものです。',
+    'ファイル': 'パソコンの中の1つ1つの書類。文章、表、写真などが、それぞれファイルとして保存されています。',
+    '.md': '「マークダウン」という形式の文章ファイル。「#」で見出し、「-」で箇条書きが書けます。メモ帳でも開けます。',
+    '.csv': '表のデータを、カンマ（,）で区切って保存したファイル。エクセルで開けます。',
+    '.txt': '文字だけのシンプルなファイル。メモ帳で開けます。',
+    'モード': 'Claude Code の動き方の切りかえ。「ふつう」は毎回確認、「自動OK」は書きかえを確認なしで進める、「計画」は読むだけで計画を立てる、の3つです。',
+    '自動OK': 'ファイルを書きかえるたびの「いいですか？」を省略するモード。速いけれど、まちがいに気づきにくくなります。',
+    '許可': 'Claude Code がファイルを作ったり変えたりする前に「いいですか？」と聞いてくること。あなたが「はい」と答えて、はじめて実行されます。',
+    'Esc': 'キーボードの左上にある「Esc（エスケープ）」キー。本物の Claude Code では、このキーで作業を止められます。',
+    'Shift': 'Shift（シフト）キーを押しながら Tab（タブ）キーを押すと、本物の Claude Code のモードが切りかわります。',
+    '/rewind': '本物の Claude Code で、作業を前の状態に巻き戻す命令です。お願いを書く欄に「/rewind」と打ちます。',
+    '/clear': '会話をリセットする命令。前の話を忘れて、新しい話を始めます。',
+    '/init': 'フォルダを調べて、CLAUDE.md のひな形を作ってくれる命令です。'
+  };
+  var GLOSS_RE = new RegExp(Object.keys(GLOSS).sort(function (a, b) { return b.length - a.length; }).map(function (k) { return k.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&'); }).join('|'), 'g');
+  function glossify(root) {
+    if (!root) return;
+    var used = {};
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) { return n.parentElement.closest('button, pre, input, a, .gl, .tag, .fn') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT; }
+    });
+    var nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function (node) {
+      var text = node.nodeValue, last = 0, frag = document.createDocumentFragment(), m, hit = false;
+      GLOSS_RE.lastIndex = 0;
+      while ((m = GLOSS_RE.exec(text))) {
+        if (used[m[0]]) continue;
+        used[m[0]] = true; hit = true;
+        frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        var sp = document.createElement('span'); sp.className = 'gl'; sp.tabIndex = 0; sp.setAttribute('role', 'button'); sp.dataset.k = m[0]; sp.textContent = m[0];
+        frag.appendChild(sp);
+        last = m.index + m[0].length;
+      }
+      if (!hit) return;
+      frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+  var sheet = h('<div class="sheet" id="sheet" hidden><div class="sheet-in"><div class="sheet-k" id="sheetk"></div><p id="sheetv"></p><button class="btn sub wide" id="sheetc">閉じる</button></div></div>');
+  document.body.appendChild(sheet);
+  function showGloss(k) { document.getElementById('sheetk').textContent = k; document.getElementById('sheetv').textContent = GLOSS[k]; sheet.hidden = false; document.getElementById('sheetc').focus(); }
+  document.getElementById('sheetc').onclick = function () { sheet.hidden = true; };
+  sheet.addEventListener('click', function (e) { if (e.target === sheet) sheet.hidden = true; });
+  document.addEventListener('click', function (e) { var g = e.target.closest && e.target.closest('.gl'); if (g) showGloss(g.dataset.k); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') sheet.hidden = true; var g = e.target.closest && e.target.closest('.gl'); if (g && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); showGloss(g.dataset.k); } });
+
+  function fileEl(name) {
+    var all = document.querySelectorAll('#files .file');
+    for (var i = 0; i < all.length; i++) if (all[i].textContent === name) return all[i];
+    return null;
+  }
+  function applyFocus() {
+    document.querySelectorAll('.guide').forEach(function (x) { x.classList.remove('guide'); });
+    if (!S) return;
+    var el = null;
+    if (S.pending) { var ps = document.querySelectorAll('.perm .opts button[data-v="yes"]'); el = ps[ps.length - 1]; }
+    else if (S.busy) { var st = document.getElementById('stop'); el = st && !st.hidden ? st : null; }
+    else {
+      var all = S.def.goals.every(function (g) { return S.goals[g.id]; });
+      if (!all) el = (S.def.focus && S.def.focus(S)) || document.querySelector('#chips .chip');
+    }
+    if (el) el.classList.add('guide');
+  }
 
   function push(node) {
     var chat = document.getElementById('chat');
@@ -367,7 +458,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
     document.getElementById('inp').disabled = b;
     document.getElementById('send').disabled = b;
     document.getElementById('chips').hidden = b;
-    if (!b) renderChips();
+    if (!b) renderChips(); else applyFocus();
   }
 
   function send(text) {
@@ -381,6 +472,64 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
 
   /* ---------- MISSIONS ---------- */
   var MISSIONS = [
+    {
+      title: 'AIに仕事を頼むってこういうこと',
+      short: 'チャットAIとのちがいを体験',
+      lead: 'スマホなどで使うチャットAIと、Claude Code。同じお願いをしたらどうなるか、比べてみましょう。お願いは「案内文の日付を12月21日に変えて」です。',
+      files: function () { return { '案内文_下書き.txt': DRAFT, '会議メモ_1104.txt': MEMO }; },
+      goals: [
+        { id: 'a', text: 'まず、ふつうのチャットAIに頼んでみる' },
+        { id: 'b', text: '同じことを Claude Code に頼んで、「はい」で許可する' },
+        { id: 'c', text: '案内文のファイルを開いて、本当に変わったか確かめる' }
+      ],
+      pre: function (box, api, S) {
+        var card = h('<section class="cmp"><div class="cmp-head">💬 チャットAI</div><div class="cmp-body" id="cmpbody"><p class="muted" style="font-size:14px">文章で聞くと、文章で答えてくれるAIです。</p></div>' +
+          '<button class="btn wide sub" id="chatai-btn">チャットAIに「案内文の日付を12月21日に変えて」と送る</button></section>');
+        box.appendChild(card);
+        var b = card.querySelector('#chatai-btn');
+        b.onclick = function () {
+          b.disabled = true;
+          var body = card.querySelector('#cmpbody');
+          body.appendChild(h('<div class="msg you">案内文の日付を12月21日に変えて</div>'));
+          setTimeout(function () {
+            body.appendChild(h('<div class="msg ai">では、案内文の「12/14」を「12/21」に書きかえてください。書きかえた文章はこちらです。\n\n年末イベントやります。12/21です。市民ホールでやるので来てください。申し込みは鈴木まで。</div>'));
+          }, 700);
+          setTimeout(function () {
+            var n = h('<div class="msg sys">チャットAIは「こう直してね」と教えてくれるだけ。ファイルを開いて直すのは、あなたの仕事です。仕事フォルダの案内文は、まだ 12/14 のままです。</div>');
+            glossify(n); body.appendChild(n);
+            api.goal('a');
+            api.say('sys', 'では、下の Claude Code に同じことを頼んでみよう。');
+          }, 1500);
+        };
+      },
+      chips: function (S) { return S.goals.a && !S.goals.b ? ['案内文の日付を12月21日に変えて'] : []; },
+      examples: ['案内文の日付を12月21日に変えて'],
+      hint: function (S) { return !S.goals.a ? '上の「チャットAIに…送る」ボタンから始めよう' : S.goals.b && !S.goals.c ? '「案内文_下書き.txt」をタップして開いてみよう' : ''; },
+      focus: function (S) { return !S.goals.a ? document.getElementById('chatai-btn') : S.goals.b && !S.goals.c ? fileEl('案内文_下書き.txt') : null; },
+      onSend: async function (t, api, S) {
+        if (!S.goals.a) { if (!await api.wait(400)) return; api.say('sys', '先に、上の「チャットAI」に頼んでみよう。比べるとちがいがよくわかります。'); return; }
+        if (has(t, '日付', '21', '２１', '変え', 'かえ')) {
+          api.act('読む', '案内文_下書き.txt', true);
+          if (!await api.wait(1000)) return;
+          var after = DRAFT.replace('12/14', '12/21');
+          if (S.files['案内文_下書き.txt'] === after) { api.say('ai', 'もう 12/21 になっています。'); return; }
+          api.say('ai', '案内文_下書き.txt の「12/14」を「12/21」に書きかえます。');
+          api.say('sys', 'Claude Code は、ファイルを変える前に「いいですか？」と聞いてきます。中身を見て「1. はい」を押そう。');
+          var v = await api.permit({ kind: '直す', file: '案内文_下書き.txt', before: S.files['案内文_下書き.txt'], after: after });
+          if (v === 'yes' || v === 'always') {
+            api.setFile('案内文_下書き.txt', after);
+            api.say('ai', '書きかえました。');
+            api.goal('b');
+            api.say('sys', 'Claude Code は、ファイルを自分で開いて書きかえました。このように「実際に手を動かすAI」を「AIエージェント」と呼びます。ファイルを開いて確かめてみよう。');
+          } else if (v === 'no') api.say('ai', 'わかりました、変えずにおきます。');
+          return;
+        }
+        if (!await api.wait(600)) return;
+        api.fallback('何をしましょうか？');
+      },
+      onOpen: function (name, api, S) { if (name === '案内文_下書き.txt' && S.goals.b) api.goal('c'); },
+      tip: '<b>チャットAIは「答える」AI。Claude Code は、あなたのフォルダの中で「実際に手を動かす」AI</b>（AIエージェント）です。だからこそ、ファイルを変える前に「いいですか？」と聞いてくれます。'
+    },
     {
       title: '仕事フォルダを見てもらう',
       short: 'まずは「読んで説明して」から',
@@ -419,8 +568,10 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
           return;
         }
         if (!await api.wait(600)) return;
-        api.say('ai', 'どのファイルについて知りたいですか？\nたとえば「会議メモには何が書いてある？」のように聞いてください。');
+        api.fallback('どのファイルについて知りたいですか？\nたとえば「会議メモには何が書いてある？」のように聞いてください。');
       },
+      examples: ['会議メモには何が書いてある？短くまとめて'],
+      focus: function (S) { return S.goals.b && !S.goals.c ? fileEl(S.ctx.summarized) : null; },
       onOpen: function (name, api, S) { if (S.goals.b && S.ctx.summarized === name) api.goal('c'); },
       tip: '<b>読むだけなら許可はいりません。</b>ファイルは何も変わらないので、最初は「読んで説明して」から始めると安心です。AIの答えはまちがうこともあるので、<b>元のファイルと見比べるクセ</b>をつけましょう。'
     },
@@ -445,7 +596,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
         var makeReq = has(t, '議事録') || (has(t, '作') && has(t, '会議', 'メモ'));
         if (!makeReq && !(style && S.ctx.asked)) {
           if (!await api.wait(600)) return;
-          api.say('ai', '何を作りましょうか？ 元にするファイルと、作ってほしいものを教えてください。\n例：「会議メモから議事録を作って」');
+          api.fallback('何を作りましょうか？ 元にするファイルと、作ってほしいものを教えてください。\n例：「会議メモから議事録を作って」');
           return;
         }
         S.ctx.asked = true;
@@ -467,6 +618,8 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
           api.say('ai', 'わかりました、保存はやめておきます。どこを変えればいいですか？');
         }
       },
+      examples: ['会議メモから議事録を作って、議事録_1104.md に保存して', '担当と締切を表にして'],
+      focus: function (S) { return S.goals.b && !S.goals.c ? fileEl('議事録_1104.md') : null; },
       onOpen: function (name, api, S) { if (name === '議事録_1104.md') api.goal('c'); },
       tip: '<b>ファイルを作るとき・書きかえるときは、必ず「いいですか？」と聞いてくれます。</b>中身を読んでから「はい」。気に入らなければ「いいえ」を選んで、「表にして」「短くして」と注文をつけられます。'
     },
@@ -505,7 +658,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
         else if (has(t, '丁寧', 'ていねい', '直して', 'きれい', '案内', 'お客', '敬語')) next = { short: c.short, time: c.time };
         if (!next) {
           if (!await api.wait(600)) return;
-          api.say('ai', 'どのように直しましょうか？ たとえば「もっと短くして」「開始時間も入れて」のように教えてください。');
+          api.fallback('どのように直しましょうか？ たとえば「もっと短くして」「開始時間も入れて」のように教えてください。');
           return;
         }
         api.act('読む', '案内文_下書き.txt', true);
@@ -526,6 +679,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
           api.say('ai', 'わかりました。どう直せばいいですか？');
         }
       },
+      examples: ['もっと短くして', '開始時間も入れて'],
       tip: '<b>一回で完璧をめざさなくてOK。</b>人に頼むときと同じで、「もっと短く」「ここも入れて」と会話しながら仕上げます。AIはわからないことを<b>聞き返してくれる</b>ので、きちんと答えてあげましょう。'
     },
     {
@@ -545,6 +699,8 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
       },
       hint: function (S) { return !S.goals.a ? '「モード：ふつう」ボタンを2回押すと「計画」になります' : ''; },
       onMode: function (m, api, S) { if (m === 'plan') api.goal('a'); },
+      examples: ['アンケート結果を集計して、レポートを作って'],
+      focus: function (S) { return !S.goals.a ? document.getElementById('modeb') : null; },
       onSend: async function (t, api, S) {
         var c = S.ctx;
         if (c.planned && has(t, 'グラフ', '表だけ', 'いらない')) {
@@ -557,7 +713,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
         }
         if (!has(t, 'アンケート', '集計', 'レポート', 'まとめ')) {
           if (!await api.wait(600)) return;
-          api.say('ai', '何をしましょうか？ 例：「アンケート結果を集計して、レポートを作って」');
+          api.fallback('何をしましょうか？ 例：「アンケート結果を集計して、レポートを作って」');
           return;
         }
         if (S.mode !== 'plan') {
@@ -594,7 +750,8 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
         return [];
       },
       hint: function (S) { return ''; },
-      intro: function (api) { api.say('sys', 'このミッションは「自動OK」モードから始まります。書きかえのたびに聞かれないので、作業が速いぶん、まちがいにも気づきにくくなります。'); },
+      examples: ['ファイルを見やすく整えて', '元に戻して', '議事録_1104.md の見出しだけ整えて。会議メモは変えないで'],
+      intro: function (api) { api.say('sys', 'このミッションは、わざと「自動OK」モードにしてあります。自動OK は、ファイルを書きかえるたびの「いいですか？」を省略するモードです。作業は速くなりますが、まちがいに気づきにくくなります。そのこわさを、ここで安全に体験しておきましょう。'); },
       onStop: function (api, S) {
         if (!S.ctx.running) return;
         S.ctx.running = false;
@@ -651,7 +808,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
           return;
         }
         if (!await api.wait(600)) return;
-        api.say('ai', 'どのファイルを、どうしたいですか？');
+        api.fallback('どのファイルを、どうしたいですか？');
       },
       tip: '<b>まちがいに気づいたら、すぐ「止める」（Esc キー）。</b>やってしまったあとでも「元に戻して」（/rewind）で戻せます。頼むときは<b>「〇〇だけ」「〇〇は変えないで」</b>と範囲をはっきり書くと、まちがいが減ります。'
     },
@@ -678,6 +835,8 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
       },
       hint: function (S) { return S.goals.a && !S.goals.b ? '下の「新しい会話」ボタンを押してみよう' : ''; },
       intro: function (api) { api.say('sys', 'まずは「会議メモをまとめて」と頼んで、ふだんのまとめ方を見ておくと、あとで違いがよくわかります。'); },
+      examples: ['会議メモをまとめて', '毎回のルールを CLAUDE.md に書いておいて：敬語で、最初に結論、だれがいつまでにを必ず書く'],
+      focus: function (S) { return S.goals.a && !S.goals.b ? document.getElementById('newchat') : null; },
       onNewChat: function (api, S) {
         api.say('sys', '新しい会話です。前の話は覚えていません。でも CLAUDE.md だけは、毎回最初に読みます。（本物では /clear）');
         if ('CLAUDE.md' in S.files) api.goal('b');
@@ -709,7 +868,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
           return;
         }
         if (!await api.wait(600)) return;
-        api.say('ai', '何をしましょうか？');
+        api.fallback('何をしましょうか？');
       },
       tip: '<b>毎回伝えたいことは CLAUDE.md へ。</b>会話が変わっても、起動するたびに読まれる「いつものお願いメモ」です。ただし<b>パスワードや個人情報は書かない</b>こと。本物では /init と打つと、ひな形を作ってくれます。'
     }
@@ -753,8 +912,9 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
       '<p>説明を読むより、まず触ってみる。ふだんの事務仕事を Claude Code に頼みながら、使い方を体で覚えます。本物のAIやパソコンにはつながっていないので、どこを押しても大丈夫です。</p>' +
       '</header>' +
       '<div class="story"><b class="k">今日の設定</b><p>あなたは小さな会社の事務担当。パソコンの「仕事フォルダ」には、会議メモやアンケートが入っています。今日から <b>Claude Code</b> が、となりの席のアシスタントです。</p>' +
-      '<p class="muted" style="font-size:14px">Claude Code は、あなたのフォルダの中のファイルを読んだり、作ったり、書きかえたりできるAIです。ふつうの日本語で頼めます。</p></div>' +
-      '<div class="meter"><span>' + n + ' / 6 クリア</span><div class="meter-bar"><div class="meter-fill" style="width:' + (n / 6 * 100) + '%"></div></div></div>' +
+      '<p class="muted" style="font-size:14px">Claude Code は、あなたのフォルダの中のファイルを読んだり、作ったり、書きかえたりできるAIです。ふつうの日本語で頼めます。</p>' +
+      '<p class="gl-note">点線の下線がついた言葉は、タップすると意味が出ます。光っているところを押せば、次に進めます。</p></div>' +
+      '<div class="meter"><span>' + n + ' / ' + MISSIONS.length + ' クリア</span><div class="meter-bar"><div class="meter-fill" style="width:' + (n / MISSIONS.length * 100) + '%"></div></div></div>' +
       '<div class="m-list">';
     MISSIONS.forEach(function (m, i) {
       var d = doneList.indexOf(i) !== -1;
@@ -763,8 +923,9 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
         '<span class="st">' + (d ? 'クリア' : 'ミッション ' + (i + 1)) + '</span></button>';
     });
     html += '</div>';
-    if (n === 6) html += '<button class="btn wide spark" id="fin">まとめを見る</button>';
+    if (n === MISSIONS.length) html += '<button class="btn wide spark" id="fin">まとめを見る</button>';
     app.innerHTML = html;
+    glossify(app.querySelector('.story'));
     app.querySelectorAll('.m-card').forEach(function (b) { b.onclick = function () { startMission(+b.dataset.i); }; });
     var f = document.getElementById('fin'); if (f) f.onclick = renderFinish;
     window.scrollTo(0, 0);
@@ -775,9 +936,10 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
     var def = MISSIONS[i];
     S = { i: i, def: def, files: def.files(), changed: {}, mode: def.mode || 'normal', busy: false, token: 0, goals: {}, ctx: {}, allowAll: false, pending: null, viewing: null };
     app.innerHTML =
-      '<div class="topbar"><button class="back" id="back">← ミッション一覧</button><span class="eyebrow">ミッション ' + (i + 1) + ' / 6</span></div>' +
+      '<div class="topbar"><button class="back" id="back">← ミッション一覧</button><span class="eyebrow">ミッション ' + (i + 1) + ' / ' + MISSIONS.length + '</span></div>' +
       '<h2>' + def.title + '</h2>' +
-      '<section class="goalcard"><p class="lead">' + def.lead + '</p><ul class="goals" id="goals"></ul></section>' +
+      '<section class="goalcard"><p class="lead" id="lead">' + def.lead + '</p><ul class="goals" id="goals"></ul></section>' +
+      '<div id="pre"></div>' +
       '<section class="desk">' +
         '<div class="desk-head"><span>📁 仕事フォルダ</span><span class="app">Claude Code</span></div>' +
         '<div class="files" id="files"></div><div class="files-hint">ファイル名をタップすると中身が見られます</div>' +
@@ -810,6 +972,8 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
       renderChips();
     };
     document.getElementById('form').addEventListener('submit', function (e) { e.preventDefault(); send(document.getElementById('inp').value); });
+    if (def.pre) def.pre(document.getElementById('pre'), api, S);
+    glossify(document.getElementById('lead'));
     renderGoals(); renderFiles(); renderMode();
     api.say('ai', 'こんにちは。仕事フォルダを開いています。何をしましょうか？');
     if (def.intro) def.intro(api);
@@ -822,10 +986,11 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
     ul.innerHTML = '';
     S.def.goals.forEach(function (g) {
       var li = document.createElement('li');
-      li.textContent = g.text;
+      var sp = document.createElement('span'); sp.textContent = g.text; li.appendChild(sp);
       if (S.goals[g.id]) li.className = 'ok' + (g.id === justId ? ' just' : '');
       ul.appendChild(li);
     });
+    glossify(ul);
     renderChips();
   }
   function renderFiles(newName) {
@@ -838,6 +1003,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
       b.onclick = function () { if (S.viewing === name) closeFile(); else openFile(name); };
       box.appendChild(b);
     });
+    applyFocus();
   }
   function openFile(name, silent) {
     S.viewing = name;
@@ -858,12 +1024,14 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
     var box = document.getElementById('chips'); if (!box || !S) return;
     box.innerHTML = '';
     var list = S.def.chips(S);
+    if (!list.length && S.ctx.fb && S.def.examples) list = S.def.examples;
     var hint = S.def.hint ? S.def.hint(S) : '';
     if (list.length) {
       box.appendChild(h('<span class="lab">おすすめのお願い（タップで送信。自分で書いてもOK）</span>'));
       list.forEach(function (t) { var c = document.createElement('button'); c.className = 'chip'; c.type = 'button'; c.textContent = t; c.onclick = function () { send(t); }; box.appendChild(c); });
     }
     if (hint) box.appendChild(h('<span class="lab" style="color:var(--spark);font-weight:700">👉 ' + esc(hint) + '</span>'));
+    applyFocus();
   }
 
   function showClear() {
@@ -883,6 +1051,8 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
     again.onclick = function () { startMission(i); };
     c.appendChild(again);
     box.appendChild(c);
+    glossify(c.querySelector('.tip'));
+    applyFocus();
     c.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
@@ -891,7 +1061,8 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
     app.innerHTML =
       '<div class="topbar"><button class="back" id="back">← ミッション一覧</button><span class="eyebrow">ぜんぶクリア</span></div>' +
       '<section class="clear"><div class="clear-top"><div class="stamp">全制覇</div><div><h2>おつかれさまでした！</h2><p class="muted">「頼む → 確かめる → 任せる」の流れを体験できました。</p></div></div></section>' +
-      '<section class="panel"><h3>実務で使うときの6つのコツ</h3><ol class="tips">' +
+      '<section class="panel"><h3>実務で使うときの7つのコツ</h3><ol class="tips">' +
+      '<li>Claude Code は、答えるだけでなく、実際にファイルを変えるAI。</li>' +
       '<li>まずは「読んで説明して」から。読むだけならファイルは変わらない。</li>' +
       '<li>「いいですか？」と聞かれたら、中身を読んでから答える。</li>' +
       '<li>一回で完璧をめざさず、会話しながら仕上げる。</li>' +
@@ -906,6 +1077,7 @@ ol.tips, ul.tips { margin: 0; padding-left: 1.3em; display: flex; flex-direction
       '</ul><p><a href="https://code.claude.com/docs" target="_blank" rel="noopener">Claude Code 公式ドキュメント</a></p></section>' +
       '<button class="btn wide sub" id="reset">記録をリセットする</button>';
     document.getElementById('back').onclick = renderHome;
+    app.querySelectorAll('.panel').forEach(glossify);
     var r = document.getElementById('reset');
     r.onclick = function () {
       if (r.dataset.armed) { doneList = []; saveDone(); renderHome(); return; }
