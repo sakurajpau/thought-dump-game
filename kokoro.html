@@ -790,6 +790,11 @@
 
   .full-only { display: none !important; }
 
+  .result-ref {
+    margin-top: 6px;
+    font-size: 11px;
+  }
+
   .session-card {
     background: var(--accent);
     color: white;
@@ -944,6 +949,7 @@
 <div class="screen" id="screen-result">
   <div class="result-intro fade-in" id="result-intro">
     <p id="result-lead">あなたに一番近いのは</p>
+    <p class="result-ref" id="result-ref">※診断結果は、今のあなたを知るための参考としてご覧ください</p>
   </div>
 
   <div class="type-card fade-in" id="type-card">
@@ -1046,7 +1052,7 @@
     <p class="share-toast" id="share-toast"></p>
   </div>
 
-  <p class="note">※エニアグラムとビッグファイブ（性格の5因子モデル）の考え方を参考にした、オリジナルの簡易セルフチェックです。正式な心理検査や診断ではありません。結果は「自分を決めつけるラベル」ではなく、自分を伸ばすための手がかりとして楽しんでください。</p>
+  <p class="note">※診断結果はあくまで参考です。エニアグラムとビッグファイブ（性格の5因子モデル）の考え方を参考にした、オリジナルの簡易セルフチェックです。正式な心理検査や診断ではありません。結果は「自分を決めつけるラベル」ではなく、自分を伸ばすための手がかりとして楽しんでください。</p>
 
   <button class="btn" id="result-primary" onclick="startQuiz()">もう一度やる</button>
   <button class="btn btn-ghost" onclick="showLibrary()">9タイプの図鑑を見る</button>
@@ -1381,6 +1387,7 @@ function renderResult(result) {
   document.getElementById('result-lead').textContent = tied.length
     ? 'あなたに一番近いのは（タイプ' + tied.join('・') + 'と同点です）'
     : 'あなたに一番近いのは';
+  document.getElementById('result-ref').style.display = 'block';
   renderTypeCard(main, wing);
   renderTraits(traits);
   renderGrowth(main, traits);
@@ -1643,6 +1650,7 @@ function showLibrary() {
 
 function showTypeDetail(t) {
   document.getElementById('result-lead').textContent = '9タイプの図鑑';
+  document.getElementById('result-ref').style.display = 'none';
   renderTypeCard(t, null);
   renderGrowth(t, null);
   document.getElementById('scores').style.display = 'none';
