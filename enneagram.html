@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>エニアグラムカード</title>
+<meta name="description" content="36枚のカードに直感で答えるだけ。エニアグラムの9タイプから、あなたに近いタイプと持ち味・クセがわかります。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="エニアグラムカード｜9タイプから自分を見つける">
+<meta property="og:description" content="36枚のカードに直感で答えるだけ。エニアグラムの9タイプから、あなたに近いタイプと持ち味・クセがわかります。">
+<meta property="og:url" content="https://sakurajpau.github.io/thought-dump-game/enneagram.html">
+<meta property="og:image" content="https://sakurajpau.github.io/thought-dump-game/ogp-enneagram.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
 
@@ -530,6 +539,54 @@
     margin-bottom: 8px;
   }
 
+  .share-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 22px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    text-align: center;
+  }
+
+  .share-title {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+
+  .share-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .share-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 4px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.1s, opacity 0.2s;
+  }
+
+  .share-btn:active { transform: scale(0.96); opacity: 0.9; }
+  .share-x { background: #1C1C1C; }
+  .share-line { background: #06C755; }
+  .share-threads { background: #3D3530; }
+  .share-fb { background: #1877F2; }
+  .share-more { background: var(--bg); color: var(--ink); }
+  .share-copy { background: var(--bg); color: var(--ink); }
+
+  .share-toast {
+    min-height: 18px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
   .note {
     font-size: 11px;
     color: var(--ink-soft);
@@ -702,6 +759,19 @@
   <div class="message-card fade-in" id="message-card">
     <strong id="m-title"></strong>
     <span id="m-body"></span>
+  </div>
+
+  <div class="share-card fade-in">
+    <p class="share-title" id="share-title">結果をシェアする</p>
+    <div class="share-grid">
+      <button class="share-btn share-x" onclick="shareTo('x')">X</button>
+      <button class="share-btn share-line" onclick="shareTo('line')">LINE</button>
+      <button class="share-btn share-threads" onclick="shareTo('threads')">Threads</button>
+      <button class="share-btn share-fb" onclick="shareTo('facebook')">Facebook</button>
+      <button class="share-btn share-copy" onclick="copyShare()">コピー</button>
+      <button class="share-btn share-more" onclick="shareNative()">その他</button>
+    </div>
+    <p class="share-toast" id="share-toast"></p>
   </div>
 
   <p class="note">※エニアグラムをもとにした簡易的なセルフチェックで、正式な診断ではありません。タイプは「自分を決めつけるラベル」ではなく、自分を眺めるための手がかりとして楽しんでください。</p>
@@ -998,6 +1068,10 @@ function renderResult(result) {
   document.getElementById('result-primary').textContent = 'もう一度やる';
   document.getElementById('result-primary').onclick = startQuiz;
 
+  shareText = 'エニアグラムカードをやってみたら、私は【タイプ' + main + ' ' + TYPES[main].name + '（' + main + 'w' + wing + '）】でした🃏\n' +
+    '「' + TYPES[main].keyword + '」タイプだそうです。\nあなたは何タイプ？\n#エニアグラム #エニアグラムカード';
+  setShareTitle('結果をシェアする');
+
   showScreen('screen-result');
 }
 
@@ -1134,7 +1208,59 @@ function showTypeDetail(t) {
   document.getElementById('m-body').textContent = TYPES[t].message;
   document.getElementById('result-primary').textContent = '診断をはじめる';
   document.getElementById('result-primary').onclick = startQuiz;
+  shareText = DEFAULT_SHARE_TEXT;
+  setShareTitle('このアプリをシェアする');
   showScreen('screen-result');
+}
+
+const SHARE_URL = 'https://sakurajpau.github.io/thought-dump-game/enneagram.html';
+const DEFAULT_SHARE_TEXT = '36枚のカードに答えるだけで、エニアグラムの9タイプから自分に近いタイプがわかる「エニアグラムカード」🃏\nあなたは何タイプ？\n#エニアグラム #エニアグラムカード';
+let shareText = DEFAULT_SHARE_TEXT;
+
+function setShareTitle(text) {
+  document.getElementById('share-title').textContent = text;
+  document.getElementById('share-toast').textContent = '';
+}
+
+function shareTo(service) {
+  const text = encodeURIComponent(shareText);
+  const url = encodeURIComponent(SHARE_URL);
+  const links = {
+    x: 'https://twitter.com/intent/tweet?text=' + text + '&url=' + url,
+    line: 'https://line.me/R/msg/text/?' + encodeURIComponent(shareText + '\n' + SHARE_URL),
+    threads: 'https://www.threads.net/intent/post?text=' + encodeURIComponent(shareText + '\n' + SHARE_URL),
+    facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + url
+  };
+  window.open(links[service], '_blank', 'noopener');
+}
+
+function copyShare() {
+  const body = shareText + '\n' + SHARE_URL;
+  const done = () => { document.getElementById('share-toast').textContent = 'コピーしました。Instagramなどに貼り付けてください'; };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(body).then(done, () => fallbackCopy(body, done));
+  } else {
+    fallbackCopy(body, done);
+  }
+}
+
+function fallbackCopy(body, done) {
+  const area = document.createElement('textarea');
+  area.value = body;
+  area.style.position = 'fixed';
+  area.style.opacity = '0';
+  document.body.appendChild(area);
+  area.select();
+  try { document.execCommand('copy'); done(); } catch (e) {}
+  area.remove();
+}
+
+function shareNative() {
+  if (navigator.share) {
+    navigator.share({ title: 'エニアグラムカード', text: shareText, url: SHARE_URL }).catch(() => {});
+  } else {
+    copyShare();
+  }
 }
 
 function loadLast() {
