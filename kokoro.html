@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ココロカード</title>
-<meta name="description" content="42枚のカードに直感で答えるだけ。9つのココロのタイプと5つの力から、あなたの強みと、それを伸ばすことばが届きます。">
+<title>KoKoRo voice card</title>
+<meta name="description" content="42枚のカードに直感で答えるだけ。9つのココロのタイプと5つの力から、あなたの心の声と強みが見えてきます。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="ココロカード｜9つのタイプ×5つの力で、伸ばし方を見つける">
-<meta property="og:description" content="42枚のカードに直感で答えるだけ。9つのココロのタイプと5つの力から、あなたの強みと、それを伸ばすことばが届きます。">
+<meta property="og:title" content="KoKoRo voice card｜9つのタイプ×5つの力で、心の声をきく">
+<meta property="og:description" content="42枚のカードに直感で答えるだけ。9つのココロのタイプと5つの力から、あなたの心の声と強みが見えてきます。">
 <meta property="og:url" content="https://sakurajpau.github.io/thought-dump-game/kokoro.html">
 <meta property="og:image" content="https://sakurajpau.github.io/thought-dump-game/ogp-kokoro.png">
 <meta property="og:image:width" content="1200">
@@ -522,8 +522,10 @@
   }
 
   .message-card {
-    background: var(--accent);
-    color: white;
+    background: var(--surface);
+    color: var(--ink);
+    border-left: 4px solid var(--type-color);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     border-radius: var(--radius);
     padding: 24px;
     margin-bottom: 16px;
@@ -702,9 +704,7 @@
   /* 伸ばすことば */
   .word-feature {
     text-align: center;
-    padding: 8px 4px 20px;
-    border-bottom: 1px solid var(--line);
-    margin-bottom: 16px;
+    padding: 8px 4px 4px;
   }
 
   .word-feature-label {
@@ -788,6 +788,83 @@
     margin-bottom: 2px;
   }
 
+  .full-only { display: none !important; }
+
+  .session-card {
+    background: var(--accent);
+    color: white;
+    border-radius: var(--radius);
+    padding: 28px 24px 24px;
+    margin-bottom: 16px;
+  }
+
+  .session-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+
+  .session-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .session-lead {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  .session-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .session-list li {
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 10px 12px 10px 34px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    position: relative;
+  }
+
+  .session-list li::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    margin-top: -6px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='11' width='16' height='10' rx='2'/%3E%3Cpath d='M8 11V7a4 4 0 0 1 8 0v4'/%3E%3C/svg%3E") no-repeat center / contain;
+    opacity: 0.8;
+  }
+
+  .session-btn {
+    display: none;
+    text-align: center;
+    text-decoration: none;
+    background: white;
+    color: var(--accent);
+  }
+
+  .session-contact {
+    font-size: 12px;
+    text-align: center;
+    opacity: 0.85;
+  }
+
+  .session-contact b { font-weight: 500; }
+
   .watermark {
     position: fixed;
     inset: 0;
@@ -814,9 +891,9 @@
 <div class="watermark" aria-hidden="true"></div>
 
 <header>
-  <div class="eyebrow">KoKoRo Cards</div>
-  <h1>ココロ<span>カード</span></h1>
-  <p class="subtitle">42枚のカードで、心のかたちと伸ばす力を見つける</p>
+  <div class="eyebrow">ココロの声をきくカード</div>
+  <h1>KoKoRo <span>voice card</span></h1>
+  <p class="subtitle">42枚のカードで、あなたの心の声と強みを見つける</p>
 </header>
 
 <!-- INTRO -->
@@ -833,7 +910,7 @@
       </div>
       <div class="rule-item">
         <div class="rule-num">3</div>
-        <div>答え終わると、<b style="font-weight:500">9つのココロのタイプ</b>と<b style="font-weight:500">5つの力</b>からあなたを分析し、強みを伸ばす「ことば」をお届けします。</div>
+        <div>答え終わると、<b style="font-weight:500">9つのココロのタイプ</b>と<b style="font-weight:500">5つの力</b>から、あなたの今の心のかたちが見えてきます。</div>
       </div>
     </div>
     <button class="btn" onclick="startQuiz()">カードをめくる</button>
@@ -875,19 +952,19 @@
       <div class="type-en" id="t-core"></div>
       <div class="type-name" id="t-name"></div>
       <div class="type-keyword" id="t-keyword"></div>
-      <div class="wing-badge" id="t-wing"></div>
+      <div class="wing-badge full-only" id="t-wing"></div>
     </div>
     <div class="type-body">
       <p class="type-desc" id="t-desc"></p>
-      <div class="facts">
+      <div class="facts full-only">
         <div class="fact"><div class="fact-label">根っこの願い</div><div class="fact-value" id="t-desire"></div></div>
         <div class="fact"><div class="fact-label">根っこの怖れ</div><div class="fact-value" id="t-fear"></div></div>
       </div>
       <div class="section-label">持ち味</div>
       <div class="tags" id="t-strengths"></div>
-      <div class="section-label">気をつけたいクセ</div>
-      <div class="tags" id="t-pitfalls"></div>
-      <div class="arrows">
+      <div class="section-label full-only">気をつけたいクセ</div>
+      <div class="tags full-only" id="t-pitfalls"></div>
+      <div class="arrows full-only">
         <div class="arrow-row"><span class="arrow-chip" id="t-growth-chip"></span><span id="t-growth"></span></div>
         <div class="arrow-row"><span class="arrow-chip" id="t-stress-chip"></span><span id="t-stress"></span></div>
       </div>
@@ -901,7 +978,7 @@
     <div id="trait-bars"></div>
   </div>
 
-  <div class="section-card fade-in" id="combo-card">
+  <div class="section-card fade-in full-only" id="combo-card">
     <div class="section-head">あなたの組み合わせ</div>
     <div class="section-sub">ココロのタイプ × 5つの力</div>
     <div class="combo-text" id="combo-text"></div>
@@ -911,20 +988,22 @@
     <div class="word-feature">
       <div class="word-feature-label">TODAY'S WORD · 今日のことば</div>
       <p class="word-feature-text" id="word-feature"></p>
-      <button class="word-next" onclick="nextWord()">ほかのことばを見る</button>
+      <button class="word-next full-only" onclick="nextWord()">ほかのことばを見る</button>
     </div>
-    <div class="section-head">あなたを伸ばすことば</div>
-    <div class="section-sub">迷ったとき、声に出して読んでみてください</div>
-    <div class="word-list" id="word-list"></div>
+    <div class="full-only">
+      <div class="section-head">あなたを伸ばすことば</div>
+      <div class="section-sub">迷ったとき、声に出して読んでみてください</div>
+      <div class="word-list" id="word-list"></div>
+    </div>
   </div>
 
-  <div class="section-card fade-in" id="steps-card">
+  <div class="section-card fade-in full-only" id="steps-card">
     <div class="section-head">今日からできる小さな一歩</div>
     <div class="section-sub">強みは、使うほど育ちます</div>
     <div class="step-list" id="step-list"></div>
   </div>
 
-  <div class="diagram-wrap fade-in">
+  <div class="diagram-wrap fade-in full-only">
     <svg id="diagram" viewBox="0 0 260 260" role="img" aria-label="9つのタイプのつながり図"></svg>
     <div class="diagram-legend">
       <span class="legend-growth">成長の方向</span>
@@ -932,11 +1011,26 @@
     </div>
   </div>
 
-  <div class="scores fade-in" id="scores"></div>
+  <div class="scores fade-in full-only" id="scores"></div>
 
   <div class="message-card fade-in" id="message-card">
     <strong id="m-title"></strong>
     <span id="m-body"></span>
+  </div>
+
+  <div class="session-card fade-in">
+    <div class="session-eyebrow">SESSION</div>
+    <div class="session-title">この続きは、セッションで</div>
+    <p class="session-lead" id="session-lead">ここでお見せしたのは、あなたの心のかたちのほんの入口です。セッションでは結果をもとに、あなたの声をじっくり聴きながら、これからどう伸ばしていくかを一緒に見つけていきます。</p>
+    <ul class="session-list">
+      <li>タイプ × 5つの力の、くわしい組み合わせ分析</li>
+      <li>根っこにある願いと、知らずに抱えている怖れ</li>
+      <li>気をつけたいクセと、疲れたときに出るサイン</li>
+      <li>のびしろの育て方と、成長の方向</li>
+      <li>あなただけの「伸ばすことば」と、今日からの一歩</li>
+    </ul>
+    <a class="btn session-btn" id="session-btn" target="_blank" rel="noopener">セッションを申し込む</a>
+    <p class="session-contact" id="session-contact">セッションのご案内は <b>@KoKoRoBeing</b> まで</p>
   </div>
 
   <div class="share-card fade-in">
@@ -1300,8 +1394,8 @@ function renderResult(result) {
   document.getElementById('result-primary').onclick = startQuiz;
 
   const top = sortedTraits(traits)[0];
-  shareText = 'ココロカードをやってみたら、私は【タイプ' + main + ' ' + TYPES[main].name + '】×【' + top.name + '】でした🃏\n' +
-    '私を伸ばすことば：「' + TYPES[main].words[0] + '」\nあなたは何タイプ？\n#ココロカード #KoKoRoBeing';
+  shareText = 'KoKoRo voice cardをやってみたら、私は【タイプ' + main + ' ' + TYPES[main].name + '】×【' + top.name + '】でした🃏\n' +
+    'あなたの心の声は、何タイプ？\n#KoKoRoVoiceCard #KoKoRoBeing';
   setShareTitle('結果をシェアする');
 
   showScreen('screen-result');
@@ -1309,8 +1403,7 @@ function renderResult(result) {
 
 function renderTypeCard(t, wing) {
   const data = TYPES[t];
-  const card = document.getElementById('type-card');
-  card.style.setProperty('--type-color', data.color);
+  document.getElementById('screen-result').style.setProperty('--type-color', data.color);
   document.getElementById('t-num').textContent = t;
   document.getElementById('t-core').textContent = 'CORE · ' + data.core + ' · ' + CENTERS[data.center];
   document.getElementById('t-name').textContent = 'タイプ' + t + '　' + data.name;
@@ -1563,8 +1656,20 @@ function showTypeDetail(t) {
   showScreen('screen-result');
 }
 
+// セッション申込リンク（決まったらここにURLを入れると、申込ボタンが表示されます）
+const SESSION_URL = '';
+
+function setupSession() {
+  const btn = document.getElementById('session-btn');
+  if (SESSION_URL) {
+    btn.href = SESSION_URL;
+    btn.style.display = 'block';
+    document.getElementById('session-contact').style.display = 'none';
+  }
+}
+
 const SHARE_URL = 'https://sakurajpau.github.io/thought-dump-game/kokoro.html';
-const DEFAULT_SHARE_TEXT = '42枚のカードに答えるだけで、9つのココロのタイプ×5つの力から、自分の強みとそれを伸ばすことばがわかる「ココロカード」🃏\nあなたは何タイプ？\n#ココロカード #KoKoRoBeing';
+const DEFAULT_SHARE_TEXT = '42枚のカードに答えるだけで、9つのココロのタイプ×5つの力から、心の声と強みが見えてくる「KoKoRo voice card」🃏\nあなたは何タイプ？\n#KoKoRoVoiceCard #KoKoRoBeing';
 let shareText = DEFAULT_SHARE_TEXT;
 
 function setShareTitle(text) {
@@ -1607,7 +1712,7 @@ function fallbackCopy(body, done) {
 
 function shareNative() {
   if (navigator.share) {
-    navigator.share({ title: 'ココロカード', text: shareText, url: SHARE_URL }).catch(() => {});
+    navigator.share({ title: 'KoKoRo voice card', text: shareText, url: SHARE_URL }).catch(() => {});
   } else {
     copyShare();
   }
@@ -1640,6 +1745,7 @@ function goHome() {
 }
 
 buildScale();
+setupSession();
 goHome();
 </script>
 </body>
