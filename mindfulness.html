@@ -180,8 +180,8 @@
   .mn { cursor: pointer; outline: none; } .mn .ring { opacity: 0; transition: opacity .15s; } .mn.on .ring, .mn:focus-visible .ring { opacity: 1; }
   #mapdesc { margin-top: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
   .lk { position: relative; }
-  .item.lk::after, .prog-item .lk::after { content: 'セッション特典'; flex: 0 0 auto; font-size: 10.500px; font-weight: 700; color: var(--mark); border: 1px solid #DCC58A; background: #FBF4DD; border-radius: 999px; padding: 0 7px; line-height: 1.7; margin-left: 6px; }
-  .tile.lk::after { content: 'セッション特典'; position: absolute; top: 14px; right: 14px; font-size: 10.500px; font-weight: 700; color: var(--mark); border: 1px solid #DCC58A; background: #FBF4DD; border-radius: 999px; padding: 0 7px; line-height: 1.7; }
+  .item.lk::after, .prog-item .lk::after { content: 'LINE特典'; flex: 0 0 auto; font-size: 10.500px; font-weight: 700; color: var(--mark); border: 1px solid #DCC58A; background: #FBF4DD; border-radius: 999px; padding: 0 7px; line-height: 1.7; margin-left: 6px; }
+  .tile.lk::after { content: 'LINE特典'; position: absolute; top: 14px; right: 14px; font-size: 10.500px; font-weight: 700; color: var(--mark); border: 1px solid #DCC58A; background: #FBF4DD; border-radius: 999px; padding: 0 7px; line-height: 1.7; }
   .item.lk .st { display: none; }
   .hero.gift { background: #FBF4DD; border-color: #E6D29A; padding: 16px 44px 16px 18px; } .hero.gift h2, .hero.gift .arrow { color: var(--mark); }
   nav#nav { box-shadow: 0 -1px 6px rgba(0,0,0,.05); }
@@ -709,8 +709,7 @@ var SOURCES = [
 ];
 
 var CHANGELOG = [
-  ['v5.1', '全体を開く特典を、3か月セッションの参加者向けに変更。'],
-  ['v5.0', 'サイトで公開。体験版を追加。'],
+  ['v5.0', 'サイトで公開。体験版と、LINE特典（合言葉ですべて開く）を追加。'],
   ['v4.2', '心の地図12枚を図解に描き直し。'],
   ['v4.1', 'KoKoRoBeing の配色に変更し、名前とマークを追加。'],
   ['v4.0', '発展編を追加。第7章 仏教心理学、第8章 プログラムと理論、第9章 実践を深める（21レッスン）。用語31語、心の地図6枚、記述演習7問、正誤判定30問、つまずき相談室、発展プログラム4週間、実践ガイド2種。'],
@@ -992,8 +991,8 @@ var TF = [
 /* つまずき相談室 */
 var V = {};
 
-/* ================= 体験版と3か月セッション特典 ================= */
-var SESSION_URL = '';  /* セッション申込のURLを入れると、申込ボタンが表示されます（kokoro.html と同じ方式） */
+/* ================= 体験版とLINE特典 ================= */
+var LINE_URL = '';  /* LINE公式アカウントの友だち追加URLを入れると、ボタンが表示されます */
 var PASS = [2544450637, 215762741, 2548008397, 2612834544];
 function passHash(t) { var x = 5381; t = t.replace(/[\s　]/g, '').toLowerCase(); for (var i = 0; i < t.length; i++) x = ((x << 5) + x + t.charCodeAt(i)) >>> 0; return x; }
 var FREE_SIT = { breath: 1, space: 1 }, FREE_EXP = { sart: 1 };
@@ -1007,12 +1006,12 @@ function locked(route) {
   return { qa: 1, essays: 1, essay: 1, program: 1, week: 1, help: 1, helpitem: 1 }[n] === 1;
 }
 V.gate = function () {
-  if (S.unlocked) return top('3か月セッション特典') + '<div class="box center"><h2>すべての内容が開いています</h2><p class="note">合言葉の入力は済んでいます。</p></div><button class="btn" data-go="home">ホームへ</button>';
-  return top('ここから先は、3か月セッションの特典です') +
-    '<div class="box"><p style="font-size:15px">このノートの全体は、KoKoRoBeing の<b>3か月セッション</b>に参加している方へお渡ししています。セッションでお伝えする<b>合言葉</b>を入力すると、すべてが開きます。</p>' +
-    (SESSION_URL ? '<a class="btn" href="' + SESSION_URL + '" target="_blank" rel="noopener" style="text-align:center;text-decoration:none;margin-top:12px">3か月セッションを申し込む</a>' : '<p class="note" style="margin-top:10px">3か月セッションのご案内は <b style="color:var(--ink)">@KoKoRoBeing</b> まで</p>') + '</div>' +
+  if (S.unlocked) return top('LINE特典') + '<div class="box center"><h2>すべての内容が開いています</h2><p class="note">合言葉の入力は済んでいます。</p></div><button class="btn" data-go="home">ホームへ</button>';
+  return top('ここから先はLINE特典です') +
+    '<div class="box"><p style="font-size:15px">KoKoRoBeing のLINE公式アカウントを友だち追加すると、<b>合言葉</b>が届きます。入力すると、このノートのすべてが開きます。</p>' +
+    (LINE_URL ? '<a class="btn" href="' + LINE_URL + '" target="_blank" rel="noopener" style="text-align:center;text-decoration:none;margin-top:12px">LINEで友だち追加する</a>' : '') + '</div>' +
     '<div class="box"><h2>合言葉を入力</h2><input type="text" id="pass" placeholder="合言葉" autocomplete="off" autocapitalize="off" style="width:100%;margin-top:8px;background:#FBFCFB;border:1px solid var(--line);border-radius:14px;padding:13px 14px;font-size:16px;outline:none"><div class="row"><button class="btn" data-pass>開く</button></div><p class="note center" id="passmsg" style="margin-top:8px;color:var(--ng)"></p></div>' +
-    '<div class="sec">セッション特典で開く内容</div><div class="box"><ul style="padding-left:1.2em;font-size:14.5px"><li>講義 第2〜9章（50レッスン）</li><li>心の実験室の4つの測定と、5つの側面セルフチェック</li><li>心の地図 10枚</li><li>一問一答・正誤判定・記述演習</li><li>12週間の学習プログラム</li><li>実践ガイド5種類と、つまずき相談室</li></ul></div>' +
+    '<div class="sec">特典で開く内容</div><div class="box"><ul style="padding-left:1.2em;font-size:14.5px"><li>講義 第2〜9章（50レッスン）</li><li>心の実験室の4つの測定と、5つの側面セルフチェック</li><li>心の地図 10枚</li><li>一問一答・正誤判定・記述演習</li><li>12週間の学習プログラム</li><li>実践ガイド5種類と、つまずき相談室</li></ul></div>' +
     '<p class="note">体験版では、第1章の講義、呼吸瞑想と3分間呼吸空間法、注意の持続テスト、心の地図2枚、年表、用語集が使えます。</p>';
 };
 var HELP = [
@@ -1094,7 +1093,7 @@ V.home = function () {
     '<div class="bar"><i style="width:' + (dc / LESSONS.length * 100) + '%"></i></div>' +
     '<div class="go">' + (dc === 0 ? '学習を始める' : dc === LESSONS.length ? 'すべて学習済み' : '続きから（' + dc + ' / ' + LESSONS.length + '）') + '</div><span class="arrow">→</span></button>' +
     (next && dc > 0 ? '<div class="list"><button class="item" data-go="lesson/' + next.id + '"><span class="no">次</span><span class="tt">' + esc(next.t) + '<small>' + UNITS[next.u][0] + '</small></span><span class="st" style="color:var(--accent)">→</span></button></div>' : '') +
-    (S.unlocked ? '' : '<button class="hero gift" data-go="gate"><h2 style="font-size:18px">3か月セッションで、すべて開く</h2><p style="margin:4px 0 0">いまは体験版です。セッションでお伝えする合言葉を入れると、全55レッスンと心の実験室が使えます。</p><span class="arrow" style="bottom:18px">→</span></button>') +
+    (S.unlocked ? '' : '<button class="hero gift" data-go="gate"><h2 style="font-size:18px">LINE特典で、すべて開く</h2><p style="margin:4px 0 0">いまは体験版です。友だち追加で届く合言葉を入れると、全55レッスンと心の実験室が使えます。</p><span class="arrow" style="bottom:18px">→</span></button>') +
     '<div class="grid">' +
     '<button class="tile" data-go="maps">' + ICON.map + '<h3>心の地図</h3><p>しくみを図でつかむ</p></button>' +
     '<button class="tile" data-go="timeline">' + ICON.clock + '<h3>年代・年表</h3><p>2500年の流れを理解</p></button>' +
@@ -1621,7 +1620,7 @@ document.addEventListener('click', function (e) {
   if (d.go !== undefined) return go(d.go);
   if (d.pass !== undefined) {
     if (PASS.indexOf(passHash($('pass').value)) >= 0) { S.unlocked = 1; save(); var w = ui.want || 'home'; ui.want = null; if (location.hash === '#/' + w) render(); else go(w); }
-    else $('passmsg').textContent = '合言葉が違うようです。セッションでお伝えした言葉をもう一度確かめてください。';
+    else $('passmsg').textContent = '合言葉が違うようです。LINEのメッセージをもう一度確かめてください。';
     return;
   }
   if (d.opt) { S.opt[d.opt] = S.opt[d.opt] ? 0 : 1; save(); t.classList.toggle('on', !!S.opt[d.opt]); if (S.opt[d.opt]) { if (d.opt === 'bell') bell(); else say('音声ガイドをオンにしました'); } return; }
