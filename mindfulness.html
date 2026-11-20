@@ -17,16 +17,16 @@
 <link rel="canonical" href="https://sakurajpau.github.io/thought-dump-game/mindfulness.html">
 <meta property="og:description" content="講義・心の地図・年表・一問一答・記述演習・実践タイマーで、マインドフルネスを基礎から深く学ぶ。">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&family=DM+Sans:wght@300;400;500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&family=DM+Sans:wght@300;400;500;700&family=Jost:wght@400;500&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   :root {
     --bg: #EEF4F0; --card: #FFFFFF; --card2: #E4EEE7; --line: #E0DDD9; --line2: #BFD3C3;
-    --ink: #1C1C1C; --soft: #6B6660; --dim: #8E8983; --accent: #4F7A55; --accent-bg: #E4EEE7;
-    --ok: #4F7A55; --ng: #A86B5A; --mark: #A9792B; --brown: #3D3530; --r: 20px;
+    --ink: #26292B; --soft: #6B6660; --dim: #8E8983; --accent: #3E6A5A; --accent-bg: #E4EEE7;
+    --ok: #3E6A5A; --ng: #A86B5A; --mark: #A9792B; --brown: #33443C; --r: 20px;
   }
   html { background: var(--bg); }
   body {
-    font-family: 'DM Sans', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', Meiryo, sans-serif;
+    font-family: 'DM Sans', 'Zen Kaku Gothic New', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', Meiryo, sans-serif;
     background: linear-gradient(180deg, #EDF4EF 0%, #EEF3F6 100%) fixed; background-color: var(--bg); color: var(--ink); line-height: 1.8; min-height: 100vh;
     padding-bottom: calc(96px + env(safe-area-inset-bottom));
   }
@@ -122,7 +122,7 @@
   textarea { min-height: 150px; resize: vertical; }
   textarea:focus, input:focus { border-color: var(--line2); }
   .chk { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; font-size: 14.5px; }
-  .chk input { width: 20px; height: 20px; margin-top: 4px; accent-color: #6F9A6F; flex: 0 0 auto; }
+  .chk input { width: 20px; height: 20px; margin-top: 4px; accent-color: #3E6A5A; flex: 0 0 auto; }
 
   .stage { height: 250px; display: flex; align-items: center; justify-content: center; }
   .circle { width: 112px; height: 112px; border-radius: 50%; background: var(--accent-bg); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; text-align: center; font-size: 15px; color: var(--accent); transition: transform 4s ease-in-out; padding: 8px; }
@@ -156,7 +156,7 @@
   svg.chart { display: block; width: 100%; height: auto; }
   .prog-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--line); }
   .prog-item:last-child { border-bottom: none; }
-  .prog-item input { width: 22px; height: 22px; accent-color: #6F9A6F; flex: 0 0 auto; }
+  .prog-item input { width: 22px; height: 22px; accent-color: #3E6A5A; flex: 0 0 auto; }
   .prog-item button { flex: 1; text-align: left; background: none; border: none; font-size: 15px; line-height: 1.5; }
   .prog-item small { display: block; color: var(--dim); font-size: 12px; }
   button.circle { font-family: inherit; }
@@ -165,15 +165,15 @@
   .hero h2, .home-title { color: var(--brown); } .hero .arrow { color: var(--brown); }
   .tile svg { width: 44px; height: 44px; padding: 10px; border-radius: 50%; stroke: #fff; background: #8FA88A; }
   .grid .tile:nth-child(1) svg { background: #7D8A9C; } .grid .tile:nth-child(2) svg { background: #C08A8A; }
-  .grid .tile:nth-child(3) svg { background: #C7A35A; } .grid .tile:nth-child(4) svg { background: #8A7BA8; }
+  .grid .tile:nth-child(3) svg { background: #C9A35B; } .grid .tile:nth-child(4) svg { background: #8A7BA8; }
   .grid .tile:nth-child(5) svg { background: #5F8F8C; } .grid .tile:nth-child(6) svg { background: #6F8BA8; }
   .grid .tile:nth-child(7) svg { background: #8FA88A; } .grid .tile:nth-child(8) svg { background: #D19A6A; }
   .hero svg { stroke: var(--brown); }
   .brand { font-family: 'DM Sans', sans-serif; }
   .kk { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
   .kk-mark { width: 34px; height: 34px; flex: 0 0 auto; }
-  .kk-name { font-family: 'DM Sans', sans-serif; font-size: 21px; font-weight: 300; letter-spacing: -.01em; color: var(--ink); line-height: 1; }
-  .kk-name b { font-weight: 500; }
+  .kk-name { font-family: 'Jost', 'DM Sans', sans-serif; font-size: 20px; font-weight: 500; letter-spacing: .12em; color: #26292B; line-height: 1; }
+  .kk-name span { color: #3E6A5A; }
   .kk-foot { margin: 18px 0 0; } .kk-foot .kk-mark { width: 26px; height: 26px; } .kk-foot .kk-name { font-size: 16px; } .kk-at { color: var(--dim); font-size: 12px; margin-left: 4px; }
   .tile h3 { font-size: 18px; }
   .mapsvg { max-width: 420px; margin: 0 auto; font-family: inherit; }
@@ -709,6 +709,7 @@ var SOURCES = [
 ];
 
 var CHANGELOG = [
+  ['v5.2', 'kokorobeing.com のロゴと配色（緑と金）に合わせた。'],
   ['v5.0', 'サイトで公開。体験版と、LINE特典（合言葉ですべて開く）を追加。'],
   ['v4.2', '心の地図12枚を図解に描き直し。'],
   ['v4.1', 'KoKoRoBeing の配色に変更し、名前とマークを追加。'],
@@ -1086,7 +1087,7 @@ var ui = { want: null, exmin: 3, fa: [], courseMode: '順番に', theme: '理論
 
 V.home = function () {
   var dc = doneCount(), next = LESSONS.filter(function (l) { return !S.done[l.id]; })[0];
-  return '<div class="kk"><svg class="kk-mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="13.5" fill="none" stroke="#D9D9D4" stroke-width="1"/><circle cx="20.0" cy="6.5" r="4.2" fill="#8FA88A"/><circle cx="28.7" cy="9.7" r="4.2" fill="#7D8A9C"/><circle cx="33.3" cy="17.7" r="4.2" fill="#C08A8A"/><circle cx="31.7" cy="26.7" r="4.2" fill="#C7A35A"/><circle cx="24.6" cy="32.7" r="4.2" fill="#8A7BA8"/><circle cx="15.4" cy="32.7" r="4.2" fill="#5F8F8C"/><circle cx="8.3" cy="26.8" r="4.2" fill="#6F8BA8"/><circle cx="6.7" cy="17.7" r="4.2" fill="#D19A6A"/><circle cx="11.3" cy="9.7" r="4.2" fill="#A86B5A"/></svg><span class="kk-name">KoKoRo<b>Being</b></span></div><div class="brand">MINDFULNESS STUDY NOTEBOOK</div><div class="home-title">マインドフルネス<br>学習ノート</div>' +
+  return '<div class="kk"><svg class="kk-mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M33 13.5A15 15 0 1 0 34.5 24" fill="none" stroke="#3E6A5A" stroke-width="3.4" stroke-linecap="round"/><circle cx="20" cy="20" r="3.2" fill="#C9A35B"/></svg><span class="kk-name"><span>KoKoRo</span>Being</span></div><div class="brand">MINDFULNESS STUDY NOTEBOOK</div><div class="home-title">マインドフルネス<br>学習ノート</div>' +
     '<p class="lead">学ぶ・測る・実践する。自分の心のデータで、理解を確かめる。</p>' +
     '<div class="links"><button data-go="changelog">更新履歴</button><button data-go="me">心のデータ</button><button data-go="sources">出典</button><button data-go="about">このノートについて</button></div>' +
     '<button class="hero" data-go="course">' + '<h2>' + ICON.book + '講義</h2><p>順番に・テーマ別・目的別で学ぶ（全' + LESSONS.length + 'レッスン）</p>' +
@@ -1104,7 +1105,7 @@ V.home = function () {
     '<button class="tile" data-go="practice">' + ICON.leaf + '<h3>実践タイマー</h3><p>7種類のガイド付き</p></button>' +
     '<button class="tile" data-go="help">' + ICON.help + '<h3>つまずき相談室</h3><p>困ったときの対処</p></button>' +
     '</div>' +
-    '<footer>このノートは学習用の一般的な情報で、医療・心理の診断や治療の代わりにはなりません。学習の記録はこの端末のブラウザにだけ保存されます。<br><a href="index.html">思考の実況ゲーム</a>　／　<a href="kokoro.html">KoKoRo voice card</a><div class="kk kk-foot"><svg class="kk-mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="13.5" fill="none" stroke="#D9D9D4" stroke-width="1"/><circle cx="20.0" cy="6.5" r="4.2" fill="#8FA88A"/><circle cx="28.7" cy="9.7" r="4.2" fill="#7D8A9C"/><circle cx="33.3" cy="17.7" r="4.2" fill="#C08A8A"/><circle cx="31.7" cy="26.7" r="4.2" fill="#C7A35A"/><circle cx="24.6" cy="32.7" r="4.2" fill="#8A7BA8"/><circle cx="15.4" cy="32.7" r="4.2" fill="#5F8F8C"/><circle cx="8.3" cy="26.8" r="4.2" fill="#6F8BA8"/><circle cx="6.7" cy="17.7" r="4.2" fill="#D19A6A"/><circle cx="11.3" cy="9.7" r="4.2" fill="#A86B5A"/></svg><span class="kk-name">KoKoRo<b>Being</b></span><span class="kk-at">@KoKoRoBeing</span></div></footer>';
+    '<footer>このノートは学習用の一般的な情報で、医療・心理の診断や治療の代わりにはなりません。学習の記録はこの端末のブラウザにだけ保存されます。<br><a href="index.html">思考の実況ゲーム</a>　／　<a href="kokoro.html">KoKoRo voice card</a><div class="kk kk-foot"><svg class="kk-mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M33 13.5A15 15 0 1 0 34.5 24" fill="none" stroke="#3E6A5A" stroke-width="3.4" stroke-linecap="round"/><circle cx="20" cy="20" r="3.2" fill="#C9A35B"/></svg><span class="kk-name"><span>KoKoRo</span>Being</span><span class="kk-at">@KoKoRoBeing</span></div></footer>';
 };
 
 V.course = function () {
@@ -1174,7 +1175,7 @@ var IC = {
   flag: '<path d="M6 21V4M6 5h12l-3 4 3 4H6"/>',
   user: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.500 18.500c1-3 3-4 5.500-4s4.500 1 5.500 4"/>'
 };
-var PAL = ['#7D8A9C', '#C08A8A', '#C7A35A', '#8A7BA8', '#5F8F8C', '#6F8BA8', '#8FA88A', '#D19A6A', '#A86B5A'];
+var PAL = ['#7D8A9C', '#C08A8A', '#C9A35B', '#8A7BA8', '#5F8F8C', '#6F8BA8', '#8FA88A', '#D19A6A', '#A86B5A'];
 /* 地図ごとの描き方：ty=形, ic=項目のアイコン, c=中央, hi=強調する項目 */
 var MAPVIZ = [
   { ty: 'cycle', ic: ['target', 'cloud', 'spark', 'back'], c: 'sit' },
@@ -1201,7 +1202,7 @@ function mnode(j, x, y, label, icon, col, side, hi) {
   var r = hi ? 30 : 26, lines = wrapLabel(label, side === 'below' ? 7 : 9), h = '<g class="mn' + (j === 0 ? ' on' : '') + '" data-mnode="' + j + '" tabindex="0" role="button" aria-label="' + esc(label) + '">';
   h += side === 'below' ? '<rect x="' + (x - 52) + '" y="' + (y - r - 6) + '" width="104" height="' + (2 * r + 50) + '" fill="transparent"/>' : '<rect x="' + (side === 'right' ? x - r - 6 : x - r - 170) + '" y="' + (y - r - 6) + '" width="' + (2 * r + 176) + '" height="' + (2 * r + 12) + '" fill="transparent"/>';
   if (hi) h += '<circle cx="' + x + '" cy="' + y + '" r="40" fill="#F4E6B0" opacity=".7"/>';
-  h += '<circle class="ring" cx="' + x + '" cy="' + y + '" r="' + (r + 5) + '" fill="none" stroke="#3D3530" stroke-width="2"/><circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="' + col + '"/>';
+  h += '<circle class="ring" cx="' + x + '" cy="' + y + '" r="' + (r + 5) + '" fill="none" stroke="#33443C" stroke-width="2"/><circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="' + col + '"/>';
   h += icon ? ico(icon, x, y, 1.15) : '<text x="' + x + '" y="' + (y + 7) + '" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">' + (j + 1) + '</text>';
   var tx = side === 'right' ? x + r + 14 : side === 'left' ? x - r - 14 : x, ty = side === 'below' ? y + r + 20 : y - (lines.length - 1) * 9 + 5, an = side === 'right' ? 'start' : side === 'left' ? 'end' : 'middle';
   lines.forEach(function (l, k) { h += '<text x="' + tx + '" y="' + (ty + k * 18) + '" text-anchor="' + an + '" font-size="14" font-weight="700" fill="#1C1C1C">' + esc(l) + '</text>'; });
@@ -1209,8 +1210,8 @@ function mnode(j, x, y, label, icon, col, side, hi) {
 }
 function hub(x, y, v) {
   var h = '<circle cx="' + x + '" cy="' + y + '" r="38" fill="#E4EEE7" stroke="#BFD3C3"/>';
-  if (v.ct) v.ct.forEach(function (l, k) { h += '<text x="' + x + '" y="' + (y - 3 + k * 16) + '" text-anchor="middle" font-size="12.500" font-weight="700" fill="#3D3530">' + l + '</text>'; });
-  else h += ico(v.c, x, y, 1.9, '#3D3530');
+  if (v.ct) v.ct.forEach(function (l, k) { h += '<text x="' + x + '" y="' + (y - 3 + k * 16) + '" text-anchor="middle" font-size="12.500" font-weight="700" fill="#33443C">' + l + '</text>'; });
+  else h += ico(v.c, x, y, 1.9, '#33443C');
   return h;
 }
 function drawMap(m, v) {
@@ -1243,7 +1244,7 @@ function drawMap(m, v) {
   }
   return '<svg class="chart mapsvg" viewBox="0 0 ' + W + ' ' + H + '" role="group" aria-label="' + esc(m.t) + '">' + DEFS + h + '</svg>';
 }
-function mapDesc(m, j) { return '<div class="n" style="background:' + '#3D3530' + ';color:#fff">' + (j + 1) + '</div><div><b>' + esc(m.n[j][0].replace(/^★\s*/, '')) + '</b><p>' + esc(m.n[j][1]) + '</p></div>'; }
+function mapDesc(m, j) { return '<div class="n" style="background:' + '#33443C' + ';color:#fff">' + (j + 1) + '</div><div><b>' + esc(m.n[j][0].replace(/^★\s*/, '')) + '</b><p>' + esc(m.n[j][1]) + '</p></div>'; }
 V.map = function (i) {
   var m = MAPS[+i]; if (!m) return V.maps();
   ui.mapi = +i;
@@ -1350,13 +1351,13 @@ function hbars(pairs) { var mx = Math.max.apply(null, pairs.map(function (p) { r
 function trend(vals, unit) {
   if (vals.length < 2) return '';
   var W = 300, H = 70, mx = Math.max.apply(null, vals.concat([1])), pts = vals.map(function (v, i) { return [10 + i * (W - 20) / (vals.length - 1), H - 10 - v / mx * (H - 22)]; });
-  return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '"><polyline fill="none" stroke="#6F9A6F" stroke-width="2" points="' + pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ') + '"/>' + pts.map(function (p) { return '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="3.5" fill="#6F9A6F"/>'; }).join('') + '</svg><p class="note">初回 ' + vals[0] + unit + ' → 最新 ' + vals[vals.length - 1] + unit + '（' + vals.length + '回）</p>';
+  return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '"><polyline fill="none" stroke="#3E6A5A" stroke-width="2" points="' + pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ') + '"/>' + pts.map(function (p) { return '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="3.5" fill="#3E6A5A"/>'; }).join('') + '</svg><p class="note">初回 ' + vals[0] + unit + ' → 最新 ' + vals[vals.length - 1] + unit + '（' + vals.length + '回）</p>';
 }
 function radar(sc) {
   var C = 150, R = 86, n = 5, h = '<svg class="chart" viewBox="0 0 300 270" style="max-width:340px;margin:0 auto">';
   function pt(i, r) { var a = -Math.PI / 2 + i * 2 * Math.PI / n; return [C + Math.cos(a) * r, 132 + Math.sin(a) * r]; }
   [0.2, 0.4, 0.6, 0.8, 1].forEach(function (k) { h += '<polygon fill="none" stroke="#E0DDD9" points="' + [0, 1, 2, 3, 4].map(function (i) { return pt(i, R * k).join(','); }).join(' ') + '"/>'; });
-  h += '<polygon fill="rgba(111,154,111,.28)" stroke="#6F9A6F" stroke-width="2" points="' + sc.map(function (v, i) { return pt(i, R * v / 5).join(','); }).join(' ') + '"/>';
+  h += '<polygon fill="rgba(62,106,90,.24)" stroke="#3E6A5A" stroke-width="2" points="' + sc.map(function (v, i) { return pt(i, R * v / 5).join(','); }).join(' ') + '"/>';
   FACETS.forEach(function (f, i) { var p = pt(i, R + 30); h += '<text x="' + p[0] + '" y="' + (p[1] + 4) + '" fill="#6B6660" font-size="12" text-anchor="middle">' + f + '</text>'; });
   return h + '</svg>';
 }
