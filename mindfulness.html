@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#EEF4F0">
+<title>マインドフルネス学習ノート｜KoKoRoBeing</title>
+<meta name="description" content="学ぶ・測る・実践するがつながるマインドフルネス学習アプリ。全55レッスンの講義、心の実験室、8週間プログラム、年表、一問一答、記述演習、実践タイマー。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="マインドフルネス学習ノート｜KoKoRoBeing">
+<meta property="og:site_name" content="KoKoRoBeing">
+<meta property="og:url" content="https://sakurajpau.github.io/thought-dump-game/mindfulness.html">
+<meta property="og:image" content="https://sakurajpau.github.io/thought-dump-game/ogp-mindfulness.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://sakurajpau.github.io/thought-dump-game/mindfulness.html">
+<meta property="og:description" content="講義・心の地図・年表・一問一答・記述演習・実践タイマーで、マインドフルネスを基礎から深く学ぶ。">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&family=DM+Sans:wght@300;400;500;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --bg: #EEF4F0; --card: #FFFFFF; --card2: #E4EEE7; --line: #E0DDD9; --line2: #BFD3C3;
+    --ink: #1C1C1C; --soft: #6B6660; --dim: #8E8983; --accent: #4F7A55; --accent-bg: #E4EEE7;
+    --ok: #4F7A55; --ng: #A86B5A; --mark: #A9792B; --brown: #3D3530; --r: 20px;
+  }
+  html { background: var(--bg); }
+  body {
+    font-family: 'DM Sans', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', Meiryo, sans-serif;
+    background: linear-gradient(180deg, #EDF4EF 0%, #EEF3F6 100%) fixed; background-color: var(--bg); color: var(--ink); line-height: 1.8; min-height: 100vh;
+    padding-bottom: calc(96px + env(safe-area-inset-bottom));
+  }
+  button, input, textarea, select { font-family: inherit; color: inherit; }
+  button { cursor: pointer; }
+  #app { max-width: 640px; margin: 0 auto; padding: 18px 16px 24px; }
+  .view { animation: fade .25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .top { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; min-height: 40px; }
+  .back { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--card); font-size: 18px; flex: 0 0 auto; }
+  .top h1 { font-size: 20px; font-weight: 700; line-height: 1.4; flex: 1; }
+  .brand { font-size: 12px; letter-spacing: .14em; color: var(--dim); }
+  .home-title { font-size: 26px; font-weight: 800; line-height: 1.35; margin: 2px 0 4px; }
+  .lead { color: var(--soft); font-size: 14px; }
+  .links { display: flex; gap: 18px; margin: 14px 0 16px; }
+  .links button { background: none; border: none; color: var(--ink); text-decoration: underline; font-size: 14px; }
+
+  .hero { display: block; width: 100%; text-align: left; background: var(--card2); border: 1px solid var(--line2); border-radius: var(--r); padding: 22px 20px; margin-bottom: 12px; position: relative; }
+  .hero h2 { font-size: 26px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+  .hero p { color: var(--soft); font-size: 14px; margin: 6px 0 12px; }
+  .hero .go { font-size: 19px; font-weight: 700; }
+  .hero .arrow { position: absolute; right: 20px; bottom: 26px; color: var(--accent); font-size: 24px; }
+  .bar { height: 6px; background: #E6E9E4; border-radius: 3px; overflow: hidden; margin: 10px 0 12px; }
+  .bar i { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .tile { text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 18px 16px; min-height: 148px; }
+  .tile svg, .hero svg { width: 26px; height: 26px; stroke: var(--ink); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .tile h3 { font-size: 20px; font-weight: 800; margin: 12px 0 2px; line-height: 1.4; }
+  .tile p { color: var(--soft); font-size: 13px; line-height: 1.5; }
+
+  .seg { display: flex; gap: 6px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 4px; margin-bottom: 14px; }
+  .seg button { flex: 1; padding: 9px 4px; border: none; background: none; border-radius: 10px; font-size: 14px; color: var(--soft); }
+  .seg button.on { background: var(--accent-bg); color: var(--accent); font-weight: 700; }
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 12px; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: 0 0 auto; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); font-size: 13px; color: var(--soft); white-space: nowrap; }
+  .chip.on { background: var(--accent-bg); border-color: var(--line2); color: var(--accent); font-weight: 700; }
+
+  .sec { font-size: 13px; color: var(--dim); letter-spacing: .08em; margin: 20px 2px 8px; }
+  .box { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 18px 16px; margin-bottom: 12px; }
+  .box h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .note { color: var(--soft); font-size: 13.5px; }
+  .list { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; margin-bottom: 12px; }
+  .item { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; padding: 14px 16px; background: none; border: none; border-bottom: 1px solid var(--line); }
+  .item:last-child { border-bottom: none; }
+  .item .no { flex: 0 0 34px; font-size: 12px; color: var(--dim); font-variant-numeric: tabular-nums; }
+  .item .tt { flex: 1; font-size: 15px; line-height: 1.5; }
+  .item .tt small { display: block; color: var(--dim); font-size: 12px; }
+  .item .st { font-size: 13px; color: var(--ok); flex: 0 0 auto; }
+  .unit-h { padding: 14px 16px; border-bottom: 1px solid var(--line); background: #F5F9F6; }
+  .unit-h b { font-size: 16px; } .unit-h span { display: block; font-size: 12.5px; color: var(--soft); }
+
+  .lesson p { font-size: 16px; margin-bottom: 16px; }
+  .lesson mark { background: linear-gradient(transparent 58%, #F4E6B0 58%); color: inherit; font-weight: 700; }
+  .goal { border-left: 3px solid var(--accent); padding: 4px 0 4px 12px; color: var(--soft); font-size: 14px; margin-bottom: 18px; }
+  .points { background: var(--card2); border: 1px solid var(--line2); border-radius: 16px; padding: 14px 16px; margin: 4px 0 16px; }
+  .points b { font-size: 12px; letter-spacing: .12em; color: var(--accent); }
+  .points li { margin-left: 1.2em; font-size: 14.5px; }
+  .terms { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .btn { display: block; width: 100%; padding: 14px; border-radius: 14px; border: 1px solid var(--brown); background: var(--brown); color: #fff; font-size: 15px; font-weight: 500; letter-spacing: .04em; }
+  .btn.plain { background: var(--card); border-color: var(--line); color: var(--ink); font-weight: 500; }
+  .btn.done { background: #E4EEE7; border-color: #9DBFA5; color: var(--ok); font-weight: 700; }
+  .btn:active, .tile:active, .hero:active, .item:active { opacity: .8; }
+  .row { display: flex; gap: 8px; margin-top: 10px; } .row .btn { flex: 1; }
+
+  .node { display: flex; gap: 12px; width: 100%; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
+  .node.on { border-color: var(--line2); background: var(--card2); }
+  .node .n { flex: 0 0 30px; height: 30px; border-radius: 50%; background: var(--accent-bg); color: var(--accent); font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+  .node b { font-size: 16px; } .node div p { color: var(--soft); font-size: 14px; display: none; margin-top: 4px; }
+  .node.on div p { display: block; }
+  .flow { text-align: center; color: var(--dim); font-size: 16px; line-height: 1.6; }
+
+  .tl { position: relative; padding-left: 22px; }
+  .tl::before { content: ''; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+  .ev { position: relative; width: 100%; text-align: left; background: none; border: none; padding: 0 0 18px; display: block; }
+  .ev::before { content: ''; position: absolute; left: -21px; top: 8px; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }
+  .ev .y { color: var(--accent); font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; }
+  .ev .t { font-size: 16px; font-weight: 700; line-height: 1.5; }
+  .ev .d { color: var(--soft); font-size: 14px; display: none; margin-top: 2px; }
+  .ev.on .d { display: block; }
+
+  .qhead { display: flex; justify-content: space-between; font-size: 13px; color: var(--dim); }
+  .qtext { font-size: 17px; font-weight: 700; line-height: 1.7; margin: 10px 0 16px; }
+  .opt { display: block; width: 100%; text-align: left; padding: 13px 14px; margin-bottom: 8px; border-radius: 14px; border: 1px solid var(--line); background: var(--card); font-size: 15px; line-height: 1.6; }
+  .opt.right { border-color: var(--ok); background: #E4EEE7; } .opt.wrong { border-color: var(--ng); background: #F6E7E3; }
+  .ans { background: var(--card2); border-radius: 14px; padding: 14px; margin: 10px 0; font-size: 15px; }
+  .ans b { color: var(--mark); font-size: 19px; display: block; }
+  .big { font-size: 46px; font-weight: 800; text-align: center; font-variant-numeric: tabular-nums; line-height: 1.3; }
+  .center { text-align: center; }
+
+  textarea, input[type=search] { width: 100%; background: #FBFCFB; border: 1px solid var(--line); border-radius: 14px; padding: 13px 14px; font-size: 16px; line-height: 1.7; outline: none; }
+  textarea { min-height: 150px; resize: vertical; }
+  textarea:focus, input:focus { border-color: var(--line2); }
+  .chk { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; font-size: 14.5px; }
+  .chk input { width: 20px; height: 20px; margin-top: 4px; accent-color: #6F9A6F; flex: 0 0 auto; }
+
+  .stage { height: 250px; display: flex; align-items: center; justify-content: center; }
+  .circle { width: 112px; height: 112px; border-radius: 50%; background: var(--accent-bg); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; text-align: center; font-size: 15px; color: var(--accent); transition: transform 4s ease-in-out; padding: 8px; }
+  .circle.in { transform: scale(1.9); transition-duration: 4s; } .circle.out { transform: scale(1); transition-duration: 6s; }
+  .guide { min-height: 84px; text-align: center; font-size: 16px; color: var(--ink); padding: 0 6px; }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
+  .stat b { font-size: 26px; font-weight: 800; display: block; line-height: 1.3; } .stat span { font-size: 12.5px; color: var(--soft); }
+  .gl { padding: 14px 16px; border-bottom: 1px solid var(--line); } .gl:last-child { border-bottom: none; }
+  .gl b { font-size: 16px; } .gl small { color: var(--dim); margin-left: 8px; } .gl p { color: var(--soft); font-size: 14px; }
+  .tag { display: inline-block; font-size: 11px; color: var(--accent); border: 1px solid var(--line2); border-radius: 999px; padding: 0 8px; margin-left: 6px; vertical-align: 2px; }
+  .empty { color: var(--dim); text-align: center; padding: 22px 0; font-size: 14px; }
+
+  .tap { height: 128px; font-size: 30px; border-radius: 24px; line-height: 1.3; }
+  .tap small { display: block; font-size: 13px; font-weight: 500; opacity: .8; }
+  .digit { font-size: 104px; font-weight: 800; text-align: center; height: 170px; line-height: 170px; font-variant-numeric: tabular-nums; }
+  .lbgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .lbgrid .btn { padding: 18px 8px; } .lbgrid .btn small { display: block; font-weight: 500; opacity: .75; font-size: 12px; }
+  .hb { display: flex; align-items: center; gap: 8px; font-size: 13px; margin: 7px 0; }
+  .hb span { flex: 0 0 104px; line-height: 1.4; color: var(--soft); } .hb div { flex: 1; background: #E6E9E4; border-radius: 5px; overflow: hidden; }
+  .hb i { display: block; height: 10px; background: var(--accent); border-radius: 5px; min-width: 2px; } .hb em { font-style: normal; flex: 0 0 34px; text-align: right; color: var(--soft); }
+  .days { display: flex; align-items: flex-end; gap: 4px; height: 84px; margin-top: 10px; }
+  .days i { flex: 1; background: var(--accent); border-radius: 4px 4px 0 0; min-height: 3px; opacity: .9; } .days i.z { background: var(--line); }
+  .scale { display: flex; gap: 6px; margin: 8px 0 4px; }
+  .scale button { flex: 1; padding: 10px 0; border-radius: 10px; border: 1px solid var(--line); background: #FBFCFB; font-size: 15px; color: var(--soft); }
+  .scale button.on { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); font-weight: 700; }
+  .scale-l { display: flex; justify-content: space-between; font-size: 11px; color: var(--dim); }
+  .fq { padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 15px; } .fq:last-of-type { border-bottom: none; }
+  .res b.n { font-size: 40px; font-weight: 800; display: block; line-height: 1.3; font-variant-numeric: tabular-nums; }
+  .res p { color: var(--soft); font-size: 14px; margin-top: 6px; }
+  svg.chart { display: block; width: 100%; height: auto; }
+  .prog-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .prog-item:last-child { border-bottom: none; }
+  .prog-item input { width: 22px; height: 22px; accent-color: #6F9A6F; flex: 0 0 auto; }
+  .prog-item button { flex: 1; text-align: left; background: none; border: none; font-size: 15px; line-height: 1.5; }
+  .prog-item small { display: block; color: var(--dim); font-size: 12px; }
+  button.circle { font-family: inherit; }
+  .box, .list, .tile, .stat, .node, .hero { box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+  .tile, .box, .list, .stat { border-color: transparent; }
+  .hero h2, .home-title { color: var(--brown); } .hero .arrow { color: var(--brown); }
+  .tile svg { width: 44px; height: 44px; padding: 10px; border-radius: 50%; stroke: #fff; background: #8FA88A; }
+  .grid .tile:nth-child(1) svg { background: #7D8A9C; } .grid .tile:nth-child(2) svg { background: #C08A8A; }
+  .grid .tile:nth-child(3) svg { background: #C7A35A; } .grid .tile:nth-child(4) svg { background: #8A7BA8; }
+  .grid .tile:nth-child(5) svg { background: #5F8F8C; } .grid .tile:nth-child(6) svg { background: #6F8BA8; }
+  .grid .tile:nth-child(7) svg { background: #8FA88A; } .grid .tile:nth-child(8) svg { background: #D19A6A; }
+  .hero svg { stroke: var(--brown); }
+  .brand { font-family: 'DM Sans', sans-serif; }
+  .kk { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .kk-mark { width: 34px; height: 34px; flex: 0 0 auto; }
+  .kk-name { font-family: 'DM Sans', sans-serif; font-size: 21px; font-weight: 300; letter-spacing: -.01em; color: var(--ink); line-height: 1; }
+  .kk-name b { font-weight: 500; }
+  .kk-foot { margin: 18px 0 0; } .kk-foot .kk-mark { width: 26px; height: 26px; } .kk-foot .kk-name { font-size: 16px; } .kk-at { color: var(--dim); font-size: 12px; margin-left: 4px; }
+  .tile h3 { font-size: 18px; }
+  .mapsvg { max-width: 420px; margin: 0 auto; font-family: inherit; }
+  .mn { cursor: pointer; outline: none; } .mn .ring { opacity: 0; transition: opacity .15s; } .mn.on .ring, .mn:focus-visible .ring { opacity: 1; }
+  #mapdesc { margin-top: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+  .lk { position: relative; }
+  .item.lk::after, .prog-item .lk::after { content: 'LINE特典'; flex: 0 0 auto; font-size: 10.500px; font-weight: 700; color: var(--mark); border: 1px solid #DCC58A; background: #FBF4DD; border-radius: 999px; padding: 0 7px; line-height: 1.7; margin-left: 6px; }
+  .tile.lk::after { content: 'LINE特典'; position: absolute; top: 14px; right: 14px; font-size: 10.500px; font-weight: 700; color: var(--mark); border: 1px solid #DCC58A; background: #FBF4DD; border-radius: 999px; padding: 0 7px; line-height: 1.7; }
+  .item.lk .st { display: none; }
+  .hero.gift { background: #FBF4DD; border-color: #E6D29A; padding: 16px 44px 16px 18px; } .hero.gift h2, .hero.gift .arrow { color: var(--mark); }
+  nav#nav { box-shadow: 0 -1px 6px rgba(0,0,0,.05); }
+  nav#nav { position: fixed; left: 0; right: 0; bottom: 0; background: #FFFFFF; border-top: 1px solid var(--line); padding: 8px 8px calc(8px + env(safe-area-inset-bottom)); z-index: 10; }
+  nav#nav div { max-width: 640px; margin: 0 auto; display: flex; gap: 6px; }
+  nav#nav button { flex: 1; background: none; border: none; border-radius: 14px; padding: 9px 4px 7px; color: var(--soft); font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  nav#nav button.on { background: var(--accent-bg); color: var(--accent); font-weight: 700; }
+  nav#nav svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  footer { color: var(--dim); font-size: 12px; margin-top: 26px; line-height: 1.8; }
+  footer a { color: var(--soft); }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<nav id="nav"><div>
+  <button data-go="home"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg>ホーム</button>
+  <button data-go="review"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.5-5.8"/><path d="M20 4v5h-5"/></svg>復習</button>
+  <button data-go="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg>検索・用語集</button>
+</div></nav>
+
+<script>
+(function () {
+'use strict';
+
+/* ================= データ ================= */
+var UNITS = [
+  ['第1章 基礎', 'マインドフルネスとは何か'],
+  ['第2章 歴史', '仏教の瞑想から現代のプログラムへ'],
+  ['第3章 心のしくみ', '注意・思考・感情の心理学'],
+  ['第4章 脳と科学', '研究でわかったこと、わかっていないこと'],
+  ['第5章 実践', '基本の瞑想を身につける'],
+  ['第6章 日常と応用', '暮らしの中で使い、安全に続ける']
+];
+var THEMES = ['理論', '歴史', '心理', '科学', '実践', '日常'];
+
+/* [[ ]] は重要語句 */
+var LESSONS = [
+{ id: '1-1', u: 0, th: '理論', t: '定義：今この瞬間への気づき', g: '定義を自分の言葉で説明できる', b: [
+  '現代でもっとも広く使われるのは、ジョン・カバットジンによる説明です。要約すると[[意図的に、今この瞬間に、評価をせずに注意を向けることで生まれる気づき]]。1994年の著書では「特別な形で注意を払うこと。意図的に、今この瞬間に、評価をせずに」と書かれ、2003年の論文では「気づき」という言葉が加わるなど、表現は著作によって少しずつ違います。',
+  '3つの要素に分けて覚えます。①意図的に（たまたまではなく、自分で注意を向ける）、②今この瞬間に（過去の後悔や未来の心配ではなく、今起きていること）、③評価をせずに（良い・悪い、好き・嫌いの判定をいったん脇に置く）。',
+  '「マインドフルネス」という言葉は3つの意味で使われます。今まさに気づいている[[状態]]、ふだんから気づきやすいという[[特性]]、そしてそれを育てる[[実践（練習）]]です。会話や文章でどの意味かを区別すると混乱が減ります。',
+  '反対の状態は、心ここにあらずの「マインドレス」。体は動いているのに心が別の場所にある[[自動操縦]]の状態です。'],
+  p: ['定義は「意図的に・今この瞬間に・評価をせずに」の3点', '状態・特性・実践の3つの意味がある', '反対は自動操縦（マインドレス）'] },
+{ id: '1-2', u: 0, th: '理論', t: '2つの柱：注意と態度', g: '注意の調整と受容的な態度の両方が必要な理由を説明できる', b: [
+  '2004年、ビショップらの研究グループはマインドフルネスを2つの要素で定義しました。1つ目は[[注意の自己調整]]。注意を今の体験に保ち、それたら戻すはたらきです。',
+  '2つ目は[[体験への態度]]。浮かんでくるものに対して、好奇心を持ち、開かれていて、受け入れる姿勢です。',
+  '注意だけを鍛えると、不快な体験を「集中の邪魔」として押さえ込む練習になりがちです。逆に態度だけでは、何に気づいているのかがぼやけます。[[集中力のトレーニングと、体験へのやさしい向き合い方はセット]]です。',
+  'シャピロらはこれに「意図（なぜ実践するのか）」を加え、意図・注意・態度の3要素（IAAモデル）として整理しました。'],
+  p: ['ビショップらの2要素＝注意の自己調整＋好奇心・開放性・受容の態度', '注意だけ、態度だけでは不十分', 'IAAモデル＝意図・注意・態度'] },
+{ id: '1-3', u: 0, th: '理論', t: '土台となる7つの態度', g: '7つの態度を挙げ、それぞれの意味を説明できる', b: [
+  'カバットジンは著書の中で、実践の土台として7つの態度を挙げています。',
+  '①[[評価しない]]：判定している自分に気づく。②[[忍耐]]：物事にはそれぞれの時間があると認める。③[[初心（ビギナーズ・マインド）]]：初めて見るかのように体験する。④[[信頼]]：自分の感覚を信頼する。',
+  '⑤[[がんばらない]]：特定の状態に到達しようとしない。⑥[[受容]]：今あるものを、まずあるがままに認める。⑦[[手放す]]：しがみつかず、押しのけもしない。',
+  '受容は「あきらめ」や「賛成」ではありません。今の現実を正確に見ることで、次の行動を選べるようになる、という意味です。'],
+  p: ['評価しない・忍耐・初心・信頼・がんばらない・受容・手放す', '受容はあきらめではなく、現実を正確に見ること', '態度は「身につける技術」として練習する'] },
+{ id: '1-4', u: 0, th: '理論', t: '集中瞑想と観察瞑想', g: '2種類の瞑想スタイルの違いを説明できる', b: [
+  '瞑想の方法は大きく2つに分けられます。1つは[[集中瞑想（フォーカスト・アテンション）]]。呼吸など1つの対象に注意を置き、それたら戻します。',
+  'もう1つは[[観察瞑想（オープン・モニタリング）]]。対象を1つに決めず、音・感覚・思考など、その瞬間に現れるものを反応せずに観察します。',
+  '仏教の用語では、集中で心を静める実践を[[サマタ（止）]]、ありのままを観察する実践を[[ヴィパッサナー（観）]]と呼び、おおまかに対応します。',
+  '多くのプログラムは集中瞑想から始めます。注意がある程度安定してから観察瞑想に進むと取り組みやすいためです。'],
+  p: ['集中瞑想＝1つの対象に注意を置いて戻す', '観察瞑想＝現れるものを選ばず観察する', 'サマタ（止）とヴィパッサナー（観）におおむね対応'] },
+{ id: '1-5', u: 0, th: '理論', t: 'よくある誤解', g: '代表的な誤解を訂正できる', b: [
+  '[[「無になること」ではありません。]]考えは浮かんで当たり前で、止める必要はありません。考えが浮かんだと気づけたら、その瞬間がマインドフルです。',
+  '[[「リラックス法」でもありません。]]落ち着くことは結果として起こりますが、目的は気づくことです。緊張していれば「緊張がある」と気づくのが実践です。',
+  '[[「ポジティブ思考」でもありません。]]不快な感覚や感情を良いものに書き換えるのではなく、そのまま観察します。',
+  '「現実逃避」「感情を消す方法」「特定の宗教の実践」というのも誤解です。現代のプログラムは宗教色を除いた心のトレーニングとして作られています。また、万能薬でもありません（第4章）。'],
+  p: ['無になる・リラックス・ポジティブ思考とは別のもの', '「それた」と気づくことは失敗ではなく成功', '万能薬ではない'] },
+
+{ id: '2-1', u: 1, th: '歴史', t: 'ルーツ：仏教の「サティ」', g: 'サティと四念処を説明できる', b: [
+  'マインドフルネスの語源は、パーリ語の[[サティ（sati）]]です。「気づき」「心にとどめておくこと」という意味で、漢訳は「念」。サンスクリット語ではスムリティといいます。',
+  'サティは、ブッダが説いた苦しみを減らすための8つの実践の道[[八正道]]の7番目、[[正念]]にあたります。',
+  '実践の具体的な方法は[[『念処経』（サティパッターナ・スッタ）]]にまとめられています。気づきを向ける4つの領域が[[四念処]]です。身（体と呼吸）、受（快・不快・どちらでもないという感じ）、心（心の状態）、法（心に現れる現象とその法則）。',
+  '呼吸への気づきは[[入出息念（アーナーパーナサティ）]]と呼ばれ（出入息念、安般念とも書きます）、現代の呼吸瞑想の原型になっています。'],
+  p: ['サティ＝パーリ語で「気づき」、漢訳は「念」', '八正道の正念にあたる', '四念処＝身・受・心・法'] },
+{ id: '2-2', u: 1, th: '歴史', t: '西洋への伝わり方', g: '19〜20世紀に瞑想が西洋へ広まった流れを説明できる', b: [
+  '[[1881年]]、イギリスの仏教学者リス・デイヴィッズがサティの訳語として[[mindfulness]]を用いました。これが英語として定着していきます。',
+  'ミャンマーでは20世紀前半にレディ・サヤドーらが、1949年以降はマハーシ・サヤドーらが、出家者でない人にも取り組める形でヴィパッサナー瞑想を広めました。日本からは鈴木大拙が禅を英語で紹介します。',
+  '1960〜70年代、アメリカで東洋の瞑想への関心が高まります。[[1970年]]に鈴木俊隆『禅マインド ビギナーズ・マインド』、[[1975年]]にベトナムの禅僧ティク・ナット・ハン『The Miracle of Mindfulness』（邦訳『〈気づき〉の奇跡』）が出版されました。',
+  '同じ1975年、アジアで修行したゴールドスタイン、コーンフィールド、サルツバーグが[[インサイト・メディテーション・ソサエティ（IMS）]]を設立。翌1976年にマサチューセッツ州バリーに瞑想センターが開き、西洋人による指導の拠点ができました。'],
+  p: ['1881年 リス・デイヴィッズがsatiをmindfulnessと訳す', '1970年代、禅とヴィパッサナーがアメリカに広まる', '1975年 IMS設立（センターは1976年に開く）'] },
+{ id: '2-3', u: 1, th: '歴史', t: 'MBSRの誕生（1979年）', g: 'MBSRの成り立ちと構成を説明できる', b: [
+  '分子生物学の博士号を持ち、禅やヴィパッサナーを学んでいた[[ジョン・カバットジン]]は、[[1979年]]にマサチューセッツ大学医療センターで「ストレス低減クリニック」を始めました。',
+  '対象は、慢性の痛みなど通常の治療だけでは苦しみが残る患者。瞑想を仏教の文脈から切り離し、誰でも参加できる医療の補助プログラムにしたのが[[MBSR（マインドフルネスストレス低減法）]]です。',
+  '構成は[[8週間]]。週1回およそ2時間半のグループセッション、途中に1日の集中実践、そして週6日、1日45分以上の自宅練習。内容はボディスキャン、静坐瞑想、マインドフル・ヨーガなどです。',
+  '1982年に慢性疼痛患者51人への最初の研究論文が出され（当時のプログラムは10週間）、1990年の著書『Full Catastrophe Living』（邦訳『マインドフルネスストレス低減法』）で一般にも知られるようになりました。'],
+  p: ['1979年、カバットジンがマサチューセッツ大学で開始', '8週間・週1回のグループ＋毎日の自宅練習', '宗教色を除いた医療の補助プログラム'] },
+{ id: '2-4', u: 1, th: '歴史', t: '心理療法への統合', g: 'MBCT・DBT・ACTの特徴を区別できる', b: [
+  '1990年代以降、マインドフルネスは心理療法に組み込まれ、行動療法・認知療法に続く[[「第3世代の認知行動療法」]]と呼ばれる流れを作りました。',
+  '[[MBCT（マインドフルネス認知療法）]]：シーガル、ウィリアムズ、ティーズデールが開発。MBSRの構成に認知療法を組み合わせ、[[うつ病の再発予防]]を目的とします。2000年に臨床試験、2002年に治療マニュアルが発表されました。2004年にはイギリスのNICEの診療ガイドラインに取り上げられ、2009年の改訂で、うつ病を3回以上経験した人の再発予防として推奨されています（現在の指針にこの回数の条件はありません）。',
+  '[[DBT（弁証法的行動療法）]]：マーシャ・リネハンが1993年に体系化。境界性パーソナリティ障害などを対象に、マインドフルネスを中核スキルの1つとします。',
+  '[[ACT（アクセプタンス＆コミットメント・セラピー）]]：スティーブン・ヘイズらが1999年に体系化。思考と距離を取り、不快な体験を受け入れながら、自分の価値に沿って行動することを目指します。'],
+  p: ['MBCT＝うつ病の再発予防（シーガルら）', 'DBT＝リネハン、ACT＝ヘイズ', 'まとめて「第3世代の認知行動療法」'] },
+{ id: '2-5', u: 1, th: '歴史', t: '社会への広がりと批判', g: '2000年代以降の広がりと、それに対する批判を説明できる', b: [
+  '[[2007年]]、グーグルで社内研修「サーチ・インサイド・ユアセルフ（SIY）」が始まり、企業への導入が進みます。学校教育、スポーツ、刑務所、軍などにも広がりました。',
+  '[[2014年]]にはアメリカの『TIME』誌が「マインドフル革命」を表紙で特集。2015年にはイギリス議会の超党派グループが、医療・教育・職場・司法での活用を提言する報告書『Mindful Nation UK』を出しました。日本では2013年に日本マインドフルネス学会が設立されています。',
+  '一方で批判もあります。倫理や社会への視点を切り落とし、個人のストレス対処や生産性向上の道具として商品化されているという[[「マクマインドフルネス」]]批判です。この言葉は2010年ごろに心理療法家のマイルズ・ニールが使い、2013年のパーサーとロイの記事「マクマインドフルネスを超えて」で広く知られるようになりました。',
+  '研究面でも、効果が実際以上に宣伝されているという指摘があります（第4章）。広がりと同時に、質と誠実さが問われる段階に入っています。'],
+  p: ['2007年グーグルのSIY、2014年TIME誌の特集', '2013年 日本マインドフルネス学会設立', '商品化への「マクマインドフルネス」批判'] },
+
+{ id: '3-1', u: 2, th: '心理', t: '自動操縦とさまよう心', g: 'マインドワンダリングとは何か、その影響を説明できる', b: [
+  '通い慣れた道を歩いていて、気づいたら着いていた。これは[[自動操縦]]の状態です。習慣化された行動は便利ですが、その間、心は別のところにあります。',
+  '今していることと関係のないことを考えている状態を[[マインドワンダリング（心のさまよい）]]といいます。',
+  '2010年、キリングスワースとギルバートはスマートフォンで約2,250人の日常を調べ、[[回答の46.9％で、今していることとは別のことを考えていた]]と報告しました。さらに、心がさまよっているときは、そうでないときより幸福度が低い傾向がありました。',
+  'さまようこと自体は、計画や創造にも役立つ心の自然なはたらきです。問題は、気づかないまま不安や後悔のループに巻き込まれることです。'],
+  p: ['自動操縦＝行動と心が別々の状態', '起きている時間の約47％は心がさまよっている（2010年の研究）', '問題は「気づかないまま」巻き込まれること'] },
+{ id: '3-2', u: 2, th: '心理', t: '注意の4ステップ', g: '瞑想中に起きる注意のサイクルを説明できる', b: [
+  '呼吸瞑想の最中に起きていることは、4つのステップの繰り返しです。①呼吸に[[集中する]]、②心が[[さまよう]]、③さまよっていたと[[気づく]]、④注意を呼吸に[[戻す]]。',
+  '2012年、ハーゼンカンプらは瞑想中の脳を調べ、この4つの局面でそれぞれ違う脳のネットワークがはたらくことを示しました。',
+  '大事なのは③です。[[「それた」と気づいた瞬間こそ、マインドフルネスが起きている瞬間]]です。筋トレでいえば、ダンベルを持ち上げる1回にあたります。',
+  'だから、何度もそれることは失敗ではありません。10回それて10回戻れば、10回分の練習になります。戻すときに自分を責めないことも練習の一部です。'],
+  p: ['集中→さまよう→気づく→戻す', '「気づく」瞬間が練習の核心', 'それる回数が多い＝練習の回数が多い'] },
+{ id: '3-3', u: 2, th: '心理', t: '反すうと脱中心化', g: '反すうと脱中心化を説明できる', b: [
+  '嫌な出来事や自分の欠点について、同じことをぐるぐる考え続けるのが[[反すう]]です。問題解決のように感じられますが、気分の落ち込みを長引かせやすく、うつ病の発症とも関係することが研究で示されています。未来についての繰り返しの考えは「心配」と呼ばれます。',
+  'MBCTの理論では、気分が少し落ちたときに否定的な考えのパターンが自動的に動き出すことが、再発の引き金になると考えます。',
+  'これに対する鍵が[[脱中心化]]。考えを「事実」や「自分そのもの」ではなく、[[心に浮かんでは消える出来事]]として見ることです。「私はダメだ」ではなく「『私はダメだ』という考えが浮かんでいる」と捉え直します。',
+  '考えの中身を変えようとするのではなく、考えとの関係を変える。これが従来の認知療法との違いです。'],
+  p: ['反すう＝同じ考えを繰り返し、落ち込みを長引かせる', '脱中心化＝考えを「心の出来事」として見る', '中身ではなく、考えとの関係を変える'] },
+{ id: '3-4', u: 2, th: '心理', t: '「すること」と「あること」', g: '2つの心のモードの違いを説明できる', b: [
+  '[[することモード（doing）]]は、今の状態と理想の状態を比べ、その差を埋めようとする心のはたらきです。仕事や家事など、外の世界の課題には非常に有効です。',
+  'ところが、同じやり方を気分に向けると裏目に出ます。「なぜ私は落ち込んでいるのか」「本当はこうあるべきなのに」と差を見つめ続けることが、反すうを生みます。',
+  '[[あることモード（being）]]は、何かを変えようとせず、今の体験をそのまま受け取る状態です。目標に向かうのではなく、今ここにとどまります。',
+  'マインドフルネスの練習は、することモードをなくすことではありません。[[今どちらのモードにいるかに気づき、必要に応じて切り替えられる]]ようになることです。'],
+  p: ['することモード＝差を埋めようとする（課題解決向き）', 'あることモード＝今の体験をそのまま受け取る', '気づいて切り替えられることが目標'] },
+{ id: '3-5', u: 2, th: '心理', t: '二本の矢：痛みと苦しみ', g: '「第二の矢」のたとえと体験の回避を説明できる', b: [
+  '仏典に[[二本の矢]]のたとえがあります。体の痛みや嫌な出来事という[[第一の矢]]は誰にでも刺さり、避けられません。',
+  'それに対して「なぜ私だけ」「もうおしまいだ」と抵抗し、嘆き、考え続けることが[[第二の矢]]。こちらは自分で自分に刺している矢で、苦しみを何倍にもします。',
+  '不快な感覚や感情を感じないように避けたり抑えたりすることを[[体験の回避]]といいます。短期的には楽になりますが、さまざまな心理的な問題と関連することが報告されています（因果関係まではっきりしているわけではありません）。',
+  'マインドフルネスが目指すのは、第一の矢をなくすことではなく、第二の矢に気づいて打つのを減らすこと。そのための態度が[[受容（アクセプタンス）]]です。'],
+  p: ['第一の矢＝避けられない痛み、第二の矢＝反応が生む苦しみ', '体験の回避はさまざまな心理的問題と関連する', '受容で第二の矢を減らす'] },
+{ id: '3-6', u: 2, th: '心理', t: '思考・感情・身体感覚のつながり', g: '体験を要素に分けて観察できる', b: [
+  '強い感情に飲み込まれると、体験は1つの大きなかたまりに感じられます。マインドフルネスでは、それを[[思考・感情・身体感覚・行動への衝動]]に分けて観察します。',
+  'たとえば、返信が来ない。思考「嫌われたかも」、感情は不安、身体は胸がざわつき肩に力が入る、衝動は何度もスマホを確認したくなる。この4つは互いに強め合います。',
+  '要素に分けると、それぞれが[[変化し続ける一時的なもの]]だとわかり、巻き込まれにくくなります。特に身体感覚は「今ここ」にしかないので、注意の錨（いかり）として使えます。',
+  '感情に名前をつける[[ラベリング]]も有効です。「不安がある」と言葉にすると、感情の渦の中から一歩外に出られます。2007年のリーバーマンらの研究では、感情を言葉にすると、否定的な画像に対する扁桃体の反応が弱まることが脳画像で示されました。'],
+  p: ['体験を思考・感情・身体感覚・衝動に分ける', '4つは互いに強め合う', 'ラベリングで一歩外に出る'] },
+
+{ id: '4-1', u: 3, th: '科学', t: 'デフォルト・モード・ネットワーク', g: 'DMNとマインドフルネスの関係を説明できる', b: [
+  '何もしていないときにも、脳は活発にはたらいています。課題に取り組んでいないときに活動が高まる脳の領域のまとまりを[[デフォルト・モード・ネットワーク（DMN）]]といいます。2001年にレイクルらが「脳のデフォルト・モード」という考え方を示し、その後この名前で呼ばれるようになりました。',
+  'DMNは、自分についての思考、過去の回想、未来の想像などに関わり、マインドワンダリングと関係が深いと考えられています。',
+  '2011年、ブルワーらは、瞑想の経験が長い人では、未経験の人に比べて[[瞑想中にDMNの主要な部位（内側前頭前野と後帯状皮質）の活動が低い]]ことを報告しました。',
+  'ただしDMNは悪者ではありません。記憶の整理や計画、他者の気持ちの想像にも必要です。過剰にはたらき続けて反すうにつながることが問題だと考えられています。'],
+  p: ['DMN＝何もしていないときに活動が高まる脳のネットワーク', '自己についての思考やマインドワンダリングと関係', '瞑想経験者は未経験者より瞑想中の活動が低い（2011年）'] },
+{ id: '4-2', u: 3, th: '科学', t: '脳は変わるのか', g: '脳構造の研究と、その再現性の問題を説明できる', b: [
+  '経験によって脳が変化する性質を[[神経可塑性]]といいます。瞑想でも脳が変わるのではないか、という研究が2000年代に注目されました。',
+  '2005年、ラザーらは瞑想経験者20人と未経験者15人を比べ、経験者では注意や体の感覚に関わる[[大脳皮質が厚い]]と報告。2011年にはヘルツェルらが、8週間のMBSRを受けた16人で、記憶や感情に関わる[[左の海馬の灰白質の密度が増えた]]と報告し、広く引用されました。',
+  'しかし、これらは参加者が少ない研究でした。2022年、クラルらは218人を対象に、より厳密な方法（2つの無作為化比較試験の統合）で調べ、[[8週間のMBSRで脳の構造の変化は確認できなかった]]と報告しています。ただし著者らは、もっと長い訓練なら変化が起こる可能性は残るとしています。',
+  '「8週間で脳が変わる」という言い方は、現時点では言い過ぎです。脳のはたらき方（機能）の変化を示す研究はありますが、構造の変化については結論が出ていません。'],
+  p: ['2005年ラザー、2011年ヘルツェルの研究が有名', '2022年の大規模試験（218人）では構造変化を再現できず', '「8週間で脳が変わる」は言い過ぎ'] },
+{ id: '4-3', u: 3, th: '科学', t: '効果のエビデンス', g: '何に、どの程度の効果が示されているかを説明できる', b: [
+  '複数の研究をまとめて分析する[[メタ分析]]が、効果を判断する材料になります。2014年、ゴヤルらは47の臨床試験（3,515人）を分析し、マインドフルネス瞑想のプログラムが[[不安・抑うつ・痛みを改善する中程度のエビデンス]]があると報告しました。',
+  '効果の大きさは小〜中程度（8週間時点の効果量は不安0.38、抑うつ0.30、痛み0.33）。一方で、他の積極的な治療（運動、薬、他の心理療法など）より[[優れているという証拠はなかった]]ことも同じ論文で示されています。',
+  'うつ病の再発予防では、2016年にカイケンらが9つの試験（1,258人分のデータ）を統合し、MBCTを受けた人は受けなかった人より[[60週以内の再発リスクが約3割低い]]（ハザード比0.69）と報告しました。',
+  'まとめると「一定の効果はあるが、特別によく効く魔法ではない」。運動や他の療法と並ぶ、選択肢の1つという位置づけです。'],
+  p: ['不安・抑うつ・痛みに中程度のエビデンス（2014年）', '他の治療より優れているとはいえない', 'MBCTはうつ病の再発リスクを下げる（2016年）'] },
+{ id: '4-4', u: 3, th: '科学', t: '研究の限界と有害事象', g: '研究の弱点と、起こりうる不調を説明できる', b: [
+  '2018年、ヴァン・ダムら15人の研究者は論文[[「Mind the Hype（誇大宣伝に注意）」]]で、マインドフルネス研究の問題点を指摘しました。',
+  '主な問題は、①研究によって「マインドフルネス」の定義がばらばら、②測定が本人の回答（質問紙）に頼っている、③研究の方法が弱いものが多い、④有害事象がきちんと調べられていない、の4つです。',
+  '瞑想で[[不安の高まり、つらい記憶のよみがえり、現実感がなくなる感じ]]などが起こることがあります。2017年のリンダールらの研究は、瞑想に関連する体験を59種類に整理しました。2021年のブリトンらの研究（96人）では、8週間のプログラムで何らかの不快な体験をした人が58％、生活に支障が出た人が37％、悪い影響が長く続いた人が6〜14％でした。著者らは、この頻度は他の心理療法と同じ程度だとしています。',
+  '多くは一時的で軽いものですが、ゼロではありません。「誰にでも安全で、やればやるほど良い」とは言えない、というのが現在の理解です。'],
+  p: ['2018年「Mind the Hype」が研究の弱点を指摘', '定義・測定・研究デザイン・有害事象の4つの問題', '不快な体験は珍しくなく、長く続く例も一部にある（2021年）'] },
+{ id: '4-5', u: 3, th: '科学', t: 'マインドフルネスを測る', g: '代表的な尺度と5つの側面を説明できる', b: [
+  'マインドフルネスは主に質問紙で測定します。代表的なものが2003年の[[MAAS]]で、「気づかないうちに物事をしている」などの項目から、日常での注意深さを測ります。',
+  '2006年にベアらが作った[[FFMQ（5因子マインドフルネス質問紙）]]は、5つの側面に分けて測ります。①[[観察]]（感覚や感情に気づく）、②[[描写]]（体験を言葉にする）、③[[意識した行動]]（自動操縦でなく行動する）、④[[判断しない]]（体験を評価しない）、⑤[[反応しない]]（思考や感情に巻き込まれない）。',
+  'この5側面は、自分の得意・不得意を知る手がかりになります。たとえば「観察」は得意でも「判断しない」が苦手、という人は少なくありません。',
+  'ただし質問紙には限界があります。自分の不注意に気づける人ほど点数が低く出る、という指摘もあります（グロスマン、2008年）。',
+  'そこで、行動で測る方法も使われます。呼吸を1から9まで数え続ける[[呼吸カウント課題]]（2014年、レビンソンら）、作業中にランダムな合図で「今、注意はどこにあったか」を尋ねる[[思考プローブ]]、数字が出るたびに押し、特定の数字のときだけ押さない[[持続的注意課題（SART）]]（1997年、ロバートソンら）などです。このノートの「心の実験室」で、短縮版を自分で体験できます。'],
+  p: ['MAAS（2003年）とFFMQ（2006年）が代表的', '5側面＝観察・描写・意識した行動・判断しない・反応しない', '自己報告の限界を補うため、行動で測る課題もある'] },
+
+{ id: '5-1', u: 4, th: '実践', t: '始める前に：姿勢と環境', g: '実践の準備と基本姿勢を整えられる', b: [
+  '姿勢の基本は[[「背すじは伸びて、力は抜けている」]]。椅子なら浅めに座り、足の裏を床につけます。床に座っても、横になっても構いません。',
+  '手は太ももの上に楽に置き、目は閉じるか、斜め下をぼんやり見ます。眠くなりやすい人は目を開けたままがおすすめです。',
+  '時間は[[1〜3分の短さから]]で十分です。長さよりも、毎日同じタイミングで行うことを優先します。',
+  '静かな場所が理想ですが、完全な静けさは不要です。音が聞こえたら「音がある」と気づくだけ。眠気も、体の痛みも、落ち着かなさも、すべて観察の対象になります。'],
+  p: ['背すじは伸びて、力は抜けている', '最初は1〜3分でよい', '雑音や眠気も観察の対象'] },
+{ id: '5-2', u: 4, th: '実践', t: '呼吸瞑想', g: '呼吸瞑想の手順と、それたときの対処を説明できる', b: [
+  'すべての実践の基本です。①姿勢を整える。②呼吸をコントロールせず、自然にまかせる。③呼吸をいちばん感じやすい場所（鼻先、胸、お腹）を1つ選び、そこに注意を置く。',
+  '④吸う息の始まりから終わり、吐く息の始まりから終わりまで、[[感覚の変化]]を追います。⑤別のことを考えていたと気づいたら、「考えていた」と認めて、[[やさしく呼吸に戻します。]]',
+  '集中しにくいときは、吐く息に合わせて1から10まで数える[[数息観（すそくかん）]]や、「吸っている」「吐いている」と心の中で言う方法が助けになります。',
+  '呼吸は、いつでもどこでも「今」にしかないので、注意の[[錨（アンカー）]]と呼ばれます。呼吸に注意を向けると苦しくなる人は、足の裏や手の感覚、音を錨にしても構いません。'],
+  p: ['自然な呼吸の感覚を1か所で観察する', 'それたら認めて、やさしく戻す', '呼吸がつらければ、足の裏や音を錨にする'] },
+{ id: '5-3', u: 4, th: '実践', t: 'ボディスキャン', g: 'ボディスキャンの進め方とねらいを説明できる', b: [
+  'MBSRで最初に習う実践です。横になるか座って、[[体の各部分に順番に注意を向けていきます。]]',
+  '足の指→足の裏→かかと→足首→すね→ひざ→太もも→腰→お腹→胸→背中→手→腕→肩→首→顔→頭、のように移動します。MBSRではおよそ45分かけますが、5〜10分の短い版でも練習になります。',
+  '各部分で、温かさ、冷たさ、重さ、しびれ、触れている感じなど、[[今ある感覚をそのまま観察]]します。何も感じなければ「感じない」と気づくだけです。',
+  'ねらいは、リラックスすることでも感覚を変えることでもありません。体の信号に気づく力（[[内受容感覚]]への気づき）を育て、注意を移す・とどめる練習をすることです。'],
+  p: ['体の各部分を順番に観察する', '感覚を変えようとせず、そのまま気づく', '体の信号に気づく力を育てる'] },
+{ id: '5-4', u: 4, th: '実践', t: '歩く瞑想・動きの瞑想', g: '動きながら行う実践の方法を説明できる', b: [
+  'じっと座るのが苦手な人に向いています。[[歩く瞑想]]では、数メートルの距離をゆっくり往復します。目的地に着くことは目的ではありません。',
+  '注意を置くのは足の感覚。かかとが上がる→足が浮く→前に運ばれる→地面に触れる→体重が移る、という流れを感じます。慣れないうちは「上げる・運ぶ・下ろす」と心の中で言葉を添えます。',
+  '[[マインドフル・ヨーガ]]やストレッチも同じです。ポーズの完成度ではなく、伸びている感覚や、限界の手前の感覚を観察します。',
+  '通勤の歩行や階段など、ふだんの歩きを数十歩だけ実践に変えることもできます。'],
+  p: ['足の感覚を細かく感じながらゆっくり歩く', '着くことではなく、歩くこと自体が目的', '座るのが苦手な人に向く'] },
+{ id: '5-5', u: 4, th: '実践', t: '食べる瞑想', g: 'レーズン・エクササイズの手順とねらいを説明できる', b: [
+  'MBSRの初回で行う有名な練習が[[レーズン・エクササイズ]]です。レーズン1粒を、初めて見るもののように扱います。',
+  '①見る（色、しわ、光の当たり方）、②触る（やわらかさ、べたつき）、③かぐ、④口に入れて噛まずに舌で感じる、⑤ゆっくり噛んで味の変化を感じる、⑥飲み込むときの感覚を追う。',
+  '多くの人が「レーズンはこんな味だったのか」と驚きます。ふだんの食事がいかに[[自動操縦]]で行われているかを体験するのがねらいで、[[初心（ビギナーズ・マインド）]]の練習でもあります。',
+  '日常では、食事の最初の3口だけ、あるいはお茶の最初の一口だけを、同じように味わいます。'],
+  p: ['1粒を五感でていねいに味わう', '自動操縦に気づくための練習', '日常では「最初の3口」から'] },
+{ id: '5-6', u: 4, th: '実践', t: '慈悲の瞑想とセルフ・コンパッション', g: '慈悲の瞑想の手順と、セルフ・コンパッションの3要素を説明できる', b: [
+  '[[慈悲の瞑想]]（パーリ語でメッター）は、幸せを願う言葉を心の中で繰り返す実践です。「私が安らかでありますように」「私が健やかでありますように」「私の悩みや苦しみがなくなりますように」。',
+  '対象を、①自分→②大切な人→③特に好きでも嫌いでもない人→④苦手な人→⑤すべての生きもの、と順に広げていきます。温かい気持ちが湧かなくても構いません。願う意図を向けること自体が練習です。',
+  '自分への思いやりを[[セルフ・コンパッション]]といいます。ネフは3つの要素で定義しました。①自分へのやさしさ（自己批判ではなく）、②共通の人間性（苦しみは誰にでもあると知る）、③マインドフルネス（苦しみを大げさにも無視もしない）。',
+  '気づきの練習は、ときに自分の欠点ばかりを見つける目になりがちです。やさしさの練習がそのバランスを取ります。'],
+  p: ['幸せを願う言葉を、自分から他者へ広げていく', 'セルフ・コンパッション＝自分へのやさしさ・共通の人間性・マインドフルネス', '気づきとやさしさは両輪'] },
+{ id: '5-7', u: 4, th: '実践', t: '思考と感情を観察する', g: '思考や感情を対象にした観察の方法を説明できる', b: [
+  '呼吸への集中に慣れたら、思考や感情そのものを観察の対象にします。',
+  '[[ラベリング]]：浮かんだものに短い名前をつけます。「計画」「心配」「回想」「批判」「イライラ」。中身には入り込まず、種類だけを確認して手放します。',
+  'たとえを使う方法もあります。思考を[[空を流れる雲]]、川を流れる葉っぱ、通り過ぎる電車として眺める。自分は空であり、雲ではありません。',
+  '強い感情のときは、感情を体のどこで感じているかを探します。胸のつまり、のどの締めつけ、お腹の重さ。その感覚に呼吸を送るようにして、[[波が高まり、やがて引いていく]]のを見守ります。'],
+  p: ['ラベリング＝種類の名前だけつけて手放す', '思考を雲や葉っぱのように眺める', '感情は体のどこにあるかを観察する'] },
+
+{ id: '6-1', u: 5, th: '日常', t: 'STOPと3分間呼吸空間法', g: '2つの短い実践の手順を説明できる', b: [
+  '忙しい場面で使える短い実践が2つあります。',
+  '[[STOP]]は4つの頭文字。S（Stop）いったん止まる。T（Take a breath）ひと呼吸する。O（Observe）体・気持ち・考えを観察する。P（Proceed）自分で選んで次の行動に進む。30秒でできます。',
+  '[[3分間呼吸空間法]]はMBCTの中心的な練習で、砂時計の形にたとえられます。①[[気づく]]（広く）：今どんな考え・感情・体の感覚があるか。②[[集める]]（狭く）：注意を呼吸の感覚に集める。③[[広げる]]（再び広く）：注意を体全体、姿勢、表情へ広げる。',
+  '決まった時刻に行う方法と、ストレスを感じたときに行う方法があります。まずは1日3回、時間を決めて練習すると、必要なときに使えるようになります。'],
+  p: ['STOP＝止まる・呼吸・観察・進む', '3分間呼吸空間法＝気づく→集める→広げる', 'ふだんから練習しておくと、いざというとき使える'] },
+{ id: '6-2', u: 5, th: '日常', t: 'RAIN：つらい感情への対応', g: 'RAINの4ステップを説明できる', b: [
+  '強い感情に対処するための手順が[[RAIN]]です。瞑想指導者ミシェル・マクドナルドが考案し、タラ・ブラックが広めました。',
+  '[[R（Recognize）認識する]]：今、何が起きているかに気づく。「怒りがある」。[[A（Allow）許す]]：消そうとせず、そこにあることを許す。「あってもいい」。',
+  '[[I（Investigate）探る]]：好奇心を持って調べる。体のどこで感じるか。何を必要としているか。[[N（Nurture）いたわる]]：自分に思いやりを向ける。胸に手を当てる、やさしい言葉をかける。',
+  'もともとのNは「Non-identification（同一化しない）」、つまり感情を自分そのものと見なさないことでした。どちらの意味も、感情に飲み込まれずにいるための視点です。'],
+  p: ['R認識する・A許す・I探る・Nいたわる', '消そうとせず、まずあることを許す', '感情＝自分そのものではない'] },
+{ id: '6-3', u: 5, th: '日常', t: '聴く・話す', g: 'マインドフルな対話のポイントを説明できる', b: [
+  '人の話を聞きながら、私たちはたいてい次に何を言うかを考えています。[[マインドフル・リスニング]]は、相手の言葉、声の調子、表情に注意を向け続ける実践です。',
+  'コツは3つ。①途中でさえぎらない。②アドバイスや評価を急がない。③自分の注意が「返事の準備」や別のことに移ったと気づいたら、相手に戻す。',
+  '話すときは、言う前のひと呼吸が役に立ちます。感情的なメッセージに即座に返信したくなったら、[[衝動に気づき、反応する前に間（ま）を置く]]。',
+  '刺激と反応のあいだには間があり、その間に自分の対応を選ぶ自由がある、という考え方がよく引用されます。反射的な[[反応]]から、選んだ[[対応]]へ。これが人間関係での実践です。'],
+  p: ['相手に注意を向け続け、それたら戻す', 'さえぎらない・評価を急がない', '反応する前に間を置く'] },
+{ id: '6-4', u: 5, th: '日常', t: '習慣にする', g: '実践を続けるための工夫を説明できる', b: [
+  '続けるコツは、[[すでにある習慣に結びつける]]ことです。歯みがきのあと、コーヒーをいれている間、電車に乗ったら、など。「いつ・どこで」を具体的に決めます。',
+  '時間は短くて構いません。毎日1分のほうが、週に1回30分より習慣になります。慣れたら少しずつ延ばします。',
+  '椅子に座って行う[[フォーマルな実践]]と、日常の動作の中で行う[[インフォーマルな実践]]の両方を持つと続けやすくなります。皿洗い、シャワー、歩行など、毎日する動作を1つ選んで、その間だけ感覚に注意を向けます。',
+  'できなかった日があっても、自分を責めずにまた始める。これは、それた注意を呼吸に戻すのと同じ練習です。'],
+  p: ['すでにある習慣に結びつける', '長さより頻度', 'フォーマルとインフォーマルの両方'] },
+{ id: '6-5', u: 5, th: '日常', t: '眠る前・ストレスの場面で', g: '場面に応じた実践を選べる', b: [
+  '[[眠る前]]：布団の中でボディスキャン。眠ろうと努力するのをやめ、体の感覚を足先から順に感じます。途中で眠ってしまって構いません。考えが止まらないときは、吐く息を数えます。',
+  '[[緊張する場面の前]]：足の裏が床に触れている感覚に注意を向けます。地面とのつながりを感じる方法で、グラウンディングと呼ばれます。',
+  '[[イライラしたとき]]：STOP。体のどこに力が入っているかを確認し、ひと呼吸してから対応を選びます。',
+  '[[痛みや不調があるとき]]：痛みそのもの（第一の矢）と、痛みについての考えや抵抗（第二の矢）を分けて観察します。無理はせず、つらければ注意を別の場所に移します。'],
+  p: ['眠る前はボディスキャン', '緊張には足の裏（グラウンディング）', '場面ごとに使う実践を決めておく'] },
+{ id: '6-6', u: 5, th: '日常', t: '安全に続けるために', g: '注意が必要な場合と、その対処を説明できる', b: [
+  '瞑想中に不安が強まったり、つらい記憶がよみがえったりすることがあります。そのときは[[無理に続けず、中断して構いません。]]',
+  '対処の例：目を開ける。注意を呼吸から足の裏や周りの音に移す。立って歩く。時間を短くする。これらは「逃げ」ではなく、自分の状態に合わせた賢い調整です。',
+  '[[うつ病の症状が重い時期、強いトラウマ体験がある場合、精神科の治療を受けている場合]]は、自己流で長時間行わず、主治医や専門の指導者に相談してから取り組みます。トラウマに配慮した進め方（トラウマ・センシティブ・マインドフルネス）もあります。',
+  'マインドフルネスは[[医療や心理療法の代わりではありません。]]眠れない、食べられない、消えてしまいたい気持ちが続くときは、実践で何とかしようとせず、医療機関や相談窓口を頼ってください。'],
+  p: ['つらくなったら中断してよい', '治療中・トラウマがある場合は専門家に相談', '医療の代わりではない'] }
+];
+
+var PURPOSES = [
+  ['まず全体像を知りたい', ['1-1', '1-5', '2-3', '3-2', '5-2']],
+  ['ストレスをやわらげたい', ['3-5', '5-3', '6-1', '6-5', '6-4']],
+  ['集中力を育てたい', ['1-4', '3-1', '3-2', '5-2', '5-4']],
+  ['ぐるぐる考えてしまう', ['3-3', '3-4', '4-1', '5-7', '6-1']],
+  ['自分を責めてしまう', ['1-3', '3-5', '5-6', '6-2']],
+  ['人間関係に活かしたい', ['3-6', '5-6', '6-3', '6-2']],
+  ['科学的な根拠を知りたい', ['4-1', '4-2', '4-3', '4-4', '4-5']],
+  ['眠る前に落ち着きたい', ['5-1', '5-3', '6-5']]
+];
+
+/* [用語, よみ, 分類, 説明] */
+var GLOSS = [
+['マインドフルネス', 'まいんどふるねす', '基礎', '意図的に、今この瞬間に、評価をせずに注意を向けることで生まれる気づき。'],
+['自動操縦', 'じどうそうじゅう', '基礎', '体は動いているのに、心が別のところにある状態。オートパイロット。'],
+['初心', 'しょしん', '基礎', '物事を初めて見るかのように体験する態度。ビギナーズ・マインド。'],
+['受容', 'じゅよう', '基礎', '今ある体験を、変えようとする前にまずあるがままに認めること。アクセプタンス。'],
+['7つの態度', 'ななつのたいど', '基礎', 'カバットジンが挙げた実践の土台。評価しない・忍耐・初心・信頼・がんばらない・受容・手放す。'],
+['集中瞑想', 'しゅうちゅうめいそう', '基礎', '呼吸など1つの対象に注意を置き、それたら戻す瞑想。フォーカスト・アテンション。'],
+['観察瞑想', 'かんさつめいそう', '基礎', '対象を1つに決めず、現れる体験を反応せずに観察する瞑想。オープン・モニタリング。'],
+['IAAモデル', 'あいえーえーもでる', '基礎', 'シャピロらによるマインドフルネスの3要素。意図・注意・態度。'],
+['サティ', 'さてぃ', '歴史', 'マインドフルネスの語源となったパーリ語。「気づき」「心にとどめること」。漢訳は「念」。'],
+['八正道', 'はっしょうどう', '歴史', 'ブッダが説いた、苦しみを減らすための8つの実践の道。その7番目が正念。'],
+['正念', 'しょうねん', '歴史', '八正道の7番目。正しい気づき。サティにあたる。'],
+['四念処', 'しねんじょ', '歴史', '気づきを向ける4つの領域。身・受・心・法。'],
+['念処経', 'ねんじょきょう', '歴史', '気づきの実践方法をまとめた仏典。サティパッターナ・スッタ。'],
+['入出息念', 'にゅうしゅつそくねん', '歴史', '呼吸への気づきの実践。アーナーパーナサティ。出入息念、安般念とも書く。現代の呼吸瞑想の原型。'],
+['サマタ', 'さまた', '歴史', '1つの対象に集中して心を静める瞑想。漢訳は「止」。'],
+['ヴィパッサナー', 'ゔぃぱっさなー', '歴史', '体験をありのままに観察する瞑想。漢訳は「観」。'],
+['リス・デイヴィッズ', 'りすでいゔぃっず', '歴史', '1881年にサティを英語のmindfulnessと訳したイギリスの仏教学者。'],
+['ティク・ナット・ハン', 'てぃくなっとはん', '歴史', 'ベトナム出身の禅僧。1975年の著書『The Miracle of Mindfulness』（邦訳『〈気づき〉の奇跡』）などで西洋に実践を広めた。'],
+['ジョン・カバットジン', 'じょんかばっとじん', '歴史', '1979年にマサチューセッツ大学でMBSRを始めた人物。'],
+['MBSR', 'えむびーえすあーる', '歴史', 'マインドフルネスストレス低減法。1979年開始の8週間のグループプログラム。'],
+['MBCT', 'えむびーしーてぃー', '歴史', 'マインドフルネス認知療法。シーガル、ウィリアムズ、ティーズデールが開発。うつ病の再発予防が目的。'],
+['DBT', 'でぃーびーてぃー', '歴史', '弁証法的行動療法。リネハンが体系化。マインドフルネスを中核スキルの1つとする。'],
+['ACT', 'あくと', '歴史', 'アクセプタンス＆コミットメント・セラピー。ヘイズらが体系化。受容と価値に沿った行動を重視する。'],
+['第3世代の認知行動療法', 'だいさんせだいのにんちこうどうりょうほう', '歴史', 'マインドフルネスや受容を取り入れた心理療法の総称。MBCT、DBT、ACTなど。'],
+['マクマインドフルネス', 'まくまいんどふるねす', '歴史', '倫理や社会的視点を欠いたまま商品化されたマインドフルネスへの批判的な呼び名。マイルズ・ニールが使い、パーサーとロイの2013年の記事で広まった。'],
+['マインドワンダリング', 'まいんどわんだりんぐ', '心理', '今していることと関係のないことを考えている状態。心のさまよい。'],
+['反すう', 'はんすう', '心理', '嫌な出来事や自分の欠点について、同じ考えを繰り返し続けること。'],
+['脱中心化', 'だつちゅうしんか', '心理', '考えや感情を事実や自分そのものではなく、心に浮かぶ一時的な出来事として見ること。'],
+['することモード', 'することもーど', '心理', '今の状態と理想の差を埋めようとする心のはたらき。doingモード。'],
+['あることモード', 'あることもーど', '心理', '何かを変えようとせず、今の体験をそのまま受け取る心の状態。beingモード。'],
+['二本の矢', 'にほんのや', '心理', '避けられない痛み（第一の矢）と、それへの反応が生む苦しみ（第二の矢）を区別する仏典のたとえ。'],
+['体験の回避', 'たいけんのかいひ', '心理', '不快な思考・感情・感覚を感じないように避けたり抑えたりすること。'],
+['ラベリング', 'らべりんぐ', '心理', '浮かんだ思考や感情に「心配」「怒り」など短い名前をつけること。'],
+['セルフ・コンパッション', 'せるふこんぱっしょん', '心理', '自分への思いやり。ネフによる3要素は、自分へのやさしさ・共通の人間性・マインドフルネス。'],
+['デフォルト・モード・ネットワーク', 'でふぉるともーどねっとわーく', '科学', '課題に取り組んでいないときに活動が高まる脳領域のまとまり。DMN。もとになる考え方は2001年にレイクルらが示した。'],
+['神経可塑性', 'しんけいかそせい', '科学', '経験によって脳の構造やはたらきが変化する性質。'],
+['内受容感覚', 'ないじゅようかんかく', '科学', '心拍、呼吸、空腹など、体の内側の状態を感じ取る感覚。'],
+['メタ分析', 'めたぶんせき', '科学', '複数の研究結果を統計的にまとめて分析する方法。'],
+['FFMQ', 'えふえふえむきゅー', '科学', '5因子マインドフルネス質問紙。観察・描写・意識した行動・判断しない・反応しないの5側面を測る。'],
+['MAAS', 'まーす', '科学', '2003年に作られた、日常での注意深さを測る質問紙。'],
+['Mind the Hype', 'まいんどざはいぷ', '科学', '2018年にヴァン・ダムらが発表した、マインドフルネス研究の問題点を指摘した論文。'],
+['呼吸カウント課題', 'こきゅうかうんとかだい', '科学', '呼吸を1から9まで数え続け、その正確さでマインドフルネスを行動として測る課題。2014年にレビンソンらが妥当性を報告。'],
+['思考プローブ', 'しこうぷろーぶ', '科学', '作業中にランダムな合図を出し、その瞬間の注意の状態を答えてもらうことで、マインドワンダリングを測る方法。'],
+['SART', 'さーと', '科学', '持続的注意課題。数字が出るたびに押し、特定の数字だけ押さない。押してしまう誤りが不注意の指標になる。'],
+['有害事象', 'ゆうがいじしょう', '科学', '実践に伴って起こる望ましくない体験。不安の高まり、つらい記憶のよみがえりなど。'],
+['呼吸瞑想', 'こきゅうめいそう', '実践', '自然な呼吸の感覚に注意を置き、それたら気づいて戻す基本の実践。'],
+['数息観', 'すそくかん', '実践', '呼吸を数えることで注意を保つ方法。禅で用いられる。'],
+['錨', 'いかり', '実践', '注意を戻す先として決めておく対象。呼吸、足の裏、音など。アンカー。'],
+['ボディスキャン', 'ぼでぃすきゃん', '実践', '体の各部分に順番に注意を向け、感覚を観察する実践。'],
+['歩く瞑想', 'あるくめいそう', '実践', '足の感覚や体の動きに注意を向けながらゆっくり歩く実践。'],
+['レーズン・エクササイズ', 'れーずんえくささいず', '実践', 'レーズン1粒を五感でていねいに味わう練習。MBSRの初回で行う。'],
+['慈悲の瞑想', 'じひのめいそう', '実践', '自分や他者の幸せを願う言葉を心の中で繰り返す実践。メッター。'],
+['STOP', 'すとっぷ', '応用', 'Stop・Take a breath・Observe・Proceedの頭文字。短時間で行う実践。'],
+['3分間呼吸空間法', 'さんぷんかんこきゅうくうかんほう', '応用', '気づく→呼吸に集める→体全体に広げる、の3段階で行うMBCTの短い練習。'],
+['RAIN', 'れいん', '応用', 'つらい感情に対応する4ステップ。認識する・許す・探る・いたわる。'],
+['グラウンディング', 'ぐらうんでぃんぐ', '応用', '足の裏など、地面や体の接触感覚に注意を向けて落ち着きを取り戻す方法。'],
+['マインドフル・リスニング', 'まいんどふるりすにんぐ', '応用', '相手の言葉や様子に注意を向け続け、それたら戻す聴き方。'],
+['フォーマルな実践', 'ふぉーまるなじっせん', '応用', '時間を決めて座るなど、瞑想のための時間を取って行う実践。'],
+['インフォーマルな実践', 'いんふぉーまるなじっせん', '応用', '皿洗いや歩行など、日常の動作の中で行う実践。']
+];
+var CATS = ['基礎', '歴史', '心理', '科学', '実践', '応用'];
+
+/* [年(表示), 並び順, 区分, 出来事, 説明, 年代クイズに使うか] */
+var TIMELINE = [
+['紀元前5世紀ごろ', -450, '源流', 'ブッダがサティ（気づき）の実践を説く', '八正道の「正念」として位置づけられ、『念処経』に四念処（身・受・心・法）がまとめられた。', 0],
+['1881年', 1881, '伝来', 'リス・デイヴィッズがsatiを「mindfulness」と英訳', 'イギリスの仏教学者による訳語が、のちに英語として定着する。', 1],
+['20世紀前半〜半ば', 1930, '伝来', 'ミャンマーで在家向けのヴィパッサナー瞑想が広まる', 'レディ・サヤドーらが先駆けとなり、1949年以降はマハーシ・サヤドーがヤンゴンの瞑想センターを拠点に広めた。', 0],
+['1970年', 1970, '伝来', '鈴木俊隆『禅マインド ビギナーズ・マインド』', 'アメリカで禅を指導した鈴木俊隆の講話集。「初心」の考え方を広めた。', 1],
+['1975年', 1975, '伝来', 'ティク・ナット・ハン『The Miracle of Mindfulness』', '日常の動作の中での気づきを、やさしい言葉で西洋に紹介した。邦訳は『〈気づき〉の奇跡』。', 1],
+['1975年', 1975.5, '伝来', 'インサイト・メディテーション・ソサエティ（IMS）設立', 'ゴールドスタイン、コーンフィールド、サルツバーグが設立。マサチューセッツ州バリーの瞑想センターは1976年2月に開いた。', 0],
+['1979年', 1979, '医療・心理', 'カバットジンがMBSRを開始', 'マサチューセッツ大学医療センターにストレス低減クリニックを開設。', 1],
+['1982年', 1982, '医療・心理', 'MBSRの最初の研究論文', '慢性の痛みを持つ患者51人への効果を報告した。当時のプログラムは10週間。', 0],
+['1990年', 1990, '医療・心理', '『Full Catastrophe Living』出版', 'カバットジンによるMBSRの解説書。邦訳は『マインドフルネスストレス低減法』。', 1],
+['1993年', 1993, '医療・心理', 'リネハンがDBTを体系化', '弁証法的行動療法の治療マニュアルを出版。', 1],
+['1999年', 1999, '医療・心理', 'ヘイズらがACTを体系化', 'アクセプタンス＆コミットメント・セラピーの最初の本を出版。', 1],
+['2000年', 2000, '医療・心理', 'MBCTの最初の臨床試験', 'ティーズデールらが、うつ病を繰り返した人の再発を減らす効果を報告。', 0],
+['2002年', 2002, '医療・心理', 'MBCTの治療マニュアル出版', 'シーガル、ウィリアムズ、ティーズデールによる。', 1],
+['2004年', 2004, '医療・心理', 'イギリスNICEの診療ガイドラインにMBCTが載る', 'うつ病の再発予防の選択肢として取り上げられた。2009年の改訂で、3回以上経験した人への推奨が明記された。', 1],
+['2004年', 2004.5, '研究', 'ビショップらが2要素の定義を提案', '注意の自己調整と、好奇心・開放性・受容の態度。', 0],
+['2005年', 2005, '研究', 'ラザーらが瞑想経験者の大脳皮質の厚みを報告', '経験者20人と未経験者15人の比較。脳構造と瞑想の関係に注目が集まるきっかけになった。', 0],
+['2007年', 2007, '社会', 'グーグルで「サーチ・インサイド・ユアセルフ」開始', '企業研修への導入が広がるきっかけになった。', 1],
+['2010年', 2010, '研究', '「さまよう心は不幸な心」研究', 'キリングスワースとギルバートが成人2,250人を調べ、回答の46.9％で心がさまよっていたと報告。', 1],
+['2011年', 2011, '研究', 'ヘルツェルらの海馬研究／ブルワーらのDMN研究', '8週間のMBSR後の灰白質の変化、瞑想経験者のDMN活動の低さが報告された。', 0],
+['2013年', 2013, '社会', '日本マインドフルネス学会設立', '日本での研究と実践の交流の場ができる。', 0],
+['2014年', 2014, '社会', '『TIME』誌が「マインドフル革命」を特集', '2月3日号の表紙。同じ年、ゴヤルらのメタ分析（47試験・3,515人）が不安・抑うつ・痛みへの中程度のエビデンスを報告。', 1],
+['2015年', 2015, '社会', 'イギリス議会の報告書『Mindful Nation UK』', '医療・教育・職場・司法での活用を提言。', 0],
+['2016年', 2016, '研究', 'MBCTの再発予防効果を統合分析で確認', 'カイケンらが9つの試験を統合し、60週以内の再発リスクの低下（ハザード比0.69）を報告。', 0],
+['2021年', 2021, '研究', '有害事象を体系的に測定した研究', 'ブリトンらが96人を調べ、不快な体験58％、生活への支障37％、長く続く悪影響6〜14％と報告。', 0],
+['2018年', 2018, '研究', '論文「Mind the Hype」', 'ヴァン・ダムら15人の研究者が、定義・測定・研究デザイン・有害事象の問題を指摘。', 1],
+['2022年', 2022, '研究', '大規模試験で脳構造の変化を再現できず', 'クラルらが218人を対象とした試験で、8週間のMBSRによる脳の構造変化は確認できなかったと報告。', 0]
+];
+var ERAS = ['源流', '伝来', '医療・心理', '研究', '社会'];
+
+var MAPS = [
+{ t: '注意のサイクル', s: '瞑想中に繰り返される4つの局面', loop: 1, n: [
+  ['集中する', '呼吸などの対象に注意を置いている状態。長く続かなくて当たり前です。'],
+  ['さまよう', '気づかないうちに、計画や回想や心配へ注意が移る。デフォルト・モード・ネットワークがはたらいている状態と考えられます。'],
+  ['気づく', '「あ、考えていた」と気づく瞬間。ここがマインドフルネスの核心で、練習の「1回」にあたります。'],
+  ['戻す', '自分を責めず、注意をやさしく対象に戻す。戻し方の態度も練習の一部です。']] },
+{ t: '体験の4要素', s: '感情のかたまりを分けて観察する', n: [
+  ['思考', '頭に浮かぶ言葉やイメージ。「嫌われたかも」「失敗する」。事実ではなく、心の出来事として扱います。'],
+  ['感情', '不安、怒り、悲しみ、喜びなど。名前をつける（ラベリング）と距離が取れます。'],
+  ['身体感覚', '胸のざわつき、肩のこわばり、胃の重さ。「今ここ」にしかないので、注意の錨になります。'],
+  ['行動への衝動', '逃げたい、言い返したい、スマホを見たい。衝動に気づくと、行動を選ぶ余地が生まれます。']] },
+{ t: '二本の矢', s: '痛みが苦しみに変わるまで', n: [
+  ['出来事', '体の痛み、失敗、批判、別れ。生きていれば必ず起こること。'],
+  ['第一の矢', '出来事そのものがもたらす、避けられない痛みや不快感。'],
+  ['反応', '「なぜ私だけ」「もうだめだ」という抵抗、自己批判、反すう、体験の回避。'],
+  ['第二の矢', '反応が上乗せする苦しみ。自分で刺している矢なので、気づけば減らせます。マインドフルネスがはたらきかけるのはここです。']] },
+{ t: 'ストレスへの反応と対応', s: '刺激と行動のあいだに間を作る', n: [
+  ['きっかけ', '締め切り、きつい言葉、渋滞など、ストレスのもとになる刺激。'],
+  ['自動的な反応', '体が緊張し、いつものパターン（怒る、黙り込む、食べ過ぎるなど）が動き出す。'],
+  ['気づきの間（ま）', 'STOPやひと呼吸で、今の体・感情・考えに気づく。ここで自動操縦がいったん止まります。'],
+  ['選んだ対応', '反射ではなく、自分で選んだ行動。結果は同じでも、選んだという感覚が違いを生みます。']] },
+{ t: '四念処', s: '仏教で気づきを向ける4つの領域', n: [
+  ['身（しん）', '体と呼吸。姿勢、動作、呼吸への気づき。現代の呼吸瞑想やボディスキャンにつながります。'],
+  ['受（じゅ）', '体験に伴う「快・不快・どちらでもない」という感じ。反応が起こる手前の段階です。'],
+  ['心（しん）', '心の状態。怒りがあるか、落ち着いているか、散らかっているか。'],
+  ['法（ほう）', '心に現れる現象と、その法則。物事がどう生じ、どう消えるかの観察。']] },
+{ t: 'マインドフルネスの系譜', s: '2500年の流れを一望する', n: [
+  ['初期仏教', '紀元前5世紀ごろ。サティ（気づき）、八正道、四念処。'],
+  ['上座部仏教・禅', 'ヴィパッサナー瞑想（東南アジア）と禅（東アジア）として受け継がれ、20世紀に西洋へ。'],
+  ['MBSR', '1979年、カバットジンが宗教色を除いた8週間プログラムとして医療に導入。'],
+  ['心理療法', 'MBCT、DBT、ACT。「第3世代の認知行動療法」として発展。'],
+  ['社会への広がり', '企業、学校、スポーツへ。同時に商品化への批判や、研究の質への反省も進む。']] }
+];
+
+var ESSAYS = [
+{ q: 'マインドフルネスの定義を、3つの要素を挙げて説明しなさい。', len: '80〜120字', m: 'マインドフルネスとは、意図的に、今この瞬間に、評価をせずに注意を向けることで生まれる気づきである。自分で注意を向け、過去や未来ではなく今の体験にとどまり、良い悪いの判定をいったん脇に置くことが要点となる。', c: ['「意図的に」に触れている', '「今この瞬間に」に触れている', '「評価をせずに」に触れている'] },
+{ q: '「瞑想中に雑念が浮かぶのは失敗である」という考えが誤りである理由を説明しなさい。', len: '100〜150字', m: '瞑想は、集中する、心がさまよう、さまよいに気づく、注意を戻すという4つの局面の繰り返しである。さまよいに気づいた瞬間こそマインドフルネスが起きている瞬間であり、それるたびに気づいて戻すことが練習そのものになる。したがって雑念は失敗ではなく、練習の機会である。', c: ['注意のサイクル（集中→さまよう→気づく→戻す）に触れている', '「気づく」瞬間が核心だと述べている', '自分を責めずに戻すことに触れている'] },
+{ q: 'MBSRとMBCTの違いを、開発者・対象・目的の点から説明しなさい。', len: '120〜180字', m: 'MBSRは1979年にカバットジンがマサチューセッツ大学で始めた8週間のプログラムで、慢性の痛みやストレスを抱える人を対象に、ストレスの低減を目的とする。MBCTはシーガル、ウィリアムズ、ティーズデールがMBSRに認知療法を組み合わせて開発したもので、うつ病を繰り返した人を対象に、再発の予防を目的とする。', c: ['MBSR＝カバットジン、1979年', 'MBSRの対象・目的（痛みやストレスの低減）', 'MBCT＝シーガル、ウィリアムズ、ティーズデール', 'MBCTの目的（うつ病の再発予防）'] },
+{ q: '「二本の矢」のたとえを用いて、マインドフルネスが苦しみを減らすしくみを説明しなさい。', len: '120〜180字', m: '痛みや嫌な出来事という第一の矢は避けられない。しかし、それに抵抗したり、自分を責めたり、繰り返し考え続けたりすることで、第二の矢という上乗せの苦しみが生まれる。マインドフルネスは、第一の矢をそのまま受け入れつつ、自分の反応に気づくことで、第二の矢を打つことを減らす。', c: ['第一の矢＝避けられない痛み', '第二の矢＝反応が生む苦しみ', 'マインドフルネスが減らすのは第二の矢だと述べている', '受容や気づきに触れている'] },
+{ q: '反すうとは何かを述べ、脱中心化がそれにどう役立つかを説明しなさい。', len: '120〜180字', m: '反すうとは、嫌な出来事や自分の欠点について同じ考えを繰り返し続けることで、気分の落ち込みを長引かせやすい。脱中心化は、考えを事実や自分そのものではなく、心に浮かんでは消える出来事として見ることである。考えの中身と争わずに距離を取れるため、反すうの連鎖に巻き込まれにくくなる。', c: ['反すうの定義', '反すうが落ち込みを長引かせること', '脱中心化の定義（考えを心の出来事として見る）', '考えとの「関係」を変える点に触れている'] },
+{ q: 'マインドフルネスの効果について、科学的にいえることと、いえないことを説明しなさい。', len: '150〜200字', m: 'メタ分析では、マインドフルネス瞑想のプログラムが不安・抑うつ・痛みを改善する中程度のエビデンスがあり、MBCTはうつ病の再発リスクを下げることが示されている。一方、他の積極的な治療より優れているという証拠はない。また、8週間で脳の構造が変わるという報告は大規模な試験で再現されておらず、不安の高まりなどの有害事象も報告されている。万能ではなく、選択肢の1つと考えるのが妥当である。', c: ['不安・抑うつ・痛みへの中程度のエビデンス', 'MBCTの再発予防効果', '他の治療より優れているとはいえない', '脳構造の変化は再現されていない、または有害事象に触れている'] },
+{ q: '「することモード」と「あることモード」の違いを説明し、することモードが気分に対しては裏目に出る理由を述べなさい。', len: '120〜180字', m: 'することモードは、今の状態と理想の状態の差を埋めようとする心のはたらきで、外の世界の課題解決には有効である。あることモードは、何かを変えようとせず今の体験をそのまま受け取る状態である。することモードを気分に向けると、理想とのずれを見つめ続けることになり、反すうを生んで落ち込みを強めてしまう。', c: ['することモードの定義（差を埋める）', 'あることモードの定義（そのまま受け取る）', '気分に向けると反すうにつながること'] },
+{ q: '3分間呼吸空間法の3つの段階を説明しなさい。', len: '80〜120字', m: '第1段階では、今ある考え・感情・体の感覚に広く気づく。第2段階では、注意を呼吸の感覚に集める。第3段階では、注意を体全体へと再び広げる。広い→狭い→広いという注意の動きから、砂時計にたとえられる。', c: ['①気づく', '②呼吸に集める', '③体全体に広げる'] },
+{ q: 'セルフ・コンパッションの3つの要素を挙げ、マインドフルネスの実践になぜ必要かを説明しなさい。', len: '120〜180字', m: 'セルフ・コンパッションは、自分へのやさしさ、苦しみは誰にでもあるという共通の人間性の理解、苦しみを大げさにも無視もしないマインドフルネスの3要素からなる。気づきの練習だけでは自分の欠点を見つけて責める方向に傾きやすいため、気づいたものをやさしく受けとめる態度が必要になる。', c: ['自分へのやさしさ', '共通の人間性', 'マインドフルネス', '自己批判に傾かないために必要だと述べている'] },
+{ q: 'マインドフルネスを安全に実践するための注意点を説明しなさい。', len: '100〜150字', m: '瞑想中に不安が強まったり、つらい記憶がよみがえったりした場合は、無理に続けず中断する。目を開ける、注意を足の裏や音に移すなどの調整が有効である。うつ病の症状が重い時期やトラウマがある場合、治療中の場合は、専門家に相談してから取り組む。マインドフルネスは医療の代わりにはならない。', c: ['つらいときは中断してよい', '注意の対象を変えるなどの調整', '治療中・トラウマがある場合は専門家に相談', '医療の代わりではない'] }
+];
+
+var PRACTICES = [
+  { k: 'breath', t: '呼吸瞑想', s: '円に合わせて、吸う4秒・吐く6秒', pace: 1, g: ['姿勢を整えます。背すじは伸びて、力は抜けています。', '呼吸を感じやすい場所を1つ選び、そこに注意を置きます。', '考えごとに気づいたら、「考えていた」と認めて、呼吸に戻ります。', '何度それても大丈夫です。戻るたびに練習になっています。', '最後に、体全体に注意を広げます。'] },
+  { k: 'body', t: 'ボディスキャン', s: '足先から頭まで、順番に感じる', g: ['両足の指、足の裏、かかとの感覚に注意を向けます。', '足首、すね、ふくらはぎ、ひざへ。', '太もも、腰、椅子や床に触れている感覚へ。', 'お腹。呼吸に合わせた動きを感じます。', '胸、背中、肩甲骨のあたりへ。', '両手の指、手のひら、腕、肩へ。', '首、あご、口のまわり、目のまわり、額へ。', '頭のてっぺんまで来たら、体全体を1つとして感じます。'] },
+  { k: 'metta', t: '慈悲の瞑想', s: '幸せを願う言葉を広げていく', g: ['自分に向けて。「私が安らかでありますように。私が健やかでありますように。」', '大切な人を思い浮かべて。「あなたが安らかでありますように。健やかでありますように。」', '好きでも嫌いでもない人（店員さん、近所の人）を思い浮かべて、同じ言葉を。', '少しだけ苦手な人を思い浮かべて。難しければ、自分に戻って構いません。', 'すべての生きものへ。「生きとし生けるものが、安らかでありますように。」'] },
+  { k: 'space', t: '3分間呼吸空間法', s: '気づく→集める→広げる', fix: 3, g: ['気づく：今、どんな考えがありますか。どんな気持ちですか。体にはどんな感覚がありますか。', '集める：注意を呼吸に集めます。お腹がふくらみ、へこむ感覚を追います。', '広げる：注意を体全体へ広げます。姿勢、表情、体全体が呼吸しているのを感じます。'] },
+  { k: 'free', t: '静かなタイマー', s: 'ガイドなしで座る', g: ['注意の錨を1つ決めて、座ります。'] }
+];
+
+var LAB = [
+  { k: 'bc', t: '呼吸カウント課題', s: '呼吸を数え続けられるかを測る', m: [1, 3, 5],
+    how: ['自然な呼吸のまま、吐く息を1から9まで心の中で数えます。', '1〜8回目は「息」、9回目は「9」のボタンを押します。押したらまた1から。', '数がわからなくなったら、正直に「数え直す」を押します。画面に今の数は表示されません。'],
+    about: '2014年にレビンソンらが、マインドフルネスを行動で測る方法として妥当性を報告した課題の短縮版です。元の研究では15〜18分ほどの長さで行われており、この結果は目安です。' },
+  { k: 'probe', t: '思考サンプリング', s: '心がさまよう割合を測る', m: [3, 5, 10],
+    how: ['目を閉じて、呼吸に注意を向けて座ります。', 'ランダムなタイミングで鐘が鳴り、スマホが振動します。そのとき画面を見ます。', '鐘が鳴る「直前」に注意がどこにあったかを、3つから正直に選びます。'],
+    about: '研究で使われる「思考プローブ法」の体験版です。音を出せる環境で行ってください。日常生活では起きている時間の約47％で心がさまよっているという報告（2010年）があります。' },
+  { k: 'sart', t: '注意の持続テスト', s: '自動操縦の出やすさを測る',
+    how: ['1〜9の数字が次々に表示されます（約2分、108回）。', '数字が出るたびに、できるだけ速く「タップ」を押します。', 'ただし「3」のときだけは押しません。'],
+    about: '1997年にロバートソンらが作った持続的注意課題（SART）の短縮版です（元の課題は225回・約4分）。単調な反応が続くと自動操縦になり、「3」でもつい押してしまいます。その誤りの割合が不注意の指標です。' },
+  { k: 'label', t: 'ラベリング観察', s: '浮かぶ考えの種類を記録する', m: [3, 5, 10],
+    how: ['呼吸に注意を向けて座ります。目は軽く開けていて構いません。', '注意がそれたと気づいたら、それが何だったかに近いボタンを押します。', '押したら、内容には深入りせず呼吸に戻ります。'],
+    about: 'ラベリングの実践を記録にしたものです。繰り返すと、自分の心がどこへ行きやすいかの傾向が見えてきます。' },
+  { k: 'facet', t: '5つの側面セルフチェック', s: '得意・不得意をふり返る',
+    how: ['ここ1〜2週間の自分にどのくらい当てはまるかを、15問に答えます。'],
+    about: '研究で使われる5つの側面（観察・描写・意識した行動・判断しない・反応しない）の考え方を参考にした、このノート独自のふり返り用の質問です。FFMQそのものではなく、診断や評価のためのものでもありません。' }
+];
+var LABELS = ['計画', '心配', '回想', '評価・批判', '空想', '体の感覚', '音・まわり'];
+var LABEL_REC = { '計画': '3-4', '心配': '3-3', '回想': '3-3', '評価・批判': '5-6', '空想': '3-1', '体の感覚': '5-3', '音・まわり': '1-4' };
+var FACETS = ['観察', '描写', '意識した行動', '判断しない', '反応しない'];
+var FACET_REC = [['5-3', '5-5'], ['3-6', '5-7'], ['3-1', '6-4'], ['1-3', '5-6'], ['3-3', '6-2']];
+var FACET_TIP = ['体や五感の感覚に気づく力。ボディスキャンや食べる瞑想で育ちます。', '体験を言葉にする力。ラベリングや、感情に名前をつける練習で育ちます。', '自動操縦ではなく、今していることに注意を向けて行動する力。日常の動作を1つ選ぶ実践で育ちます。', '自分の考えや感情を良い・悪いと決めつけない力。7つの態度と慈悲の瞑想が助けになります。', '思考や感情に巻き込まれず、間を置く力。脱中心化とRAINの練習で育ちます。'];
+/* [側面, 質問, 逆転項目か] */
+var FQ = [
+  [0, '歩いているとき、足や体の動きの感覚に気づいている', 0], [1, '自分の気持ちを言葉にするのは得意なほうだ', 0], [2, '気づくと、今まで何をしていたか覚えていないことがある', 1],
+  [3, '「こんな気持ちになるべきではない」と自分に言ってしまう', 1], [4, '嫌な考えが浮かんでも、巻き込まれずに眺めていられる', 0],
+  [0, '食べものの味や香り、食感の変化に注意を向けている', 0], [1, '体で感じていることを、言葉で説明できる', 0], [2, 'ほかのことを考えながら作業していることが多い', 1],
+  [3, '自分の考えを「良い」「悪い」と決めつけてしまう', 1], [4, '動揺しても、少し間を置いてから行動できる', 0],
+  [0, '風や日差し、音など、まわりの感覚によく気づく', 0], [1, '今の気分に合う言葉が見つからないことが多い', 1], [2, '急いでいて、目の前のことに注意が向いていないことがある', 1],
+  [3, 'つらい感情が出てきても、自分を責めずにいられる', 0], [4, 'つらい気持ちが出ても、やがて過ぎ去るものだと見ていられる', 0]
+];
+
+/* 8週間プログラム：[表示名, 行き先] */
+var PROGRAM = [
+  { t: '自動操縦に気づく', d: 'ふだんどれだけ「心ここにあらず」で過ごしているかを知る週。', i: [['講義 1-1 定義', 'lesson/1-1'], ['講義 1-5 よくある誤解', 'lesson/1-5'], ['講義 3-1 自動操縦とさまよう心', 'lesson/3-1'], ['講義 5-1 姿勢と環境', 'lesson/5-1'], ['実験：注意の持続テスト', 'exp/sart'], ['実践：ボディスキャンを3日以上', 'sit/body'], ['日常：食事の最初の3口を味わう（講義 5-5）', 'lesson/5-5']] },
+  { t: '体に戻る', d: '注意の置き場所として、体と呼吸を使えるようにする週。', i: [['講義 1-2 注意と態度', 'lesson/1-2'], ['講義 1-3 7つの態度', 'lesson/1-3'], ['講義 5-3 ボディスキャン', 'lesson/5-3'], ['講義 3-6 思考・感情・身体感覚', 'lesson/3-6'], ['実験：呼吸カウント課題（1回目の測定）', 'exp/bc'], ['実践：呼吸瞑想を毎日5分', 'sit/breath'], ['心の地図：体験の4要素', 'map/1']] },
+  { t: 'さまよう心を知る', d: '「それる→気づく→戻す」を練習の1回として数える週。', i: [['講義 3-2 注意の4ステップ', 'lesson/3-2'], ['講義 5-2 呼吸瞑想', 'lesson/5-2'], ['講義 5-4 歩く瞑想', 'lesson/5-4'], ['講義 4-1 デフォルト・モード・ネットワーク', 'lesson/4-1'], ['実験：思考サンプリング', 'exp/probe'], ['実践：呼吸瞑想10分（気づいたら円をタップ）', 'sit/breath'], ['心の地図：注意のサイクル', 'map/0']] },
+  { t: '反応に気づく', d: '刺激と反応のあいだに「間」を見つける週。', i: [['講義 3-5 二本の矢', 'lesson/3-5'], ['講義 3-4 「すること」と「あること」', 'lesson/3-4'], ['講義 6-1 STOPと3分間呼吸空間法', 'lesson/6-1'], ['実験：ラベリング観察', 'exp/label'], ['実践：3分間呼吸空間法を1日3回', 'sit/space'], ['心の地図：ストレスへの反応と対応', 'map/3'], ['記述演習 4：二本の矢', 'essay/3']] },
+  { t: 'あるがままに置いておく', d: '不快なものを消そうとせず、そこにあることを許す週。', i: [['講義 1-4 集中瞑想と観察瞑想', 'lesson/1-4'], ['講義 3-3 反すうと脱中心化', 'lesson/3-3'], ['講義 5-7 思考と感情を観察する', 'lesson/5-7'], ['講義 6-2 RAIN', 'lesson/6-2'], ['実験：ラベリング観察（2回目）', 'exp/label'], ['実践：静かなタイマーで10分', 'sit/free'], ['記述演習 5：反すうと脱中心化', 'essay/4']] },
+  { t: '考えは事実ではない', d: '考えを「心の出来事」として眺め、その歴史的な背景も学ぶ週。', i: [['講義 2-1 仏教の「サティ」', 'lesson/2-1'], ['講義 2-2 西洋への伝わり方', 'lesson/2-2'], ['講義 2-3 MBSRの誕生', 'lesson/2-3'], ['講義 2-4 心理療法への統合', 'lesson/2-4'], ['年代・年表を通して読む', 'timeline'], ['実践：呼吸瞑想10分', 'sit/breath'], ['日常：「〜という考えが浮かんでいる」と言い換える（講義 3-3）', 'lesson/3-3']] },
+  { t: '自分と人をいたわる', d: '気づきに、やさしさを加える週。', i: [['講義 5-6 慈悲の瞑想とセルフ・コンパッション', 'lesson/5-6'], ['講義 6-3 聴く・話す', 'lesson/6-3'], ['講義 6-5 眠る前・ストレスの場面で', 'lesson/6-5'], ['講義 2-5 社会への広がりと批判', 'lesson/2-5'], ['実験：5つの側面セルフチェック', 'exp/facet'], ['実践：慈悲の瞑想を3日以上', 'sit/metta'], ['記述演習 9：セルフ・コンパッション', 'essay/8']] },
+  { t: 'これからも続ける', d: '科学的な限界も知ったうえで、自分の続け方を決める週。', i: [['講義 4-2 脳は変わるのか', 'lesson/4-2'], ['講義 4-3 効果のエビデンス', 'lesson/4-3'], ['講義 4-4 研究の限界と有害事象', 'lesson/4-4'], ['講義 4-5 マインドフルネスを測る', 'lesson/4-5'], ['講義 6-4 習慣にする', 'lesson/6-4'], ['講義 6-6 安全に続けるために', 'lesson/6-6'], ['実験：呼吸カウント課題（2回目。第2週と比べる）', 'exp/bc'], ['心のデータで8週間をふり返る', 'me']] }
+];
+
+var SOURCES = [
+  ['定義・概念', [
+    ['Kabat-Zinn J (1994). Wherever You Go, There You Are. Hyperion.', ''],
+    ['Kabat-Zinn J (2003). Mindfulness-based interventions in context: past, present, and future. Clinical Psychology: Science and Practice, 10(2), 144–156.', ''],
+    ['Kabat-Zinn J (1990). Full Catastrophe Living. Delacorte Press.（邦訳：春木豊訳『マインドフルネスストレス低減法』北大路書房, 2007）', ''],
+    ['Bishop SR, et al. (2004). Mindfulness: A proposed operational definition. Clinical Psychology: Science and Practice, 11(3), 230–241.', '10.1093/clipsy.bph077'],
+    ['Shapiro SL, Carlson LE, Astin JA, Freedman B (2006). Mechanisms of mindfulness. Journal of Clinical Psychology, 62(3), 373–386.', '10.1002/jclp.20237'],
+    ['Lutz A, Slagter HA, Dunne JD, Davidson RJ (2008). Attention regulation and monitoring in meditation. Trends in Cognitive Sciences, 12(4), 163–169.', '10.1016/j.tics.2008.01.005'],
+    ['Neff KD (2003). Self-compassion: An alternative conceptualization of a healthy attitude toward oneself. Self and Identity, 2(2), 85–101.', ''],
+    ['Segal ZV, Williams JMG, Teasdale JD (2002). Mindfulness-Based Cognitive Therapy for Depression. Guilford Press.', ''],
+    ['Stahl B, Goldstein E (2010). A Mindfulness-Based Stress Reduction Workbook. New Harbinger.（STOPの出典としてよく引かれる。考案者は不明）', '']]],
+  ['歴史', [
+    ['Rhys Davids TW (1881). Buddhist Suttas. Clarendon Press.（sammā-sati を Right Mindfulness と訳出）', ''],
+    ['Gethin R (2011). On some definitions of mindfulness. Contemporary Buddhism, 12(1), 263–279.', ''],
+    ['Suzuki S (1970). Zen Mind, Beginner’s Mind. Weatherhill.', ''],
+    ['Thich Nhat Hanh (1975). The Miracle of Mindfulness. Beacon Press.（邦訳：池田久代訳『〈気づき〉の奇跡』春秋社, 2014）', ''],
+    ['Kabat-Zinn J (1982). An outpatient program in behavioral medicine for chronic pain patients based on the practice of mindfulness meditation. General Hospital Psychiatry, 4(1), 33–47.', '10.1016/0163-8343(82)90026-3'],
+    ['Linehan MM (1993). Cognitive-Behavioral Treatment of Borderline Personality Disorder. Guilford Press.', ''],
+    ['Hayes SC, Strosahl KD, Wilson KG (1999). Acceptance and Commitment Therapy. Guilford Press.', ''],
+    ['Teasdale JD, et al. (2000). Prevention of relapse/recurrence in major depression by mindfulness-based cognitive therapy. Journal of Consulting and Clinical Psychology, 68(4), 615–623.', '10.1037/0022-006X.68.4.615'],
+    ['NICE (2004) Depression: management of depression in primary and secondary care (CG23)／(2009) CG90／(2022) NG222.', ''],
+    ['Pickert K (2014). The Mindful Revolution. TIME, 2014年2月3日号.', ''],
+    ['Mindfulness All-Party Parliamentary Group (2015). Mindful Nation UK.', ''],
+    ['Purser R, Loy D (2013). Beyond McMindfulness. Huffington Post.／Purser R (2019). McMindfulness. Repeater Books.', ''],
+    ['日本マインドフルネス学会（2013年設立）公式サイト', '']]],
+  ['研究', [
+    ['Killingsworth MA, Gilbert DT (2010). A wandering mind is an unhappy mind. Science, 330(6006), 932.', '10.1126/science.1192439'],
+    ['Hasenkamp W, Wilson-Mendenhall CD, Duncan E, Barsalou LW (2012). Mind wandering and attention during focused meditation. NeuroImage, 59(1), 750–760.', ''],
+    ['Raichle ME, et al. (2001). A default mode of brain function. PNAS, 98(2), 676–682.', '10.1073/pnas.98.2.676'],
+    ['Brewer JA, et al. (2011). Meditation experience is associated with differences in default mode network activity and connectivity. PNAS, 108(50), 20254–20259.', ''],
+    ['Lazar SW, et al. (2005). Meditation experience is associated with increased cortical thickness. NeuroReport, 16(17), 1893–1897.', ''],
+    ['Hölzel BK, et al. (2011). Mindfulness practice leads to increases in regional brain gray matter density. Psychiatry Research: Neuroimaging, 191(1), 36–43.', ''],
+    ['Kral TRA, et al. (2022). Absence of structural brain changes from mindfulness-based stress reduction: Two combined randomized controlled trials. Science Advances, 8(20), eabk3316.', '10.1126/sciadv.abk3316'],
+    ['Goyal M, et al. (2014). Meditation programs for psychological stress and well-being: a systematic review and meta-analysis. JAMA Internal Medicine, 174(3), 357–368.', '10.1001/jamainternmed.2013.13018'],
+    ['Kuyken W, et al. (2016). Efficacy of mindfulness-based cognitive therapy in prevention of depressive relapse. JAMA Psychiatry, 73(6), 565–574.', '10.1001/jamapsychiatry.2016.0076'],
+    ['Van Dam NT, et al. (2018). Mind the Hype. Perspectives on Psychological Science, 13(1), 36–61.', '10.1177/1745691617709589'],
+    ['Lindahl JR, Fisher NE, Cooper DJ, Rosen RK, Britton WB (2017). The varieties of contemplative experience. PLOS ONE, 12(5), e0176239.', '10.1371/journal.pone.0176239'],
+    ['Britton WB, Lindahl JR, Cooper DJ, Canby NK, Palitsky R (2021). Defining and measuring meditation-related adverse effects in mindfulness-based programs. Clinical Psychological Science, 9(6), 1185–1204.', '10.1177/2167702621996340'],
+    ['Nolen-Hoeksema S (1991). Responses to depression and their effects on the duration of depressive episodes. Journal of Abnormal Psychology, 100(4), 569–582.', '10.1037/0021-843X.100.4.569'],
+    ['Hayes SC, et al. (1996). Experiential avoidance and behavioral disorders. Journal of Consulting and Clinical Psychology, 64(6), 1152–1168.', '10.1037/0022-006X.64.6.1152'],
+    ['Lieberman MD, et al. (2007). Putting feelings into words. Psychological Science, 18(5), 421–428.', '10.1111/j.1467-9280.2007.01916.x']]],
+  ['発展編', [
+    ['Nyanaponika Thera (1954; 増補版 1962). The Heart of Buddhist Meditation.', ''],
+    ['Bhikkhu Bodhi (2011). What does mindfulness really mean? A canonical perspective. Contemporary Buddhism, 12(1), 19–39.', '10.1080/14639947.2011.564813'],
+    ['Dreyfus G (2011). Is mindfulness present-centred and non-judgmental? Contemporary Buddhism, 12(1), 41–54.', ''],
+    ['Buddhaghosa. Visuddhimagga（清浄道論）第9章.', ''],
+    ['Brewer JA, et al. (2011). Mindfulness training for smoking cessation: results from a randomized controlled trial. Drug and Alcohol Dependence, 119(1-2), 72–80.', ''],
+    ['Santorelli SF, Meleo-Meyer F, Koerbel L, Kabat-Zinn J (2017). MBSR Authorized Curriculum Guide. UMass Center for Mindfulness.', ''],
+    ['Segal ZV, Williams JMG, Teasdale JD (2013). Mindfulness-Based Cognitive Therapy for Depression, 2nd ed. Guilford Press.', ''],
+    ['Linehan MM. DBT Skills Training Manual / Handouts and Worksheets, 2nd ed. Guilford Press.', ''],
+    ['Association for Contextual Behavioral Science. The Six Core Processes of ACT.', ''],
+    ['Hölzel BK, Lazar SW, Gard T, Schuman-Olivier Z, Vago DR, Ott U (2011). How does mindfulness meditation work? Perspectives on Psychological Science, 6(6), 537–559.', '10.1177/1745691611419671'],
+    ['Lindsay EK, Creswell JD (2017). Mechanisms of mindfulness training: Monitor and Acceptance Theory (MAT). Clinical Psychology Review.', ''],
+    ['van der Velden AM, et al. (2015). A systematic review of mechanisms of change in mindfulness-based cognitive therapy in the treatment of recurrent major depressive disorder. Clinical Psychology Review, 37, 26–39.', '10.1016/j.cpr.2015.02.001'],
+    ['Parsons CE, Crane C, Parsons LJ, Fjorback LO, Kuyken W (2017). Home practice in MBCT and MBSR: a systematic review and meta-analysis. Behaviour Research and Therapy, 95, 29–41.', '10.1016/j.brat.2017.05.004'],
+    ['Basso JC, McHale A, Ende V, Oberlin DJ, Suzuki WA (2019). Brief, daily meditation enhances attention, memory, mood, and emotional regulation in non-experienced meditators. Behavioural Brain Research, 356, 208–220.', '10.1016/j.bbr.2018.08.023'],
+    ['Zeidan F, et al. (2011). Brain mechanisms supporting the modulation of pain by mindfulness meditation. Journal of Neuroscience, 31(14), 5540–5548.', '10.1523/JNEUROSCI.5791-10.2011'],
+    ['Zeidan F, et al. (2016). Mindfulness-meditation-based pain relief is not mediated by endogenous opioids. Journal of Neuroscience, 36(11), 3391–3397.', ''],
+    ['Cherkin DC, et al. (2016). Effect of mindfulness-based stress reduction vs cognitive behavioral therapy or usual care on back pain and functional limitations in adults with chronic low back pain. JAMA, 315(12), 1240–1249.', '10.1001/jama.2016.2323'],
+    ['Bowen S, et al. (2014). Relative efficacy of mindfulness-based relapse prevention, standard relapse prevention, and treatment as usual for substance use disorders. JAMA Psychiatry, 71(5), 547–556.', '10.1001/jamapsychiatry.2013.4546'],
+    ['Kuyken W, et al. (2022). Effectiveness and cost-effectiveness of universal school-based mindfulness training compared with normal school provision (MYRIAD). Evidence-Based Mental Health, 25(3), 99–109.', ''],
+    ['Goldberg SB, Riordan KM, Sun S, Davidson RJ (2022). The empirical status of mindfulness-based interventions: a systematic review of 44 meta-analyses of randomized controlled trials. Perspectives on Psychological Science, 17(1), 108–130.', '10.1177/1745691620968771'],
+    ['Crane RS, et al. (2013). Development and validation of the Mindfulness-Based Interventions – Teaching Assessment Criteria (MBI:TAC). Assessment, 20(6), 681–688.', ''],
+    ['Treleaven DA (2018). Trauma-Sensitive Mindfulness. W. W. Norton.', ''],
+    ['Grossman P (2008). On measuring mindfulness in psychosomatic and psychological research. Journal of Psychosomatic Research, 64(4), 405–408.', '']]],
+  ['測定・課題', [
+    ['Brown KW, Ryan RM (2003). The benefits of being present. Journal of Personality and Social Psychology, 84(4), 822–848.', '10.1037/0022-3514.84.4.822'],
+    ['Baer RA, Smith GT, Hopkins J, Krietemeyer J, Toney L (2006). Using self-report assessment methods to explore facets of mindfulness. Assessment, 13(1), 27–45.', ''],
+    ['Levinson DB, Stoll EL, Kindy SD, Merry HL, Davidson RJ (2014). A mind you can count on: validating breath counting as a behavioral measure of mindfulness. Frontiers in Psychology, 5, 1202.', '10.3389/fpsyg.2014.01202'],
+    ['Robertson IH, Manly T, Andrade J, Baddeley BT, Yiend J (1997). “Oops!”: Performance correlates of everyday attentional failures in traumatic brain injured and normal subjects. Neuropsychologia, 35(6), 747–758.', '10.1016/S0028-3932(97)00015-8']]]
+];
+
+var CHANGELOG = [
+  ['v5.0', 'サイトで公開。体験版と、LINE特典（合言葉ですべて開く）を追加。'],
+  ['v4.2', '心の地図12枚を図解に描き直し。'],
+  ['v4.1', 'KoKoRoBeing の配色に変更し、名前とマークを追加。'],
+  ['v4.0', '発展編を追加。第7章 仏教心理学、第8章 プログラムと理論、第9章 実践を深める（21レッスン）。用語31語、心の地図6枚、記述演習7問、正誤判定30問、つまずき相談室、発展プログラム4週間、実践ガイド2種。'],
+  ['v3.1', '本文・年表・用語集を原典の書誌情報と照合して修正。出典一覧を追加。'],
+  ['v3.0', '心の実験室（呼吸カウント課題・思考サンプリング・注意の持続テスト・ラベリング観察・5つの側面セルフチェック）、8週間プログラム、心のデータ、鐘と音声ガイド、実践中の「気づき」カウントを追加。'],
+  ['v2.0', '学習アプリ型に全面刷新。全55レッスン、心の地図、年表、一問一答、記述演習、実践タイマー、復習、検索・用語集を追加。'],
+  ['v1.0', 'ノート形式の初版を公開。']
+];
+
+/* ================= 発展編 ================= */
+UNITS.push(['第7章 仏教心理学', '定義の背後にある、もとの考え方'], ['第8章 プログラムと理論', '各療法の中身と、効くしくみ'], ['第9章 実践を深める', 'つまずきへの対処と、観察の精度']);
+THEMES.push('仏教', '臨床', '深化');
+CATS.push('仏教', '臨床');
+LESSONS = LESSONS.concat([
+{ id: '7-1', u: 6, th: '仏教', t: 'サティの本来の意味をめぐる議論', g: '伝統的なサティと現代の定義の違いを説明できる', b: [
+  'サティ（サンスクリット語でスムリティ）は、もともと[[「思い出す」「記憶する」]]という意味の語根から来ています。今していることを忘れずに心にとどめておく、というはたらきです。',
+  '20世紀、ドイツ出身の上座部の僧[[ニャナポニカ・テーラ]]は、著書『仏教瞑想の心髄』（英語初版1954年）でサティを[[「ありのままの注意（bare attention）」]]と説明し、この言い方を広めました。評価や反応を加えず、起きていることだけを受け取る注意です。現代の「評価をせずに」という定義は、この説明の影響を強く受けています。',
+  'これに対し2011年、学術誌『Contemporary Buddhism』の特集で、比丘ボーディ、ゲシン、ドレイファスらがこの理解を問い直しました。経典でのサティは、[[正知（サンパジャンニャ）]]と呼ばれる「はっきりと見きわめる理解」と組になっており、何が役に立ち何が害になるかを覚えておくはたらきも含む、という指摘です。',
+  'つまり現代の定義は、伝統的なサティの一部（今への注意と、反応しない態度）を取り出して、誰でも使える形にしたものです。どちらが正しいかではなく、[[何が取り出され、何が省かれたか]]を知っておくと、理解が深まります。'],
+  p: ['サティの語根は「思い出す」', '「ありのままの注意」はニャナポニカの説明', '伝統的には正知（見きわめ）と組になっている'] },
+{ id: '7-2', u: 6, th: '仏教', t: '三相：無常・苦・無我', g: '観察瞑想が何を見ようとしているのかを説明できる', b: [
+  '仏教でヴィパッサナー（観）が見きわめようとするのは、あらゆる体験に共通する3つの性質、[[三相]]です。',
+  '[[無常（アニッチャ）]]：すべては変化し続ける。呼吸も、かゆみも、怒りも、生じては消えます。[[苦（ドゥッカ）]]：変化するものに「このままでいてほしい」「早く消えてほしい」としがみつくと、満たされなさが生じます。[[無我（アナッター）]]：思考や感情は条件によって起こる現象で、固定した「私」が思い通りに支配しているわけではありません。',
+  '現代のプログラムは、これらを教義として教えることはしません。しかし実践の中では同じことを体験します。痛みを観察していると強さが刻々と変わること（無常）、「私はダメだ」という考えが自分そのものではなく浮かんだ出来事であること（[[脱中心化]]は無我の考え方と響き合います）。',
+  '注意したいのは、これらは信じるべき主張ではなく、[[自分の体験で確かめる観察の視点]]として示されている点です。'],
+  p: ['三相＝無常・苦・無我', '観察瞑想はこの3つを体験として確かめる', '脱中心化は無我の考え方と響き合う'] },
+{ id: '7-3', u: 6, th: '仏教', t: '反応の連鎖：受から渇愛へ', g: '「受」と「渇愛」のあいだに気づきを入れる意味を説明できる', b: [
+  '仏教は、苦しみが生じる過程を[[縁起]]という連鎖で説明します。その一部が、[[触（感覚の接触）→ 受（快・不快・どちらでもないという感じ）→ 渇愛（もっと欲しい／なくしたい）→ 取（しがみつき）]]です。',
+  '[[受（ヴェーダナー）]]は感情ではなく、体験に最初につく「快・不快・中立」の色合いです。ここまでは自動的に起こります。問題は次の一歩で、快には「もっと」、不快には「嫌だ」という[[渇愛]]が続き、行動に駆り立てられます。',
+  'マインドフルネスは、この受と渇愛のあいだに気づきを入れる練習と言えます。「不快がある」と気づくだけで、「なくしたい」という反応が自動的に続かなくなる余地が生まれます。四念処の2番目が「受」なのはこのためです。',
+  '現代の研究者ブルワーは、これを習慣のループ（きっかけ→行動→報酬）と対応させ、渇望（クレービング）を観察する禁煙プログラムを開発しました。2011年の比較試験（88人）では、17週後に禁煙を続けていた人は、マインドフルネスの群で31％、標準的な禁煙プログラムの群で6％でした。'],
+  p: ['触→受→渇愛→取という連鎖', '受＝快・不快・中立の色合い', '気づきを入れるのは受と渇愛のあいだ'] },
+{ id: '7-4', u: 6, th: '仏教', t: '五蓋：実践を妨げる5つ', g: '五蓋を挙げ、それぞれへの対処を説明できる', b: [
+  '瞑想がうまくいかないと感じるとき、起きていることはたいてい5種類に分けられます。伝統的に[[五蓋（ごがい）]]と呼ばれる、心を覆うものです。',
+  '①[[欲（貪欲）]]：心地よいものを求めて注意が引っぱられる。②[[怒り（瞋恚）]]：不快なものへの抵抗、いら立ち、自己批判。③[[眠気・だるさ（惛沈睡眠）]]：心が重く沈む。④[[そわそわ・後悔（掉挙悪作）]]：落ち着かず、心配や後悔が次々に浮かぶ。⑤[[疑い（疑）]]：「意味があるのか」「自分には向いていない」という迷い。',
+  '大事なのは、五蓋を敵として追い払うのではなく、[[それ自体を観察の対象にする]]ことです。「今、眠気がある」「疑いが浮かんでいる」と名前をつけると、巻き込まれずに済みます。',
+  '補助的な対処もあります。欲には対象の変化（無常）を見る、怒りには慈悲の瞑想、眠気には目を開ける・姿勢を正す・立つ、そわそわには吐く息を長く感じる・体に注意を下ろす、疑いにはいったん脇に置いて決めた時間だけ続ける。'],
+  p: ['五蓋＝欲・怒り・眠気・そわそわ・疑い', '追い払わず、名前をつけて観察する', 'それぞれに補助的な対処がある'] },
+{ id: '7-5', u: 6, th: '仏教', t: '七覚支：育てる7つの要素', g: '七覚支を挙げ、バランスの考え方を説明できる', b: [
+  '五蓋が妨げなら、育てていくものが[[七覚支（しちかくし）]]です。①[[念]]（気づき）、②[[択法]]（体験をよく調べること）、③[[精進]]（努力・エネルギー）、④[[喜]]（喜び）、⑤[[軽安]]（心身の落ち着き）、⑥[[定]]（集中）、⑦[[捨]]（平静さ）。',
+  'この7つは2つのグループに分けられます。択法・精進・喜は心を[[活性化]]させる要素。軽安・定・捨は心を[[静める]]要素です。',
+  '心が沈んで眠いときは、活性化の要素（興味を持って調べる、姿勢を正す）を強めます。心が高ぶって落ち着かないときは、静める要素（体をゆるめる、1点に集中する）を強めます。',
+  'そして[[念はいつでも役に立つ]]とされます。今どちらに傾いているかに気づくはたらきだからです。現代の用語でいえば、覚醒水準を自分で調整する技術にあたります。'],
+  p: ['七覚支＝念・択法・精進・喜・軽安・定・捨', '活性化の3つと、静める3つ', '念は両方のバランスを取る'] },
+{ id: '7-6', u: 6, th: '仏教', t: '四無量心：慈・悲・喜・捨', g: '4つの心と「近い敵」を説明できる', b: [
+  '慈悲の瞑想は、実は4つの心を育てる実践の一部です。まとめて[[四無量心（しむりょうしん）]]といいます。',
+  '[[慈（メッター）]]：相手の幸せを願う心。[[悲（カルナー）]]：相手の苦しみがなくなることを願う心。[[喜（ムディター）]]：相手の喜びをともに喜ぶ心。[[捨（ウペッカー）]]：好き嫌いに偏らない平静な心。',
+  '5世紀の注釈書『清浄道論』は、それぞれに正反対の「遠い敵」と、似ているが別物の[[「近い敵」]]があるとします。たとえば慈の遠い敵は怒り、近い敵は貪り（執着）です。現代の指導者はこれをわかりやすく言い換えて、慈には執着的な愛情、悲には相手を下に見る憐れみや一緒に沈み込む悲嘆、喜には浮かれた高揚、捨には無関心を、近い敵として挙げます。',
+  'とくに[[捨と無関心の違い]]は重要です。マインドフルネスの「評価しない」「反応しない」は、冷たく距離を置くことではありません。関心と思いやりを保ったまま、巻き込まれない状態を指します。'],
+  p: ['四無量心＝慈・悲・喜・捨', 'それぞれに似て非なる「近い敵」がある', '捨（平静）は無関心ではない'] },
+
+{ id: '8-1', u: 7, th: '臨床', t: 'MBSRの8週間をのぞく', g: 'MBSRがどのような流れで進むかを説明できる', b: [
+  'MBSRは、週ごとにテーマと練習が積み上がる構成です（以下は公式カリキュラムのおおまかな流れです）。毎回、実践→体験の分かち合い（インクワイアリー）→テーマの話→自宅練習の確認、という流れで進みます。',
+  '[[前半（第1〜3週）]]は体と知覚。レーズン・エクササイズとボディスキャンから始め、静坐瞑想とマインドフル・ヨーガを加えます。第2週に心地よい出来事、第3週に不快な出来事を1日1つ記録する[[出来事日誌]]が課され、体験を思考・感情・身体感覚に分ける練習をします。第2週のテーマは「知覚と創造的な対応」、第3週は「今ここにいることの喜びと力」です。',
+  '[[中盤（第4〜5週）]]はストレス。自動的なストレス反応に気づき、反応ではなく対応を選ぶことを学びます。',
+  '[[後半（第6〜8週）]]は対人関係と生活。難しいコミュニケーション、何を取り入れて暮らすかの選択を扱います。第6週と第7週のあいだに丸1日（約7時間半）の沈黙の実践があり、最終週は、ここまでの勢いを保ちながら自分の続け方を決めます。'],
+  p: ['実践→分かち合い→テーマ→自宅練習の流れ', '前半は体と知覚、中盤はストレス、後半は対人関係と生活', '出来事日誌で体験を要素に分ける'] },
+{ id: '8-2', u: 7, th: '臨床', t: 'MBCTの8セッション', g: 'MBCTの各セッションのテーマを説明できる', b: [
+  'MBCTは8回のセッションにそれぞれ題がついています。前半は注意の向け方を学び、後半は難しい体験との関わり方を学びます。',
+  '第1回[[気づきと自動操縦]]。第2回[[頭の中で生きる]]（体験を直接感じることと、考えることの違い）。第3回[[散らばった心をまとめる]]（呼吸と体を錨にする。3分間呼吸空間法を導入）。第4回[[嫌悪に気づく]]（不快なものを避けようとする反応を知る）。',
+  '第5回[[そのままにしておく]]（つらい体験を変えようとせず、あることを許す）。第6回[[思考は事実ではない]]。第6回と第7回のあいだには1日の実践が置かれます。第7回[[どうすれば自分を大切にできるか]]（気分を支える活動と消耗させる活動を見直し、再発のサインへの行動計画を作る）。第8回[[学びを続け、広げる]]。',
+  'MBSRとの大きな違いは、うつの再発のしくみ（気分の落ち込みが否定的な思考パターンを呼び起こす）を明確に教えることと、再発の早期サインに備える行動計画を作ることです。'],
+  p: ['前半は注意、後半は難しい体験との関わり方', '第4回「嫌悪」、第6回「思考は事実ではない」', '再発のサインへの行動計画を作る'] },
+{ id: '8-3', u: 7, th: '臨床', t: 'DBTのマインドフルネス・スキル', g: '賢い心と、whatスキル・howスキルを説明できる', b: [
+  '弁証法的行動療法（DBT）では、瞑想の時間を長く取る代わりに、マインドフルネスを日常で使う[[スキル]]として教えます。4つのスキル群（マインドフルネス、苦悩耐性、感情調節、対人関係）の土台にあたります。',
+  '中心にあるのが[[賢い心（ワイズ・マインド）]]。感情に支配された「感情的な心」と、理屈だけで考える「理性的な心」の両方を統合した状態です。',
+  '[[whatスキル（何をするか）]]は3つ。観察する（言葉をつけずに気づく）、描写する（事実を言葉にする）、参加する（今していることに完全に入り込む）。',
+  '[[howスキル（どのようにするか）]]も3つ。判断せずに（良い悪いをつけず事実を見る）、ひとつのことに集中して、効果的に（正しさにこだわらず、うまくいくことをする）。「効果的に」が入っている点が、DBTの実用的な特徴です。'],
+  p: ['賢い心＝感情的な心と理性的な心の統合', 'what＝観察・描写・参加', 'how＝判断せずに・ひとつのことに・効果的に'] },
+{ id: '8-4', u: 7, th: '臨床', t: 'ACTの6つのプロセス', g: '心理的柔軟性を構成する6つのプロセスを説明できる', b: [
+  'ACTが目指すのは症状をなくすことではなく、[[心理的柔軟性]]。つらい思考や感情があっても、自分の大切なことに向かって行動できる力です。6つのプロセスで構成され、六角形の図（ヘキサフレックス）で示されます。',
+  '①[[アクセプタンス]]：不快な体験を避けずに、そのための場所を空ける。②[[脱フュージョン]]：思考と一体化せず、思考を思考として眺める（「私はダメだ」→「『私はダメだ』という考えを持っている」）。',
+  '③[[今この瞬間との接触]]：今の体験に注意を向ける。④[[文脈としての自己]]：思考や感情を観察している視点としての自分に気づく。この4つがマインドフルネスにあたる部分です。',
+  '⑤[[価値]]：どう生きたいか、何を大切にしたいか。⑥[[コミットされた行為]]：価値に沿った具体的な行動を続ける。ACTでは、マインドフルネスは目的ではなく、価値に沿って生きるための手段と位置づけられます。'],
+  p: ['目標は心理的柔軟性', 'アクセプタンス・脱フュージョン・今この瞬間・文脈としての自己', '価値とコミットされた行為のためにマインドフルネスを使う'] },
+{ id: '8-5', u: 7, th: '臨床', t: 'なぜ効くのか：作用メカニズム', g: '提案されている主なメカニズムを説明できる', b: [
+  '2011年、ヘルツェルらは、マインドフルネス瞑想がはたらくしくみを4つにまとめました。①[[注意の調整]]、②[[身体への気づき]]、③[[感情の調整]]（捉え直し、および不快な体験にとどまることで反応が弱まること）、④[[自己についての見方の変化]]。',
+  '2017年のリンジーとクレスウェルの[[モニタリングと受容の理論（MAT）]]は、もっと絞り込みます。今の体験を観察する力（モニタリング）は認知機能を高めるが、感情も強く感じさせる。ストレスや気分への効果には、それを[[受け入れる態度（受容）]]が欠かせない、という理論です。',
+  'MBCTについては、プログラムによる[[マインドフルネス、反すう、心配、セルフ・コンパッションなどの変化]]が、その後の改善と関連していたという報告があります。2015年のレビューでは、23の研究のうち12でこうした関連が見られました。',
+  'ただし、どのメカニズムも決定的に証明されたわけではありません。「何が効いているのか」は、今も研究が続いている問いです。'],
+  p: ['4つのしくみ＝注意・身体・感情・自己観', 'MAT＝モニタリングだけでなく受容が鍵', 'メカニズムはまだ研究途上'] },
+{ id: '8-6', u: 7, th: '臨床', t: 'どれくらい練習すればよいか', g: '練習量と効果の関係についてわかっていることを説明できる', b: [
+  'MBSRやMBCTは1日45分ほどの自宅練習を求めますが、実際に参加者はどのくらい行っているのでしょうか。2017年、パーソンズらは複数の研究をまとめ、[[参加者は課された練習のおよそ6割（64％、1日約30分）を行っている]]と報告しました（43研究）。',
+  '同じ分析で、[[練習量が多い人ほど改善が大きい]]という関連も示されました。ただし関連は小さく（相関0.26、28研究）、練習すればするほど比例して良くなる、というほど単純ではありません。',
+  '短い練習の研究もあります。初心者が1日13分の誘導瞑想を続けたところ、4週間では差がなく、8週間で気分や注意が改善した、という2019年の報告があります。',
+  '現時点で言えるのは、「最適な時間」は確立していないこと、長さより[[続けること]]が大切らしいこと、そして無理に長くして苦痛が増すなら短くしてよい、ということです。'],
+  p: ['参加者は課された練習の約6割を行っている', '練習量と改善には小さいが確かな関連', '最適な時間は確立していない'] },
+{ id: '8-7', u: 7, th: '臨床', t: '痛みと依存への応用', g: '痛み・依存の分野での主な研究結果を説明できる', b: [
+  '[[痛み]]はマインドフルネスが最初に使われた分野です。2016年、チャーキンらは慢性の腰痛がある342人を、MBSR、認知行動療法、通常のケアに分けて比べました。半年後に生活機能がはっきり改善した人は、MBSRで60.5％、認知行動療法で57.7％、通常のケアで44.1％。[[MBSRと認知行動療法はどちらも通常のケアより改善した人が多く、両者はほぼ同じでした。]]',
+  '実験研究では、ザイダンらが4日間の訓練（15人）で、瞑想中は安静時に比べて実験的な痛みの不快さが57％、強さが40％下がることを示し（2011年）、その効果は体内のオピオイド（鎮痛物質）とは別のしくみによることを報告しています。痛みそのものと、痛みへの反応（第二の矢）を分けるという考え方に合う結果です。',
+  '[[依存]]の分野では、再発予防にマインドフルネスを組み合わせた[[MBRP（マインドフルネスに基づく再発予防）]]があります。渇望を波のように観察してやり過ごす[[衝動サーフィン]]が代表的な技法です。',
+  '2014年のボーウェンらの試験（286人）では、6か月時点ではMBRPと認知行動的な再発予防がともに通常の治療より良く、12か月の時点では、MBRPを受けた人は他の群より薬物使用日数や大量飲酒が少なかったと報告されています。'],
+  p: ['慢性腰痛：MBSRと認知行動療法は同程度に有効（2016年）', '痛みの軽減はオピオイドとは別のしくみ', '依存にはMBRPと衝動サーフィン'] },
+{ id: '8-8', u: 7, th: '臨床', t: '大規模試験が示した現在地', g: '「誰にでも効く」とは言えない根拠を説明できる', b: [
+  '学校でのマインドフルネス教育は急速に広がりましたが、2022年、イギリスの大規模試験[[MYRIAD（マイリアド）]]が慎重な結果を出しました。',
+  '85校・11〜14歳の生徒8,376人を対象に、学校の授業としてマインドフルネスを教えた群と、通常の授業を受けた群を比べたところ、1年後の時点で、[[マインドフルネスの授業のほうが心の健康に良いという証拠は得られませんでした。]]',
+  'この結果は「マインドフルネスは効かない」という意味ではありません。[[希望していない人に一律に教える]]やり方では効果が出にくい、ということです。自分から取り組む大人のプログラムとは条件が違います。',
+  '2022年には、44のメタ分析（336の比較試験）をまとめた総説も出ています。何もしない場合と比べれば効果があり、他の積極的な介入と比べると差は小さく、確立された治療と比べると同程度、というのが全体像です。[[期待しすぎず、選択肢の1つとして使う]]のが、現在の根拠に合った姿勢です。'],
+  p: ['MYRIAD試験：学校での一律の授業では差が出なかった', '自分から取り組む場合とは条件が違う', '確立された治療と同程度、が全体像'] },
+
+{ id: '9-1', u: 8, th: '深化', t: 'つまずき①：眠気とそわそわ', g: '眠気と落ち着かなさへの対処を選べる', b: [
+  '[[眠気]]はもっとも多いつまずきです。まず、単に睡眠不足ではないかを確かめます。そうであれば、必要なのは瞑想より睡眠です。',
+  '実践中の対処：目を開けて斜め下を見る。背すじを伸ばす。立って行う、歩く瞑想に切り替える。時間帯を食後や就寝前から朝に変える。そして、眠気そのものを観察します。まぶたの重さ、頭がぼんやりする感じ、落ちていく瞬間。',
+  '[[そわそわ・落ち着かなさ]]は反対の状態です。対処：体のどこにそわそわがあるかを探す。足の裏やお尻など、下のほうの感覚に注意を下ろす。吐く息の最後まで感じる。それでも強ければ、歩く瞑想やヨーガなど動きのある実践にします。',
+  'どちらの場合も、[[「うまくいっていない」という判断こそが上乗せの苦しみ]]です。眠い瞑想も、落ち着かない瞑想も、気づいていれば実践として成立しています。七覚支でいえば、眠気には活性化、そわそわには静める要素を足します。'],
+  p: ['眠気：目を開ける・姿勢・立つ・時間帯を変える', 'そわそわ：下半身の感覚、吐く息、動く実践', '状態を判断せず、それ自体を観察する'] },
+{ id: '9-2', u: 8, th: '深化', t: 'つまずき②：痛み・退屈・疑い', g: '痛み、退屈、疑いへの対処を選べる', b: [
+  '[[体の痛み]]：まず、動かしてよい痛みか、けがにつながる痛みかを区別します。後者ならすぐに姿勢を変えます。前者の場合は、すぐに動かず数呼吸だけ観察してみます。場所、広さ、質（ズキズキ、重い、熱い）、強さの変化。そのうえで、[[意図的に、ゆっくり姿勢を変える]]。動くことは失敗ではなく、自動的に動かないことが練習です。',
+  '[[退屈]]：退屈は「もっと面白い刺激がほしい」という欲の一種です。退屈を体のどこで感じるかを観察し、呼吸の細部（吸う息と吐く息の温度の違い、切り替わる瞬間）に興味を向け直します。',
+  '[[疑い]]：「自分には向いていない」「意味があるのか」。これは考えの1つとしてラベルを貼り（「疑い」）、決めた時間が終わるまで保留にします。続けるかどうかの判断は、実践の最中ではなく、落ち着いているときに行います。',
+  '疑いが続くなら、それは正当な問いかもしれません。方法が合っていない、時間が長すぎる、今は時期ではない。[[やめる、変える、も選択肢]]です。'],
+  p: ['痛み：観察してから、意図的に動く', '退屈と疑いは、名前をつけて観察する', 'やめる・変えるも正当な選択'] },
+{ id: '9-3', u: 8, th: '深化', t: '観察を細かくする：ノーティング', g: 'ノーティングの方法と、受の観察を説明できる', b: [
+  'ラベリングをさらに体系的にしたのが、ミャンマーのマハーシ・サヤドーが広めた[[ノーティング]]です。お腹の動きを「膨らみ」「縮み」と心の中で確認し続け、ほかのものが現れたら「聞こえている」「考えている」「かゆみ」と確認して、またお腹に戻ります。',
+  'コツは3つ。言葉は短く単純に。注意の大半は感覚そのものに置き、言葉は添える程度にする。内容ではなく[[プロセス]]を確認する（「明日の会議のこと」ではなく「計画している」）。',
+  'もう一歩進めるなら、[[受（快・不快・どちらでもない）]]を確認します。音が聞こえたら「不快」。暖かさを感じたら「快」。呼吸は多くの場合「どちらでもない」。',
+  'これを続けると、不快に対して体がこわばる、快に対して「もっと」と前のめりになる、[[受の直後に起こる小さな反応]]が見えてきます。7-3で学んだ連鎖を、自分の体験で確かめる練習です。実践タイマーの「受の観察」で試せます。'],
+  p: ['ノーティング＝短い言葉で体験を確認し続ける', '内容ではなくプロセスに名前をつける', '快・不快・中立と、直後の反応を観察する'] },
+{ id: '9-4', u: 8, th: '深化', t: '選ばない気づき', g: '開かれた観察の進め方を説明できる', b: [
+  '集中が安定してきたら、注意の対象を決めない実践に進めます。[[選択なき気づき（チョイスレス・アウェアネス）]]、あるいは開かれた観察と呼ばれ、MBSRの静坐瞑想の最後の段階にあたります。',
+  '進め方：まず呼吸で注意を安定させる。次に体全体へ広げる。さらに音へ、思考へ、感情へと広げる。最後に、[[何か1つを選ぶことをやめ]]、その瞬間にいちばんはっきりしているものに、ただ気づいています。',
+  'たとえとして、空と天気が使われます。音も思考も感覚も、空に現れては消える雲や風。自分は天気ではなく、それが起こる[[空のような広がり]]として座ります。',
+  '難しさは、ぼんやりしているだけなのか、開かれて気づいているのかの区別がつきにくいこと。迷ったら呼吸に戻ります。[[集中の錨に戻れることが、開かれた観察の安全装置]]です。実践タイマーの「開かれた観察」で試せます。'],
+  p: ['対象を決めず、現れるものに気づいている', '呼吸→体→音→思考→選ばない、の順に広げる', '迷ったら呼吸の錨に戻る'] },
+{ id: '9-5', u: 8, th: '深化', t: 'リトリートと指導者', g: '集中的な実践の場と、指導者を選ぶ視点を説明できる', b: [
+  '[[リトリート]]は、日常を離れて数日から数週間、集中的に実践する場です。多くは沈黙で行われ、座る瞑想と歩く瞑想を交互に、1日に何時間も続けます。',
+  '深い体験が得られる一方、負担も大きくなります。つらい感情や記憶が強く出ることがあり、有害事象の報告も集中的な実践に多い傾向があります。精神的な不調があるとき、初めての人がいきなり長期のものに参加することは勧められません。',
+  '[[指導者を選ぶ視点]]：①自分自身が長く実践しているか。②MBSRやMBCTの場合、正式な指導者養成の課程を経ているか（指導の質を評価する基準として[[MBI:TAC]]が使われます）。③つらくなったときの対応や、参加を見合わせたほうがよい場合について事前に説明があるか。④効果を誇張していないか。',
+  'トラウマ体験がある人への配慮をまとめた[[トラウマ・センシティブ・マインドフルネス]]という考え方もあります。目を開けてよい、注意の対象を自分で選べる、いつでもやめてよい、という選択肢を常に示すことが基本です。'],
+  p: ['リトリート＝沈黙の集中実践。負担も大きい', '指導者の訓練歴と、リスクの説明があるかを確かめる', 'トラウマに配慮した進め方がある'] },
+{ id: '9-6', u: 8, th: '深化', t: '倫理という土台', g: 'マインドフルネスと倫理の関係をめぐる議論を説明できる', b: [
+  '仏教の伝統では、瞑想は単独の技術ではありません。八正道は[[戒（倫理的な行い）・定（心の集中）・慧（智慧）]]の3つに分けられ、正念は定のグループに入ります。行いを整えることが、心を静める前提とされてきました。',
+  'ここから、現代のマインドフルネスへの問いが生まれます。倫理から切り離された注意の訓練は、何に使われてもよいのか。集中力を高めて人を傷つけることも「マインドフル」なのか。伝統的には、害をなす注意は[[邪念（誤った念）]]とされ、正念とは区別されます。',
+  'これに対してカバットジンらは、倫理は明示的に教えなくても、評価しない態度、思いやり、指導者の姿勢の中に[[暗黙に含まれている]]と答えています。',
+  '結論は出ていません。ただ、学ぶ側にとっての実用的な問いは残ります。[[自分は何のために実践するのか。]]1-2で学んだ「意図」は、この問いへの入り口です。'],
+  p: ['伝統では戒・定・慧がセット', '倫理なき注意訓練への批判がある', '「何のために」という意図が問われる'] },
+{ id: '9-7', u: 8, th: '深化', t: '自分の実践計画をつくる', g: '自分に合った実践計画を立てられる', b: [
+  'ここまで学んだことを、自分用の計画にまとめます。決めることは5つです。',
+  '①[[目的]]：何のために行うか（ストレス、集中、自分を責める癖、探究心）。②[[中心になる実践]]を1つ：呼吸瞑想、ボディスキャン、歩く瞑想から選ぶ。③[[時間ときっかけ]]：「朝のコーヒーの前に5分」のように、すでにある習慣に結びつける。',
+  '④[[日常の実践]]を1つ：歯みがき、皿洗い、最初のひと口。そして困ったとき用の短い実践（STOP、3分間呼吸空間法）。⑤[[つまずいたときの方針]]：眠いときは立つ、つらいときはやめる、3日あいたら責めずに再開する。',
+  '2〜4週間続けたら、心の実験室で同じ測定をもう一度行い、心のデータで変化を見ます。数字が良くなることが目的ではありません。[[自分の心の傾向を知り、実践を調整する材料]]にします。記述演習の最後の問いで、計画を文章にしてみましょう。'],
+  p: ['目的・中心の実践・時間ときっかけ・日常の実践・つまずきの方針', '2〜4週間ごとに測定して調整する', '数字は目的ではなく材料'] }
+]);
+PURPOSES.push(
+  ['仏教の背景まで深く知りたい', ['2-1', '7-1', '7-2', '7-3', '7-4', '7-5', '7-6', '9-6']],
+  ['各プログラムの中身を詳しく', ['8-1', '8-2', '8-3', '8-4', '8-5']],
+  ['実践のつまずきを解決したい', ['7-4', '9-1', '9-2', '6-6', '9-5']],
+  ['観察の精度を上げたい', ['7-3', '9-3', '9-4', '7-5']]);
+GLOSS = GLOSS.concat([
+['正知', 'しょうち', '仏教', 'はっきりと見きわめて理解していること。サンパジャンニャ。経典でサティと組にして説かれる。'],
+['ありのままの注意', 'ありのままのちゅうい', '仏教', '評価や反応を加えず、起きていることだけを受け取る注意。ニャナポニカ・テーラによるサティの説明。bare attention。'],
+['三相', 'さんそう', '仏教', 'あらゆる体験に共通するとされる3つの性質。無常・苦・無我。'],
+['無常', 'むじょう', '仏教', 'すべてのものは変化し続け、とどまらないという性質。アニッチャ。'],
+['無我', 'むが', '仏教', '思考や感情は条件によって起こる現象で、固定した「私」が支配しているのではないという見方。アナッター。'],
+['縁起', 'えんぎ', '仏教', '物事は原因と条件によって生じるという考え方。苦しみが生じる過程を連鎖として説明する。'],
+['受', 'じゅ', '仏教', '体験に最初につく、快・不快・どちらでもないという色合い。ヴェーダナー。四念処の2番目。'],
+['渇愛', 'かつあい', '仏教', '快をもっと求め、不快をなくしたいと駆り立てる心のはたらき。タンハー。'],
+['五蓋', 'ごがい', '仏教', '実践を妨げる5つの心の状態。欲・怒り・眠気とだるさ・そわそわと後悔・疑い。'],
+['七覚支', 'しちかくし', '仏教', '育てていく7つの要素。念・択法・精進・喜・軽安・定・捨。'],
+['四無量心', 'しむりょうしん', '仏教', '育てるべき4つの心。慈・悲・喜・捨。'],
+['捨', 'しゃ', '仏教', '好き嫌いに偏らない平静な心。ウペッカー。無関心とは区別される。'],
+['近い敵', 'ちかいてき', '仏教', '四無量心のそれぞれに似ているが別のもの。『清浄道論』に由来する考え方で、現代では慈に対する執着的な愛情、捨に対する無関心などと説明される。'],
+['戒・定・慧', 'かい・じょう・え', '仏教', '八正道を3つに分けたもの。倫理的な行い、心の集中、智慧。'],
+['ノーティング', 'のーてぃんぐ', '仏教', '体験を短い言葉で確認し続ける観察の方法。マハーシ・サヤドーが広めた。'],
+['選択なき気づき', 'せんたくなききづき', '仏教', '注意の対象を1つに決めず、その瞬間に現れるものに気づいている実践。チョイスレス・アウェアネス。'],
+['賢い心', 'かしこいこころ', '臨床', 'DBTの用語。感情的な心と理性的な心を統合した状態。ワイズ・マインド。'],
+['whatスキル', 'わっとすきる', '臨床', 'DBTのマインドフルネスで「何をするか」を示す3つ。観察する・描写する・参加する。'],
+['howスキル', 'はうすきる', '臨床', 'DBTのマインドフルネスで「どのようにするか」を示す3つ。判断せずに・ひとつのことに集中して・効果的に。'],
+['心理的柔軟性', 'しんりてきじゅうなんせい', '臨床', 'つらい思考や感情があっても、自分の価値に沿って行動できる力。ACTの目標。'],
+['脱フュージョン', 'だつふゅーじょん', '臨床', '思考と一体化せず、思考を思考として眺めること。ACTの用語。'],
+['文脈としての自己', 'ぶんみゃくとしてのじこ', '臨床', '思考や感情を観察している視点としての自分。ACTの用語。'],
+['価値', 'かち', '臨床', 'ACTの用語。どう生きたいか、何を大切にしたいかという方向性。'],
+['MBRP', 'えむびーあーるぴー', '臨床', 'マインドフルネスに基づく再発予防。依存症の再発予防にマインドフルネスを組み合わせたプログラム。'],
+['衝動サーフィン', 'しょうどうさーふぃん', '臨床', '渇望や衝動を波のように観察し、行動に移さずやり過ごす技法。'],
+['モニタリングと受容の理論', 'もにたりんぐとじゅようのりろん', '臨床', '体験を観察する力と、それを受け入れる態度の2つで効果を説明する理論。受容が鍵とする。MAT。'],
+['出来事日誌', 'できごとにっし', '臨床', 'MBSRやMBCTの自宅課題。心地よい、または不快な出来事を1日1つ、思考・感情・身体感覚に分けて記録する。'],
+['MBI:TAC', 'えむびーあいたっく', '臨床', 'マインドフルネスに基づく介入の指導の質を評価する基準。'],
+['トラウマ・センシティブ・マインドフルネス', 'とらうませんしてぃぶまいんどふるねす', '臨床', 'トラウマ体験がある人に配慮した進め方。選択肢を常に示し、無理をさせない。'],
+['MYRIAD試験', 'まいりあどしけん', '臨床', 'イギリスの学校でマインドフルネス教育の効果を調べた大規模試験。2022年に、通常の授業との差は見られなかったと報告。'],
+['リトリート', 'りとりーと', '臨床', '日常を離れ、数日から数週間、集中的に瞑想を行う場。']
+]);
+TIMELINE.push(
+['1954年', 1954, '伝来', 'ニャナポニカ・テーラ『仏教瞑想の心髄』（英語初版）', 'サティを「ありのままの注意」と説明。もとになったドイツ語の本は1950年、増補版は1962年。現代の定義に大きな影響を与えた。', 0],
+['2011年', 2011.3, '研究', '作用メカニズムの整理と、定義をめぐる特集', 'ヘルツェルらが4つの作用メカニズムを提案。同年、Contemporary Buddhism誌がサティの意味を再検討する特集を組んだ。', 0],
+['2014年', 2014.5, '医療・心理', '依存症の再発予防（MBRP）の比較試験', 'ボーウェンらが、治療後12か月時点でMBRP群の薬物使用日数や大量飲酒が少なかったと報告。', 0],
+['2016年', 2016.5, '研究', '慢性腰痛でMBSRと認知行動療法を比較', 'チャーキンらが342人を調べ、どちらも通常のケアより有効で、両者に差はなかったと報告。', 0],
+['2017年', 2017, '研究', 'モニタリングと受容の理論（MAT）', 'リンジーとクレスウェルが、効果には受容の態度が鍵になるという理論を提案。', 0],
+['2022年', 2022.5, '社会', '学校での大規模試験（MYRIAD）', 'イギリスの85校・生徒8,376人（11〜14歳）の試験で、マインドフルネスの授業が通常の授業より心の健康に良いという証拠は得られなかった。', 0]);
+MAPS.push(
+{ t: '反応の連鎖（縁起）', s: '苦しみが組み立てられる過程と、気づきを入れる場所', n: [
+  ['触（そく）', '感覚器官と対象が出会うこと。音が聞こえる、体に感覚が生じる、考えが浮かぶ。'],
+  ['受（じゅ）', '快・不快・どちらでもない、という色合いが自動的につく。ここまでは止められません。'],
+  ['★ 気づきを入れる場所', '「不快がある」「快がある」と気づく。受と渇愛のあいだに間ができると、連鎖は自動では進まなくなります。'],
+  ['渇愛（かつあい）', '快には「もっと」、不快には「なくしたい」。体が前のめりになったり、こわばったりします。'],
+  ['取（しゅ）', 'しがみつき。考えが繰り返され、物語がふくらみ、行動に駆り立てられます。']] },
+{ t: '五蓋と対処', s: '実践を妨げる5つの状態', list: 1, n: [
+  ['欲', '心地よいものを求めて注意が引っぱられる。→ 欲求の感覚そのものを観察し、変化していくのを見る。'],
+  ['怒り', '不快への抵抗、いら立ち、自己批判。→ 体のこわばりを感じる。慈悲の瞑想に切り替える。'],
+  ['眠気・だるさ', '心が重く沈む。→ 目を開ける、姿勢を正す、立つ、歩く。興味を持って細部を調べる。'],
+  ['そわそわ・後悔', '落ち着かず、心配が次々に浮かぶ。→ 足の裏など下の感覚へ。吐く息を最後まで感じる。'],
+  ['疑い', '「意味があるのか」という迷い。→ 「疑い」と名前をつけ、決めた時間が終わるまで保留にする。']] },
+{ t: '七覚支のバランス', s: '活性化と静けさを調整する', list: 1, n: [
+  ['念（中心）', '今どちらに傾いているかに気づく。いつでも役に立つ要素。'],
+  ['択法・精進・喜（活性化）', '体験を調べる、エネルギーを出す、喜びを感じる。心が沈んで眠いときに強める。'],
+  ['軽安・定・捨（静める）', '体をゆるめる、1点に集中する、平静でいる。心が高ぶって落ち着かないときに強める。']] },
+{ t: '4つの作用メカニズム', s: 'ヘルツェルら（2011年）による整理', list: 1, n: [
+  ['注意の調整', '対象に注意を保ち、それたら戻す力。ほかのしくみの土台になります。'],
+  ['身体への気づき', '呼吸や体の感覚、感情に伴う体の変化に気づく力。'],
+  ['感情の調整', '体験を別の見方で捉え直すこと。そして、不快な体験を避けずにとどまることで、反応が弱まっていくこと。'],
+  ['自己についての見方の変化', '思考や感情を「自分そのもの」と見なさず、変化する出来事として見ること。']] },
+{ t: 'ACTの6つのプロセス', s: '心理的柔軟性を作る要素', list: 1, n: [
+  ['アクセプタンス', '不快な体験を避けず、そのための場所を空ける。'],
+  ['脱フュージョン', '思考と一体化せず、思考を思考として眺める。'],
+  ['今この瞬間との接触', '今の体験に、柔軟に注意を向ける。'],
+  ['文脈としての自己', '体験を観察している視点としての自分に気づく。'],
+  ['価値', 'どう生きたいか、何を大切にしたいかを明確にする。'],
+  ['コミットされた行為', '価値に沿った具体的な行動を続ける。']] },
+{ t: 'MBCTの8セッション', s: '前半は注意、後半は難しい体験との関わり方', n: [
+  ['気づきと自動操縦', 'レーズン・エクササイズ、ボディスキャン。'],
+  ['頭の中で生きる', '体験を直接感じることと、考えることの違いを知る。'],
+  ['散らばった心をまとめる', '呼吸と体を錨に。3分間呼吸空間法を導入。'],
+  ['嫌悪に気づく', '不快を避けようとする反応を知る。'],
+  ['そのままにしておく', 'つらい体験を変えようとせず、あることを許す。'],
+  ['思考は事実ではない', '考えを心の出来事として見る。'],
+  ['どうすれば自分を大切にできるか', '気分を支える活動を増やし、再発のサインへの行動計画を作る。'],
+  ['学びを続け、広げる', 'これからの実践を自分で決める。']] });
+ESSAYS = ESSAYS.concat([
+{ q: '伝統的な「サティ」の意味と、現代のマインドフルネスの定義の違いを説明しなさい。', len: '150〜200字', m: 'サティは「思い出す」という語根を持ち、今していることを忘れずに心にとどめるはたらきである。経典では、はっきりと見きわめる理解である正知と組にして説かれ、何が役に立ち何が害になるかの区別も含んでいた。現代の定義は、ニャナポニカの「ありのままの注意」という説明の影響を受け、今この瞬間への注意と評価しない態度を取り出したものであり、記憶や見きわめの側面は前面に出ていない。', c: ['サティの語根（思い出す・心にとどめる）', '正知（見きわめ）と組になっていること', '現代の定義は「今への注意」と「評価しない態度」を取り出したもの', 'ニャナポニカまたは2011年の議論に触れている'] },
+{ q: '「受」と「渇愛」の違いを述べ、そのあいだに気づきを入れることの意味を説明しなさい。', len: '150〜200字', m: '受は、体験に最初につく快・不快・どちらでもないという色合いで、自動的に生じる。渇愛は、快をもっと求め、不快をなくしたいと駆り立てる反応である。通常この2つは切れ目なく続き、しがみつきや行動につながる。受に気づくと、渇愛が自動的に続かなくなる余地が生まれ、反応するかどうかを選べるようになる。苦しみの連鎖を止められるのはこの地点である。', c: ['受＝快・不快・中立の色合い', '渇愛＝もっと欲しい／なくしたいという反応', '受は自動的で止められないこと', '気づきによって連鎖が自動で進まなくなること'] },
+{ q: '五蓋をすべて挙げ、そのうち1つについて対処の方法を説明しなさい。', len: '120〜180字', m: '五蓋とは、欲、怒り、眠気とだるさ、そわそわと後悔、疑いの5つである。たとえば眠気に対しては、まず睡眠不足でないかを確かめたうえで、目を開ける、背すじを伸ばす、立って行う、歩く瞑想に切り替えるといった対処がある。同時に、まぶたの重さや頭のぼんやりした感じなど、眠気そのものを観察の対象にする。', c: ['5つをすべて挙げている', '具体的な対処を1つ以上述べている', '追い払うのではなく観察の対象にする点に触れている'] },
+{ q: 'ACTにおける心理的柔軟性とは何かを、6つのプロセスに触れながら説明しなさい。', len: '150〜200字', m: '心理的柔軟性とは、つらい思考や感情があっても、自分の価値に沿って行動できる力である。不快な体験を避けないアクセプタンス、思考と距離を取る脱フュージョン、今この瞬間との接触、観察する視点としての文脈としての自己という4つのマインドフルネスのプロセスと、何を大切にするかという価値、それに沿ったコミットされた行為の2つからなる。マインドフルネスは目的ではなく、価値に沿って生きるための手段である。', c: ['心理的柔軟性の定義', 'マインドフルネス側の4プロセス', '価値とコミットされた行為', 'マインドフルネスは手段だという位置づけ'] },
+{ q: 'マインドフルネス瞑想の作用メカニズムとして提案されているものを説明しなさい。', len: '150〜200字', m: 'ヘルツェルらは、注意の調整、身体への気づき、感情の調整、自己についての見方の変化の4つを提案した。感情の調整には、体験の捉え直しと、不快な体験にとどまることで反応が弱まることが含まれる。またモニタリングと受容の理論は、体験を観察する力だけでは感情が強まることもあり、受け入れる態度が効果の鍵だとする。ただし、いずれも決定的に証明されたものではない。', c: ['4つのメカニズムを挙げている', '受容が鍵だという理論に触れている', 'まだ確定していないと述べている'] },
+{ q: '学校での大規模試験（MYRIAD）の結果から、何がいえて、何がいえないかを説明しなさい。', len: '150〜200字', m: 'MYRIAD試験では、学校の授業としてマインドフルネスを教えても、通常の授業と比べて1年後の心の健康に差は見られなかった。ここからいえるのは、希望していない生徒に一律に教える方法では効果が出にくいということである。マインドフルネス自体が無効だとはいえない。自分から取り組む大人を対象としたプログラムでは、不安や抑うつへの効果が示されており、条件が異なる。', c: ['結果（差が見られなかった）', '一律に教える方法の限界だという解釈', '「マインドフルネスは無効」とはいえないこと', '自発的に取り組む場合との条件の違い'] },
+{ q: '自分の実践計画を書きなさい。目的、中心になる実践、時間ときっかけ、日常の実践、つまずいたときの方針を含めること。', len: '200字程度', m: '（例）目的は、仕事中のぐるぐる思考に早く気づけるようになること。中心の実践は呼吸瞑想で、朝のコーヒーをいれる前に5分行う。日常の実践は歯みがきのあいだ手と口の感覚に注意を向けること、困ったときは3分間呼吸空間法を使う。眠いときは立って行い、つらくなったら中断する。3日あいても責めずに再開する。4週間後に呼吸カウント課題と思考サンプリングをもう一度行い、変化を見て時間を調整する。', c: ['目的が書かれている', '中心の実践と、時間・きっかけが具体的', '日常の実践または短い実践がある', 'つまずいたときの方針がある'] }
+]);
+PRACTICES.splice(4, 0,
+  { k: 'vedana', t: '受の観察', s: '快・不快・どちらでもない、を確かめる', g: ['呼吸に注意を置き、心を落ち着けます。', '今、体に感じている感覚を1つ選びます。それは快ですか。不快ですか。どちらでもないですか。', '音が聞こえたら、同じように確かめます。快、不快、どちらでもない。', '不快に気づいたら、その直後の体の反応を見ます。こわばり、避けたい感じはありますか。', '快に気づいたら、もっと欲しいという前のめりの感じがあるかを見ます。', '確かめたら、何も変えずに呼吸に戻ります。'] },
+  { k: 'open', t: '開かれた観察', s: '対象を選ばず、現れるものに気づく', g: ['呼吸に注意を置き、心を落ち着けます。', '注意を体全体に広げます。座っている体全体を感じます。', '音に注意を広げます。近い音、遠い音。音と音のあいだの静けさ。', '考えや気持ちが現れたら、空を流れる雲のように、現れて消えるのを見ます。', '何か1つを選ぶことをやめます。今いちばんはっきりしているものに、ただ気づいています。', '迷ったら、いつでも呼吸に戻って構いません。'] });
+PROGRAM.push(
+  { t: '発展①　定義の背後を知る', d: '現代の定義が、仏教のどの部分を取り出したものかを学ぶ週。', i: [['講義 7-1 サティの本来の意味', 'lesson/7-1'], ['講義 7-2 三相', 'lesson/7-2'], ['講義 7-3 反応の連鎖', 'lesson/7-3'], ['心の地図：反応の連鎖（縁起）', 'map/6'], ['実践：受の観察', 'sit/vedana'], ['記述演習 11：サティの意味', 'essay/10'], ['記述演習 12：受と渇愛', 'essay/11']] },
+  { t: '発展②　妨げと、育てるもの', d: '実践のつまずきを分類し、対処を身につける週。', i: [['講義 7-4 五蓋', 'lesson/7-4'], ['講義 7-5 七覚支', 'lesson/7-5'], ['講義 7-6 四無量心', 'lesson/7-6'], ['講義 9-1 眠気とそわそわ', 'lesson/9-1'], ['講義 9-2 痛み・退屈・疑い', 'lesson/9-2'], ['つまずき相談室を使ってみる', 'help'], ['実践：慈悲の瞑想', 'sit/metta']] },
+  { t: '発展③　プログラムと理論', d: '各療法の中身と、効くしくみを比べる週。', i: [['講義 8-1 MBSRの8週間', 'lesson/8-1'], ['講義 8-2 MBCTの8セッション', 'lesson/8-2'], ['講義 8-3 DBTのスキル', 'lesson/8-3'], ['講義 8-4 ACTの6つのプロセス', 'lesson/8-4'], ['講義 8-5 作用メカニズム', 'lesson/8-5'], ['心の地図：4つの作用メカニズム', 'map/9'], ['記述演習 14：心理的柔軟性', 'essay/13']] },
+  { t: '発展④　根拠を見きわめ、計画を立てる', d: '研究の現在地を知ったうえで、自分の実践を設計する週。', i: [['講義 8-6 どれくらい練習すればよいか', 'lesson/8-6'], ['講義 8-7 痛みと依存への応用', 'lesson/8-7'], ['講義 8-8 大規模試験が示した現在地', 'lesson/8-8'], ['講義 9-3 ノーティング', 'lesson/9-3'], ['講義 9-4 選ばない気づき', 'lesson/9-4'], ['講義 9-5 リトリートと指導者', 'lesson/9-5'], ['講義 9-6 倫理という土台', 'lesson/9-6'], ['講義 9-7 自分の実践計画', 'lesson/9-7'], ['実践：開かれた観察', 'sit/open'], ['一問一答：正誤判定に挑戦', 'qa'], ['記述演習 17：自分の実践計画', 'essay/16']] });
+
+/* 正誤判定：[文, 正しいか, 解説] */
+var TF = [
+  ['瞑想中に考えごとが浮かんだら、その回は失敗である。', 0, 'それたと気づいて戻ることが練習そのものです。気づいた瞬間がマインドフルネスです。'],
+  ['マインドフルネスの目的は、リラックスすることである。', 0, 'リラックスは結果として起こることがありますが、目的は今の体験に気づくことです。緊張していれば、緊張に気づきます。'],
+  ['「受容」とは、今の状況をあきらめて我慢することである。', 0, '受容は、今ある現実をまず正確に認めること。そのうえで次の行動を選べます。あきらめや賛成とは違います。'],
+  ['MBSRは、仏教徒になることを前提としたプログラムである。', 0, 'MBSRは宗教色を除き、誰でも参加できる医療の補助プログラムとして作られました。'],
+  ['MBCTは、うつ病の再発予防を目的に開発された。', 1, 'シーガル、ウィリアムズ、ティーズデールが、うつ病を繰り返す人の再発予防のために開発しました。'],
+  ['メタ分析によれば、マインドフルネス瞑想は薬や運動などほかの治療よりも明らかに優れている。', 0, '2014年のメタ分析では、不安・抑うつ・痛みへの中程度のエビデンスがある一方、他の積極的な治療より優れているという証拠はありませんでした。'],
+  ['8週間の瞑想で脳の構造が変わることは、大規模な試験で確認されている。', 0, '2011年の小規模研究は変化を報告しましたが、2022年の218人の試験では構造の変化は確認されませんでした。'],
+  ['瞑想で不快な体験が起こることは、研究でも報告されている。', 1, '2021年の研究では、8週間のプログラムで何らかの不快な体験をした人が58％でした。多くは一時的ですが、長く続く例も一部にあります。'],
+  ['デフォルト・モード・ネットワークは、働かないほうがよい「悪い」ネットワークである。', 0, '記憶の整理や計画、他者の気持ちの想像にも必要です。過剰にはたらき続けて反すうにつながることが問題と考えられています。'],
+  ['「第二の矢」とは、避けられない出来事そのものの痛みを指す。', 0, 'それは第一の矢です。第二の矢は、抵抗や自己批判、反すうといった反応が上乗せする苦しみです。'],
+  ['脱中心化とは、否定的な考えを肯定的な考えに置き換えることである。', 0, '考えの中身を変えるのではなく、考えを「心に浮かんだ出来事」として眺め、考えとの関係を変えることです。'],
+  ['「することモード」は、仕事などの課題解決には役に立つ。', 1, '外の世界の課題には有効です。同じやり方を気分に向けると反すうにつながりやすい、という点が問題です。'],
+  ['サティという言葉は、もともと「思い出す」という意味の語根を持つ。', 1, '今していることを忘れずに心にとどめるはたらきです。「今への注意」だけでなく記憶の側面を含みます。'],
+  ['仏教の「受」とは、怒りや悲しみなどの感情のことである。', 0, '受は、体験に最初につく快・不快・どちらでもないという色合いです。感情はその後に組み立てられます。'],
+  ['五蓋は、強い意志で押さえ込んで追い払うのがよい。', 0, '追い払おうとすると抵抗が増えます。「眠気がある」「疑いがある」と名前をつけ、それ自体を観察の対象にします。'],
+  ['四無量心の「捨」は、物事に無関心でいることである。', 0, '無関心は捨の「近い敵」です。捨は、関心と思いやりを保ったまま、好き嫌いに偏らない平静さです。'],
+  ['ACTでは、マインドフルネスは価値に沿って生きるための手段と位置づけられる。', 1, 'ACTの目標は心理的柔軟性で、マインドフルネスのプロセスは価値とコミットされた行為を支えるものです。'],
+  ['DBTの「賢い心」とは、感情を排除して理性だけで判断する状態である。', 0, '感情的な心と理性的な心の両方を統合した状態です。'],
+  ['学校で全員にマインドフルネスを教えれば心の健康が改善することは、大規模試験で示されている。', 0, '2022年のイギリスの大規模試験では、通常の授業と比べて差は見られませんでした。'],
+  ['練習時間が長い人ほど、改善が大きい傾向がある。', 1, '2017年のメタ分析で、練習量と改善に小さいが有意な関連（相関0.26）が示されました。ただし比例するほど単純ではありません。'],
+  ['呼吸に注意を向けると苦しくなる場合は、足の裏や音を注意の錨にしてよい。', 1, '錨は呼吸でなくても構いません。自分に合う対象を選ぶことは正当な調整です。'],
+  ['つらい記憶がよみがえっても、最後まで座り続けることが大切である。', 0, '無理に続ける必要はありません。目を開ける、注意の対象を変える、中断する、は賢い調整です。'],
+  ['セルフ・コンパッションの3要素には「共通の人間性」が含まれる。', 1, '自分へのやさしさ、共通の人間性、マインドフルネスの3つです。'],
+  ['質問紙で測ったマインドフルネスの点数は、客観的で正確な指標である。', 0, '自己報告には限界があり、自分の不注意に気づける人ほど点数が低く出るという指摘もあります。行動で測る課題が併用されます。'],
+  ['3分間呼吸空間法は、注意を「広く→狭く→広く」動かす。', 1, '気づく（広く）、呼吸に集める（狭く）、体全体に広げる（広く）。砂時計にたとえられます。'],
+  ['「マインドフルネス」という英語は、19世紀にサティの訳語として使われ始めた。', 1, '1881年、リス・デイヴィッズが使いました。'],
+  ['集中瞑想と観察瞑想は同じものの別名である。', 0, '集中瞑想は1つの対象に注意を置き、観察瞑想は対象を決めずに現れるものを観察します。'],
+  ['慢性腰痛の比較試験では、MBSRは認知行動療法と同じ程度に有効だった。', 1, '2016年の試験で、どちらも通常のケアより改善した人が多く、両者に差はありませんでした。'],
+  ['モニタリングと受容の理論によれば、体験を観察する力さえあれば十分である。', 0, '観察するだけでは感情を強く感じることもあり、受け入れる態度が効果の鍵だとされます。'],
+  ['マインドフルネスは、医療や心理療法の代わりになる。', 0, '代わりにはなりません。症状が重いときや治療中は、専門家に相談することが先です。']
+];
+
+/* つまずき相談室 */
+var V = {};
+
+/* ================= 体験版とLINE特典 ================= */
+var LINE_URL = '';  /* LINE公式アカウントの友だち追加URLを入れると、ボタンが表示されます */
+var PASS = [2544450637, 215762741, 2548008397, 2612834544];
+function passHash(t) { var x = 5381; t = t.replace(/[\s　]/g, '').toLowerCase(); for (var i = 0; i < t.length; i++) x = ((x << 5) + x + t.charCodeAt(i)) >>> 0; return x; }
+var FREE_SIT = { breath: 1, space: 1 }, FREE_EXP = { sart: 1 };
+function locked(route) {
+  if (S.unlocked) return false;
+  var a = route.split('/'), n = a[0], v = a[1];
+  if (n === 'lesson') return v.charAt(0) !== '1';
+  if (n === 'map') return +v > 1;
+  if (n === 'sit') return !FREE_SIT[v];
+  if (n === 'exp') return !FREE_EXP[v];
+  return { qa: 1, essays: 1, essay: 1, program: 1, week: 1, help: 1, helpitem: 1 }[n] === 1;
+}
+V.gate = function () {
+  if (S.unlocked) return top('LINE特典') + '<div class="box center"><h2>すべての内容が開いています</h2><p class="note">合言葉の入力は済んでいます。</p></div><button class="btn" data-go="home">ホームへ</button>';
+  return top('ここから先はLINE特典です') +
+    '<div class="box"><p style="font-size:15px">KoKoRoBeing のLINE公式アカウントを友だち追加すると、<b>合言葉</b>が届きます。入力すると、このノートのすべてが開きます。</p>' +
+    (LINE_URL ? '<a class="btn" href="' + LINE_URL + '" target="_blank" rel="noopener" style="text-align:center;text-decoration:none;margin-top:12px">LINEで友だち追加する</a>' : '') + '</div>' +
+    '<div class="box"><h2>合言葉を入力</h2><input type="text" id="pass" placeholder="合言葉" autocomplete="off" autocapitalize="off" style="width:100%;margin-top:8px;background:#FBFCFB;border:1px solid var(--line);border-radius:14px;padding:13px 14px;font-size:16px;outline:none"><div class="row"><button class="btn" data-pass>開く</button></div><p class="note center" id="passmsg" style="margin-top:8px;color:var(--ng)"></p></div>' +
+    '<div class="sec">特典で開く内容</div><div class="box"><ul style="padding-left:1.2em;font-size:14.5px"><li>講義 第2〜9章（50レッスン）</li><li>心の実験室の4つの測定と、5つの側面セルフチェック</li><li>心の地図 10枚</li><li>一問一答・正誤判定・記述演習</li><li>12週間の学習プログラム</li><li>実践ガイド5種類と、つまずき相談室</li></ul></div>' +
+    '<p class="note">体験版では、第1章の講義、呼吸瞑想と3分間呼吸空間法、注意の持続テスト、心の地図2枚、年表、用語集が使えます。</p>';
+};
+var HELP = [
+  { q: '眠くなってしまう', w: '五蓋の1つ「眠気・だるさ」です。睡眠不足か、心が沈んでいる状態か、どちらかのことが多いです。', d: ['まず睡眠が足りているかを確かめる', '目を開けて斜め下を見る', '背すじを伸ばす。立って行う、歩く瞑想にする', '食後や就寝前を避け、朝に行う', '眠気そのもの（まぶたの重さ、ぼんやりした感じ）を観察する'], l: ['9-1', '7-5'] },
+  { q: 'そわそわして座っていられない', w: '五蓋の「そわそわ・後悔」。心が高ぶっている状態です。', d: ['そわそわを体のどこで感じるかを探す', '足の裏、お尻など下のほうの感覚に注意を下ろす', '吐く息を最後まで感じる', '歩く瞑想やヨーガなど、動きのある実践に替える', '時間を1〜3分に短くする'], l: ['9-1', '5-4'] },
+  { q: '考えが止まらない', w: '考えが浮かぶのは心の自然なはたらきで、止める必要はありません。気づけた回数が練習の回数です。', d: ['実践タイマーで、気づいたら円をタップして回数を数える', '「計画」「心配」などラベルを貼る', '吐く息を1から10まで数える', '心の実験室の「ラベリング観察」で、行き先の傾向を知る'], l: ['3-2', '5-7', '9-3'] },
+  { q: '体が痛くなる', w: '動かしてよい痛みと、けがにつながる痛みを区別します。後者ならすぐ姿勢を変えてください。', d: ['数呼吸だけ、痛みの場所・質・強さの変化を観察する', '痛み（第一の矢）と、痛みへの抵抗（第二の矢）を分けて見る', '意図的に、ゆっくり姿勢を変える', '椅子や横になる姿勢に替える'], l: ['9-2', '3-5', '8-7'] },
+  { q: '退屈で、意味があるのかわからない', w: '退屈は「もっと刺激がほしい」という欲、意味への迷いは五蓋の「疑い」です。', d: ['退屈や疑いに名前をつけて、体のどこで感じるかを見る', '呼吸の細部（温度、切り替わる瞬間）に興味を向ける', '決めた時間が終わるまでは判断を保留にする', '落ち着いているときに、目的と方法を見直す。やめる・変えるも選択肢'], l: ['9-2', '7-4', '9-7'] },
+  { q: 'うまくできている気がしない', w: '「うまくやろう」とすること自体が、することモードです。特定の状態を目指さないのが実践です。', d: ['「うまくできていない」という考えにラベルを貼る', '7つの態度の「がんばらない」「初心」を読み直す', '心のデータで、気づいた回数や測定の推移を見る', '評価する心にも、やさしく気づく'], l: ['1-3', '3-4', '1-5'] },
+  { q: 'つらい感情や記憶が出てくる', w: '瞑想で抑えていたものが表に出ることがあります。無理に向き合い続ける必要はありません。', d: ['目を開ける。周りにあるものを3つ見る', '足の裏や手の感覚など、安心できる対象に注意を移す', '中断して、歩く、水を飲む', '時間を短くする。慈悲の瞑想に替える', '繰り返す場合や生活に支障が出る場合は、専門家に相談する'], l: ['6-6', '6-2', '9-5'] },
+  { q: '呼吸に注意を向けると苦しくなる', w: '呼吸を意識すると、かえってコントロールしてしまい息苦しくなる人は少なくありません。', d: ['注意の錨を、足の裏・手・音に替える', '呼吸を「見る」のではなく、お腹に手を当てて動きを「感じる」', '吐く息だけに注意を向ける', '歩く瞑想にする'], l: ['5-2', '5-4'] },
+  { q: '続かない', w: '意志の問題ではなく、設計の問題であることがほとんどです。', d: ['時間を1分まで短くする', '歯みがきの後など、すでにある習慣に結びつける', '日常の動作を1つだけ実践にする', '8週間プログラムのチェックリストを使う', '3日あいても、責めずに再開する'], l: ['6-4', '9-7', '8-6'] },
+  { q: 'かえってイライラする・リラックスできない', w: 'リラックスは目的ではありません。イライラに気づいているなら、実践は成立しています。', d: ['「イライラがある」と名前をつける', '体のどこに力が入っているかを確かめる', '「リラックスしなければ」という期待に気づく', '慈悲の瞑想や、動きのある実践に替える'], l: ['1-5', '7-4', '5-6'] },
+  { q: 'ボディスキャンで何も感じない', w: '感じないことに気づくのも観察です。感覚の解像度は、繰り返すうちに上がります。', d: ['「感じない」と確認して次へ進む', '触れている部分（床、服、空気）から始める', '手をこすり合わせてから、手の感覚を観察する', '心の実験室の「5つの側面」で「観察」の傾向を確かめる'], l: ['5-3', '4-5'] },
+  { q: '日常ではすぐ忘れてしまう', w: '忘れるのが普通です。思い出すきっかけを環境に置きます。', d: ['ドアを開けるとき、信号待ちなど、合図になる場面を1つ決める', 'STOPを1日3回、時刻を決めて行う', '最初のひと口だけ味わう', '思考サンプリングで、自分のさまよいやすさを知る'], l: ['6-1', '6-4', '3-1'] }
+];
+V.help = function () {
+  return top('つまずき相談室') + '<p class="note" style="margin-bottom:12px">実践で困ったことを選ぶと、何が起きているのか、何を試せるか、どのレッスンを読めばよいかがわかります。</p><div class="list">' +
+    HELP.map(function (x, i) { return '<button class="item" data-go="helpitem/' + i + '"><span class="tt">' + esc(x.q) + '</span><span class="st" style="color:var(--accent)">→</span></button>'; }).join('') + '</div>' +
+    '<p class="note">強い不安や落ち込みが続く、眠れない・食べられない、消えてしまいたい気持ちがある場合は、実践で解決しようとせず、医療機関や相談窓口を頼ってください。</p>';
+};
+V.helpitem = function (i) {
+  var x = HELP[+i]; if (!x) return V.help();
+  return top(x.q) + '<div class="box"><h2>何が起きているか</h2><p class="note" style="font-size:15px">' + esc(x.w) + '</p></div><div class="box"><h2>試せること</h2><ul style="padding-left:1.2em;font-size:15px">' + x.d.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></div>' +
+    '<div class="sec">関連するレッスン</div><div class="list">' + x.l.map(function (id) { return lessonItem(lessonById(id)); }).join('') + '</div>';
+};
+
+/* ================= 状態 ================= */
+var KEY = 'mf-notebook-v2';
+function blank() { return { done: {}, mark: {}, weak: {}, known: {}, essay: {}, log: [], best: {}, prog: {}, unlocked: 0, opt: { bell: 1, voice: 0 }, lab: { bc: [], probe: [], sart: [], label: [], facet: [] } }; }
+var S = blank();
+try { var raw = JSON.parse(localStorage.getItem(KEY)); if (raw) for (var k in S) if (raw[k]) S[k] = raw[k]; } catch (e) {}
+LAB.forEach(function (l) { if (!S.lab[l.k]) S.lab[l.k] = []; });
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+
+/* ================= ユーティリティ ================= */
+var app = document.getElementById('app');
+function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function rich(s) { return esc(s).replace(/\[\[(.+?)\]\]/g, '<mark>$1</mark>'); }
+function plain(s) { return s.replace(/\[\[|\]\]/g, ''); }
+function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function lessonById(id) { for (var i = 0; i < LESSONS.length; i++) if (LESSONS[i].id === id) return LESSONS[i]; }
+function glossByTerm(t) { for (var i = 0; i < GLOSS.length; i++) if (GLOSS[i][0] === t) return GLOSS[i]; }
+function doneCount() { return LESSONS.filter(function (l) { return S.done[l.id]; }).length; }
+function today() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+function streak() {
+  var days = {}; S.log.forEach(function (l) { days[l.d] = 1; });
+  var n = 0, d = new Date();
+  if (!days[today()]) d.setDate(d.getDate() - 1);
+  for (;;) { var k = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); if (!days[k]) break; n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function top(title, back) { return '<div class="top">' + (back !== false ? '<button class="back" data-back aria-label="戻る">←</button>' : '') + '<h1>' + esc(title) + '</h1></div>'; }
+function chips(list, cur, attr) { return '<div class="chips">' + list.map(function (c) { return '<button class="chip' + (c === cur ? ' on' : '') + '" ' + attr + '="' + esc(c) + '">' + esc(c) + '</button>'; }).join('') + '</div>'; }
+function lessonItem(l) { return '<button class="item" data-go="lesson/' + l.id + '"><span class="no">' + l.id + '</span><span class="tt">' + esc(l.t) + '</span>' + (S.mark[l.id] ? '<span class="st" style="color:var(--mark)">★</span>' : '') + (S.done[l.id] ? '<span class="st">✓</span>' : '') + '</button>'; }
+
+var ICON = {
+  book: '<svg viewBox="0 0 24 24"><path d="M12 6c-2-1.5-5-2-8-1.5v13c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-13c-3-.5-6 0-8 1.5zM12 6v13"/></svg>',
+  map: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v6M12 15v6M3 12h6M15 12h6"/></svg>',
+  clock: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l-3 3"/></svg>',
+  cards: '<svg viewBox="0 0 24 24"><path d="M4 16h16M4 20h16M6 12h12a2 2 0 0 0 0-8H6a2 2 0 0 0 0 8z"/></svg>',
+  pen: '<svg viewBox="0 0 24 24"><path d="M4 20l4-1L20 7l-3-3L5 16zM3 6h6M3 10h3"/></svg>',
+  help: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 1-1 1.7M12 17h.01"/></svg>',
+  flask: '<svg viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3M7.5 15h9"/></svg>',
+  cal: '<svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4M8 14h3"/></svg>',
+  leaf: '<svg viewBox="0 0 24 24"><path d="M5 19c0-9 5-14 15-14 0 10-5 15-14 14M5 19c3-5 6-8 10-10"/></svg>'
+};
+
+/* ================= 画面 ================= */
+
+var ui = { want: null, exmin: 3, fa: [], courseMode: '順番に', theme: '理論', era: 'すべて', gcat: 'すべて', q: '', qcat: 'すべて', qmode: 'めくる', qn: 10 };
+
+V.home = function () {
+  var dc = doneCount(), next = LESSONS.filter(function (l) { return !S.done[l.id]; })[0];
+  return '<div class="kk"><svg class="kk-mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="13.5" fill="none" stroke="#D9D9D4" stroke-width="1"/><circle cx="20.0" cy="6.5" r="4.2" fill="#8FA88A"/><circle cx="28.7" cy="9.7" r="4.2" fill="#7D8A9C"/><circle cx="33.3" cy="17.7" r="4.2" fill="#C08A8A"/><circle cx="31.7" cy="26.7" r="4.2" fill="#C7A35A"/><circle cx="24.6" cy="32.7" r="4.2" fill="#8A7BA8"/><circle cx="15.4" cy="32.7" r="4.2" fill="#5F8F8C"/><circle cx="8.3" cy="26.8" r="4.2" fill="#6F8BA8"/><circle cx="6.7" cy="17.7" r="4.2" fill="#D19A6A"/><circle cx="11.3" cy="9.7" r="4.2" fill="#A86B5A"/></svg><span class="kk-name">KoKoRo<b>Being</b></span></div><div class="brand">MINDFULNESS STUDY NOTEBOOK</div><div class="home-title">マインドフルネス<br>学習ノート</div>' +
+    '<p class="lead">学ぶ・測る・実践する。自分の心のデータで、理解を確かめる。</p>' +
+    '<div class="links"><button data-go="changelog">更新履歴</button><button data-go="me">心のデータ</button><button data-go="sources">出典</button><button data-go="about">このノートについて</button></div>' +
+    '<button class="hero" data-go="course">' + '<h2>' + ICON.book + '講義</h2><p>順番に・テーマ別・目的別で学ぶ（全' + LESSONS.length + 'レッスン）</p>' +
+    '<div class="bar"><i style="width:' + (dc / LESSONS.length * 100) + '%"></i></div>' +
+    '<div class="go">' + (dc === 0 ? '学習を始める' : dc === LESSONS.length ? 'すべて学習済み' : '続きから（' + dc + ' / ' + LESSONS.length + '）') + '</div><span class="arrow">→</span></button>' +
+    (next && dc > 0 ? '<div class="list"><button class="item" data-go="lesson/' + next.id + '"><span class="no">次</span><span class="tt">' + esc(next.t) + '<small>' + UNITS[next.u][0] + '</small></span><span class="st" style="color:var(--accent)">→</span></button></div>' : '') +
+    (S.unlocked ? '' : '<button class="hero gift" data-go="gate"><h2 style="font-size:18px">LINE特典で、すべて開く</h2><p style="margin:4px 0 0">いまは体験版です。友だち追加で届く合言葉を入れると、全55レッスンと心の実験室が使えます。</p><span class="arrow" style="bottom:18px">→</span></button>') +
+    '<div class="grid">' +
+    '<button class="tile" data-go="maps">' + ICON.map + '<h3>心の地図</h3><p>しくみを図でつかむ</p></button>' +
+    '<button class="tile" data-go="timeline">' + ICON.clock + '<h3>年代・年表</h3><p>2500年の流れを理解</p></button>' +
+    '<button class="tile" data-go="qa">' + ICON.cards + '<h3>一問一答</h3><p>重要用語の確認</p></button>' +
+    '<button class="tile" data-go="essays">' + ICON.pen + '<h3>記述演習</h3><p>説明する力を鍛える</p></button>' +
+    '<button class="tile" data-go="lab">' + ICON.flask + '<h3>心の実験室</h3><p>自分の注意を測ってみる</p></button>' +
+    '<button class="tile" data-go="program">' + ICON.cal + '<h3>学習プログラム</h3><p>' + progCount() + ' / ' + progTotal() + ' 完了</p></button>' +
+    '<button class="tile" data-go="practice">' + ICON.leaf + '<h3>実践タイマー</h3><p>7種類のガイド付き</p></button>' +
+    '<button class="tile" data-go="help">' + ICON.help + '<h3>つまずき相談室</h3><p>困ったときの対処</p></button>' +
+    '</div>' +
+    '<footer>このノートは学習用の一般的な情報で、医療・心理の診断や治療の代わりにはなりません。学習の記録はこの端末のブラウザにだけ保存されます。<br><a href="index.html">思考の実況ゲーム</a>　／　<a href="kokoro.html">KoKoRo voice card</a><div class="kk kk-foot"><svg class="kk-mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="13.5" fill="none" stroke="#D9D9D4" stroke-width="1"/><circle cx="20.0" cy="6.5" r="4.2" fill="#8FA88A"/><circle cx="28.7" cy="9.7" r="4.2" fill="#7D8A9C"/><circle cx="33.3" cy="17.7" r="4.2" fill="#C08A8A"/><circle cx="31.7" cy="26.7" r="4.2" fill="#C7A35A"/><circle cx="24.6" cy="32.7" r="4.2" fill="#8A7BA8"/><circle cx="15.4" cy="32.7" r="4.2" fill="#5F8F8C"/><circle cx="8.3" cy="26.8" r="4.2" fill="#6F8BA8"/><circle cx="6.7" cy="17.7" r="4.2" fill="#D19A6A"/><circle cx="11.3" cy="9.7" r="4.2" fill="#A86B5A"/></svg><span class="kk-name">KoKoRo<b>Being</b></span><span class="kk-at">@KoKoRoBeing</span></div></footer>';
+};
+
+V.course = function () {
+  var h = top('講義') + '<div class="seg">' + ['順番に', 'テーマ別', '目的別'].map(function (m) { return '<button data-set="courseMode" data-val="' + m + '" class="' + (ui.courseMode === m ? 'on' : '') + '">' + m + '</button>'; }).join('') + '</div>';
+  if (ui.courseMode === '順番に') {
+    UNITS.forEach(function (u, i) {
+      var ls = LESSONS.filter(function (l) { return l.u === i; }), d = ls.filter(function (l) { return S.done[l.id]; }).length;
+      h += '<div class="list"><div class="unit-h"><b>' + u[0] + '</b>　<span class="tag">' + d + ' / ' + ls.length + '</span><span>' + u[1] + '</span></div>' + ls.map(lessonItem).join('') + '</div>';
+    });
+  } else if (ui.courseMode === 'テーマ別') {
+    h += chips(THEMES, ui.theme, 'data-theme') + '<div class="list">' + LESSONS.filter(function (l) { return l.th === ui.theme; }).map(lessonItem).join('') + '</div>';
+  } else {
+    PURPOSES.forEach(function (p) { h += '<div class="sec">' + esc(p[0]) + '</div><div class="list">' + p[1].map(function (id) { return lessonItem(lessonById(id)); }).join('') + '</div>'; });
+  }
+  return h;
+};
+
+V.lesson = function (id) {
+  var l = lessonById(id); if (!l) return V.course();
+  var i = LESSONS.indexOf(l), prev = LESSONS[i - 1], next = LESSONS[i + 1];
+  var text = l.b.join(''), rel = GLOSS.filter(function (g) { return g[0].length > 1 && text.indexOf(g[0]) >= 0; }).slice(0, 8);
+  return top(l.t) + '<div class="lesson"><div class="note" style="margin-bottom:8px">' + UNITS[l.u][0] + '　' + l.id + '<span class="tag">' + l.th + '</span></div>' +
+    '<div class="goal">めあて：' + esc(l.g) + '</div>' + l.b.map(function (p) { return '<p>' + rich(p) + '</p>'; }).join('') +
+    '<div class="points"><b>POINT</b><ul>' + l.p.map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('') + '</ul></div>' +
+    (rel.length ? '<div class="sec">このレッスンの用語</div><div class="terms">' + rel.map(function (g) { return '<button class="chip" data-term="' + esc(g[0]) + '">' + esc(g[0]) + '</button>'; }).join('') + '</div><div id="term-pop"></div>' : '') +
+    '<button class="btn' + (S.done[l.id] ? ' done' : '') + '" data-done="' + l.id + '">' + (S.done[l.id] ? '✓ 学習済み（取り消す）' : '学習済みにする') + '</button>' +
+    '<div class="row"><button class="btn plain" data-mark="' + l.id + '">' + (S.mark[l.id] ? '★ 保存済み' : '☆ あとで復習') + '</button><button class="btn plain" data-lq="' + l.id + '">確認問題</button></div>' +
+    '<div class="row">' + (prev ? '<button class="btn plain" data-go="lesson/' + prev.id + '">← 前へ</button>' : '') + (next ? '<button class="btn plain" data-go="lesson/' + next.id + '">次へ →</button>' : '') + '</div></div>';
+};
+
+V.maps = function () {
+  return top('心の地図') + '<p class="note" style="margin-bottom:12px">しくみを図解でつかみます。図を選んでください。</p><div class="list">' +
+    MAPS.map(function (m, i) { return '<button class="item" data-go="map/' + i + '"><span class="no">' + (i + 1) + '</span><span class="tt">' + esc(m.t) + '<small>' + esc(m.s) + '</small></span><span class="st" style="color:var(--accent)">→</span></button>'; }).join('') + '</div>';
+};
+/* ---- 心の地図：図解 ---- */
+var IC = {
+  target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/>',
+  cloud: '<path d="M7 17h10a4 4 0 0 0 0-8 5 5 0 0 0-9.6-1A4 4 0 0 0 7 17z"/>',
+  spark: '<path d="M12 3v5M12 16v5M3 12h5M16 12h5M6 6l3 3M15 15l3 3M18 6l-3 3M9 15l-3 3"/>',
+  back: '<path d="M9 5l-5 4 5 4M4 9h10a5.5 5.5 0 0 1 0 11h-4"/>',
+  heart: '<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.500-7 10-7 10z"/>',
+  body: '<circle cx="12" cy="6" r="3"/><path d="M6 21v-5a6 6 0 0 1 12 0v5"/>',
+  arrow: '<path d="M4 12h15M13 6l6 6-6 6"/>',
+  bolt: '<path d="M13 3L5 13h6l-1 8 8-10h-6z"/>',
+  dart: '<path d="M4 20L19 5M19 5h-7M19 5v7M4 20l1-5M4 20l5-1"/>',
+  darts: '<path d="M3 15L13 5M13 5H8M13 5v5M11 21L21 11M21 11h-5M21 11v5"/>',
+  flame: '<path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3.500 2-4.500 0 2 1 3 2 3 1-3-1-5 1-8.500z"/>',
+  pause: '<circle cx="12" cy="12" r="9"/><path d="M10 8.500v7M14 8.500v7"/>',
+  fork: '<path d="M12 21V12M12 12L6 5M12 12l6-7M6 5h4M6 5v4M18 5h-4M18 5v4"/>',
+  sit: '<circle cx="12" cy="6" r="2.800"/><path d="M12 9c-3 0-4 3-4.500 6L4 18h16l-3.500-3c-.5-3-1.500-6-4.500-6zM4 20.500h16"/>',
+  temple: '<path d="M3 10l9-6 9 6M6 10v9M18 10v9M3 20h18M10 20v-5h4v5"/>',
+  cross: '<path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"/>',
+  book: '<path d="M12 6c-2-1.500-5-2-8-1.500v13c3-.5 6 0 8 1.500 2-1.500 5-2 8-1.500v-13c-3-.5-6 0-8 1.500zM12 6v13"/>',
+  people: '<circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.500"/><path d="M2 20c0-4 3-6 6-6s6 2 6 6M15 14.500c3-.5 6 1.500 6 5"/>',
+  star: '<path d="M12 3l2.700 5.600 6.100.8-4.500 4.300 1.100 6.100L12 17l-5.400 2.800 1.100-6.100L3.200 9.400l6.100-.8z"/>',
+  moon: '<path d="M19 14A8 8 0 1 1 10 5a6.500 6.500 0 0 0 9 9z"/>',
+  swirl: '<path d="M4 12a8 8 0 1 1 8 8 5 5 0 1 1 5-5 2.500 2.500 0 1 1-2.500-2.500"/>',
+  question: '<path d="M9 9a3 3 0 1 1 4.500 2.600c-1 .6-1.500 1.300-1.500 2.400M12 18h.01"/>',
+  eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
+  leaf: '<path d="M5 19c0-9 5-14 15-14 0 10-5 15-14 14M5 19c3-5 6-8 10-10"/>',
+  touch: '<circle cx="8.500" cy="12" r="5"/><circle cx="15.500" cy="12" r="5"/>',
+  tone: '<path d="M4 8h7M7.500 4.500v7M13 16h7"/>',
+  chain: '<path d="M9 15l6-6M8 12l-2 2a3.500 3.500 0 0 0 5 5l2-2M16 12l2-2a3.500 3.500 0 0 0-5-5l-2 2"/>',
+  bowl: '<path d="M4 11a8 8 0 0 0 16 0zM9 20h6M12 4v3"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l-3 3"/>',
+  flag: '<path d="M6 21V4M6 5h12l-3 4 3 4H6"/>',
+  user: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.500 18.500c1-3 3-4 5.500-4s4.500 1 5.500 4"/>'
+};
+var PAL = ['#7D8A9C', '#C08A8A', '#C7A35A', '#8A7BA8', '#5F8F8C', '#6F8BA8', '#8FA88A', '#D19A6A', '#A86B5A'];
+/* 地図ごとの描き方：ty=形, ic=項目のアイコン, c=中央, hi=強調する項目 */
+var MAPVIZ = [
+  { ty: 'cycle', ic: ['target', 'cloud', 'spark', 'back'], c: 'sit' },
+  { ty: 'web', ic: ['cloud', 'heart', 'body', 'arrow'], c: 'user' },
+  { ty: 'path', ic: ['bolt', 'dart', 'flame', 'darts'] },
+  { ty: 'path', ic: ['bolt', 'flame', 'pause', 'fork'], hi: 2 },
+  { ty: 'radial', ic: ['body', 'tone', 'heart', 'eye'], c: 'sit' },
+  { ty: 'path', ic: ['sit', 'temple', 'cross', 'book', 'people'] },
+  { ty: 'path', ic: ['touch', 'tone', 'spark', 'star', 'chain'], hi: 2 },
+  { ty: 'radial', ic: ['star', 'flame', 'moon', 'swirl', 'question'], c: 'cloud' },
+  { ty: 'balance', ic: ['eye', 'sun', 'leaf'] },
+  { ty: 'radial', ic: ['target', 'body', 'heart', 'user'], c: 'sit' },
+  { ty: 'radial', ic: ['bowl', 'cloud', 'clock', 'eye', 'star', 'flag'], ct: ['心理的', '柔軟性'] },
+  { ty: 'path', ic: [] }
+];
+function ico(name, x, y, k, col) { return '<g transform="translate(' + (x - 12 * k).toFixed(1) + ' ' + (y - 12 * k).toFixed(1) + ') scale(' + k + ')" fill="none" stroke="' + (col || '#fff') + '" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + IC[name] + '</g>'; }
+function wrapLabel(t, max) {
+  t = t.replace(/^★\s*/, '');
+  if (t.length <= max) return [t];
+  var k = t.indexOf('（'); if (k < 2) { k = Math.ceil(t.length / 2); var d = t.lastIndexOf('・', k + 1); if (d > 1 && d < t.length - 2) k = d + 1; }
+  return [t.slice(0, k), t.slice(k)];
+}
+function mnode(j, x, y, label, icon, col, side, hi) {
+  var r = hi ? 30 : 26, lines = wrapLabel(label, side === 'below' ? 7 : 9), h = '<g class="mn' + (j === 0 ? ' on' : '') + '" data-mnode="' + j + '" tabindex="0" role="button" aria-label="' + esc(label) + '">';
+  h += side === 'below' ? '<rect x="' + (x - 52) + '" y="' + (y - r - 6) + '" width="104" height="' + (2 * r + 50) + '" fill="transparent"/>' : '<rect x="' + (side === 'right' ? x - r - 6 : x - r - 170) + '" y="' + (y - r - 6) + '" width="' + (2 * r + 176) + '" height="' + (2 * r + 12) + '" fill="transparent"/>';
+  if (hi) h += '<circle cx="' + x + '" cy="' + y + '" r="40" fill="#F4E6B0" opacity=".7"/>';
+  h += '<circle class="ring" cx="' + x + '" cy="' + y + '" r="' + (r + 5) + '" fill="none" stroke="#3D3530" stroke-width="2"/><circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="' + col + '"/>';
+  h += icon ? ico(icon, x, y, 1.15) : '<text x="' + x + '" y="' + (y + 7) + '" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">' + (j + 1) + '</text>';
+  var tx = side === 'right' ? x + r + 14 : side === 'left' ? x - r - 14 : x, ty = side === 'below' ? y + r + 20 : y - (lines.length - 1) * 9 + 5, an = side === 'right' ? 'start' : side === 'left' ? 'end' : 'middle';
+  lines.forEach(function (l, k) { h += '<text x="' + tx + '" y="' + (ty + k * 18) + '" text-anchor="' + an + '" font-size="14" font-weight="700" fill="#1C1C1C">' + esc(l) + '</text>'; });
+  return h + '</g>';
+}
+function hub(x, y, v) {
+  var h = '<circle cx="' + x + '" cy="' + y + '" r="38" fill="#E4EEE7" stroke="#BFD3C3"/>';
+  if (v.ct) v.ct.forEach(function (l, k) { h += '<text x="' + x + '" y="' + (y - 3 + k * 16) + '" text-anchor="middle" font-size="12.500" font-weight="700" fill="#3D3530">' + l + '</text>'; });
+  else h += ico(v.c, x, y, 1.9, '#3D3530');
+  return h;
+}
+function drawMap(m, v) {
+  var n = m.n, W = 340, H, h = '', DEFS = '<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1l8 4-8 4" fill="none" stroke="#8E8983" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>';
+  function ring(i, R, cx, cy, off) { var a = -Math.PI / 2 + (off || 0) + i * 2 * Math.PI / n.length; return [cx + Math.cos(a) * R, cy + Math.sin(a) * R]; }
+  if (v.ty === 'cycle') {
+    H = 372; var cx = 170, cy = 168, R = 112;
+    h += hub(cx, cy, v);
+    n.forEach(function (x, i) {
+      var a0 = -Math.PI / 2 + i * 2 * Math.PI / n.length + 0.56, a1 = -Math.PI / 2 + (i + 1) * 2 * Math.PI / n.length - 0.56;
+      h += '<path d="M' + (cx + Math.cos(a0) * R).toFixed(1) + ' ' + (cy + Math.sin(a0) * R).toFixed(1) + 'A' + R + ' ' + R + ' 0 0 1 ' + (cx + Math.cos(a1) * R).toFixed(1) + ' ' + (cy + Math.sin(a1) * R).toFixed(1) + '" fill="none" stroke="#8E8983" stroke-width="2" stroke-dasharray="1 6" stroke-linecap="round" marker-end="url(#ah)"/>';
+    });
+    n.forEach(function (x, i) { var p = ring(i, R, cx, cy); h += mnode(i, +p[0].toFixed(1), +p[1].toFixed(1), x[0], v.ic[i], PAL[i], 'below'); });
+  } else if (v.ty === 'web' || v.ty === 'radial') {
+    H = 384; var cx2 = 170, cy2 = 172, R2 = 118, off = n.length === 4 && v.ty === 'web' ? 0 : 0, pts = n.map(function (x, i) { return ring(i, R2, cx2, cy2, off); });
+    if (v.ty === 'web') pts.forEach(function (p, i) { pts.forEach(function (q, k) { if (k > i) h += '<line x1="' + p[0].toFixed(1) + '" y1="' + p[1].toFixed(1) + '" x2="' + q[0].toFixed(1) + '" y2="' + q[1].toFixed(1) + '" stroke="#BFD3C3" stroke-width="2"/>'; }); });
+    else pts.forEach(function (p) { h += '<line x1="' + cx2 + '" y1="' + cy2 + '" x2="' + p[0].toFixed(1) + '" y2="' + p[1].toFixed(1) + '" stroke="#BFD3C3" stroke-width="2" stroke-dasharray="1 6" stroke-linecap="round"/>'; });
+    h += hub(cx2, cy2, v);
+    pts.forEach(function (p, i) { h += mnode(i, +p[0].toFixed(1), +p[1].toFixed(1), n[i][0], v.ic[i], PAL[i % PAL.length], 'below'); });
+  } else if (v.ty === 'balance') {
+    H = 330;
+    h += '<path d="M170 96V262M120 270h100" stroke="#8E8983" stroke-width="3" stroke-linecap="round"/><path d="M70 150L170 128L270 150" fill="none" stroke="#8E8983" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M70 150v24M270 150v24" stroke="#8E8983" stroke-width="2" stroke-dasharray="1 5" stroke-linecap="round"/>';
+    h += mnode(0, 170, 58, n[0][0], v.ic[0], PAL[2], 'right') + mnode(1, 70, 204, n[1][0], v.ic[1], PAL[7], 'below') + mnode(2, 270, 204, n[2][0], v.ic[2], PAL[4], 'below');
+  } else {
+    var step = n.length > 6 ? 84 : 96; H = 56 + (n.length - 1) * step + 56;
+    var P = n.map(function (x, i) { return [i % 2 ? 276 : 64, 56 + i * step]; });
+    P.forEach(function (p, i) { if (!i) return; var q = P[i - 1], my = (q[1] + p[1]) / 2, d = q[0] < p[0] ? 1 : -1;
+      h += '<path d="M' + (q[0] + d * 10) + ' ' + (q[1] + 34) + 'C' + (q[0] + d * 10) + ' ' + (my + 14) + ' ' + p[0] + ' ' + (my - 22) + ' ' + p[0] + ' ' + (p[1] - (v.hi === i ? 46 : 36)) + '" fill="none" stroke="#8E8983" stroke-width="2" stroke-dasharray="1 6" stroke-linecap="round" marker-end="url(#ah)"/>'; });
+    P.forEach(function (p, i) { h += mnode(i, p[0], p[1], n[i][0], v.ic[i], v.hi === i ? '#B5852F' : PAL[i % PAL.length], i % 2 ? 'left' : 'right', v.hi === i); });
+  }
+  return '<svg class="chart mapsvg" viewBox="0 0 ' + W + ' ' + H + '" role="group" aria-label="' + esc(m.t) + '">' + DEFS + h + '</svg>';
+}
+function mapDesc(m, j) { return '<div class="n" style="background:' + '#3D3530' + ';color:#fff">' + (j + 1) + '</div><div><b>' + esc(m.n[j][0].replace(/^★\s*/, '')) + '</b><p>' + esc(m.n[j][1]) + '</p></div>'; }
+V.map = function (i) {
+  var m = MAPS[+i]; if (!m) return V.maps();
+  ui.mapi = +i;
+  return top(m.t) + '<p class="note" style="margin-bottom:10px">' + esc(m.s) + '。図の丸をタップすると説明が切り替わります。</p>' +
+    '<div class="box" style="padding:10px 6px">' + drawMap(m, MAPVIZ[+i] || { ty: 'path', ic: [] }) + '</div>' +
+    '<div class="node on" id="mapdesc" style="cursor:default">' + mapDesc(m, 0) + '</div>' +
+    '<div class="row">' + (MAPS[+i - 1] ? '<button class="btn plain" data-go="map/' + (+i - 1) + '">← 前の図</button>' : '') + (MAPS[+i + 1] ? '<button class="btn plain" data-go="map/' + (+i + 1) + '">次の図 →</button>' : '') + '</div>';
+};
+
+V.timeline = function () {
+  var list = TIMELINE.filter(function (e) { return ui.era === 'すべて' || e[2] === ui.era; }).sort(function (a, b) { return a[1] - b[1]; });
+  return top('年代・年表') + chips(['すべて'].concat(ERAS), ui.era, 'data-era') +
+    '<div class="tl">' + list.map(function (e) { return '<button class="ev" data-ev><div class="y">' + e[0] + '<span class="tag">' + e[2] + '</span></div><div class="t">' + esc(e[3]) + '</div><div class="d">' + esc(e[4]) + '</div></button>'; }).join('') + '</div>' +
+    '<button class="btn" data-yearquiz>年代クイズに挑戦</button><p class="note center" style="margin-top:8px">出来事をタップすると説明が開きます</p>';
+};
+
+V.qa = function () {
+  var pool = GLOSS.filter(function (g) { return ui.qcat === 'すべて' || g[2] === ui.qcat; });
+  var known = pool.filter(function (g) { return S.known[g[0]]; }).length;
+  return top('一問一答') + '<div class="box"><h2>出題範囲</h2>' + chips(['すべて'].concat(CATS), ui.qcat, 'data-qcat') +
+    '<p class="note">' + pool.length + '語中 ' + known + '語を習得済み</p><div class="bar"><i style="width:' + (pool.length ? known / pool.length * 100 : 0) + '%"></i></div>' +
+    '<h2 style="margin-top:8px">形式</h2><div class="seg" style="margin:8px 0">' + ['めくる', '4択', '逆引き', '正誤'].map(function (m) { return '<button data-set="qmode" data-val="' + m + '" class="' + (ui.qmode === m ? 'on' : '') + '">' + m + '</button>'; }).join('') + '</div>' +
+    '<p class="note">' + { 'めくる': '説明を見て用語を思い出し、答えをめくって自己採点します。', '4択': '説明に合う用語を4つから選びます。', '逆引き': '用語を見て、正しい説明を4つから選びます。', '正誤': '文が正しいか誤りかを判定します。誤解しやすい点を全' + TF.length + '問で確かめます（出題範囲の指定は使いません）。' }[ui.qmode] + '</p>' +
+    '<h2 style="margin-top:12px">問題数</h2><div class="seg" style="margin:8px 0 14px">' + [10, 20, 999].map(function (n) { return '<button data-set="qn" data-val="' + n + '" class="' + (ui.qn === n ? 'on' : '') + '">' + (n === 999 ? '全部' : n + '問') + '</button>'; }).join('') + '</div>' +
+    '<button class="btn" data-startqa>スタート</button></div>';
+};
+
+V.essays = function () {
+  return top('記述演習') + '<p class="note" style="margin-bottom:12px">自分の言葉で説明してから、解答例とチェックポイントで自己採点します。</p><div class="list">' +
+    ESSAYS.map(function (e, i) { var s = S.essay[i]; var n = s && s.c ? s.c.filter(Boolean).length : 0; return '<button class="item" data-go="essay/' + i + '"><span class="no">' + (i + 1) + '</span><span class="tt">' + esc(e.q) + '<small>' + e.len + '</small></span>' + (s && s.t ? '<span class="st">' + n + '/' + e.c.length + '</span>' : '') + '</button>'; }).join('') + '</div>';
+};
+V.essay = function (i) {
+  var e = ESSAYS[+i]; if (!e) return V.essays();
+  var s = S.essay[i] || { t: '', c: [], open: 0 };
+  return top('記述演習 ' + (+i + 1)) + '<div class="qtext">' + esc(e.q) + '</div><p class="note" style="margin-bottom:8px">目安：' + e.len + '　<span id="cnt">' + s.t.length + '</span>字</p>' +
+    '<textarea id="essay-in" placeholder="ここに書く">' + esc(s.t) + '</textarea>' +
+    '<div class="row"><button class="btn" data-essay-show="' + i + '">保存して解答例を見る</button></div>' +
+    '<div id="essay-ans" style="' + (s.open ? '' : 'display:none') + '"><div class="sec">解答例</div><div class="ans">' + esc(e.m) + '</div><div class="sec">チェックポイント（書けていたら✓）</div><div class="box">' +
+    e.c.map(function (c, j) { return '<label class="chk"><input type="checkbox" data-essay-chk="' + i + '" data-j="' + j + '"' + (s.c[j] ? ' checked' : '') + '>' + esc(c) + '</label>'; }).join('') + '</div></div>' +
+    '<div class="row">' + (ESSAYS[+i - 1] ? '<button class="btn plain" data-go="essay/' + (+i - 1) + '">← 前へ</button>' : '') + (ESSAYS[+i + 1] ? '<button class="btn plain" data-go="essay/' + (+i + 1) + '">次へ →</button>' : '') + '</div>';
+};
+
+V.practice = function () {
+  var total = S.log.reduce(function (a, l) { return a + l.m; }, 0);
+  return top('実践タイマー') + '<div class="stats"><div class="stat"><b>' + streak() + '日</b><span>連続実践</span></div><div class="stat"><b>' + total + '分</b><span>合計時間</span></div></div><div class="list">' +
+    PRACTICES.map(function (p) { return '<button class="item" data-go="sit/' + p.k + '"><span class="tt">' + esc(p.t) + '<small>' + esc(p.s) + '</small></span><span class="st" style="color:var(--accent)">→</span></button>'; }).join('') + '</div>' +
+    '<p class="note">つらくなったら、いつでもやめて構いません。目を開ける、足の裏の感覚に注意を移す、といった調整も大切な技術です。</p>';
+};
+V.sit = function (k) {
+  var p = PRACTICES.filter(function (x) { return x.k === k; })[0]; if (!p) return V.practice();
+  sit.p = p; sit.min = p.fix || 3;
+  return top(p.t) + (p.fix ? '' : '<div class="chips" style="justify-content:center">' + [1, 3, 5, 10, 15].map(function (m) { return '<button class="chip' + (m === sit.min ? ' on' : '') + '" data-min="' + m + '">' + m + '分</button>'; }).join('') + '</div>') +
+    '<div class="chips" style="justify-content:center"><button class="chip' + (S.opt.bell ? ' on' : '') + '" data-opt="bell">鐘の音</button><button class="chip' + (S.opt.voice ? ' on' : '') + '" data-opt="voice">音声ガイド</button></div>' +
+    '<div class="stage"><button class="circle" id="circle" data-rep>はじめる</button></div><div class="big" id="left">' + sit.min + ':00</div><div class="guide" id="guide">' + esc(p.s) + '</div>' +
+    '<p class="note center" style="margin-bottom:10px">心がそれたと気づいたら、円をタップ。<span id="reps"></span></p>' +
+    '<button class="btn" id="sit-btn" data-sit>スタート</button>';
+};
+
+V.review = function () {
+  var weak = Object.keys(S.weak).filter(glossByTerm), marks = LESSONS.filter(function (l) { return S.mark[l.id]; });
+  var known = GLOSS.filter(function (g) { return S.known[g[0]]; }).length, total = S.log.reduce(function (a, l) { return a + l.m; }, 0);
+  var es = ESSAYS.filter(function (e, i) { return S.essay[i] && S.essay[i].t; }).length;
+  return top('復習', false) + '<div class="stats">' +
+    '<div class="stat"><b>' + doneCount() + ' / ' + LESSONS.length + '</b><span>講義</span></div><div class="stat"><b>' + known + ' / ' + GLOSS.length + '</b><span>習得した用語</span></div>' +
+    '<div class="stat"><b>' + es + ' / ' + ESSAYS.length + '</b><span>記述演習</span></div><div class="stat"><b>' + total + '分</b><span>実践（連続' + streak() + '日）</span></div></div>' +
+    '<button class="btn" data-go="me" style="margin-bottom:4px">心のデータを見る</button>' +
+    '<div class="sec">苦手な用語（' + weak.length + '）</div>' + (weak.length ? '<button class="btn" data-weakquiz style="margin-bottom:10px">苦手な用語だけ復習する</button><div class="list">' + weak.map(function (t) { var g = glossByTerm(t); return '<div class="gl"><b>' + esc(g[0]) + '</b><span class="tag">' + g[2] + '</span><p>' + esc(g[3]) + '</p></div>'; }).join('') + '</div>' : '<div class="box empty">一問一答でまちがえた用語がここに集まります。</div>') +
+    '<div class="sec">あとで復習するレッスン（' + marks.length + '）</div>' + (marks.length ? '<div class="list">' + marks.map(lessonItem).join('') + '</div>' : '<div class="box empty">レッスンの「☆ あとで復習」で保存できます。</div>') +
+    '<div class="sec">実践の記録</div>' + (S.log.length ? '<div class="list">' + S.log.slice(-7).reverse().map(function (l) { return '<div class="item"><span class="tt">' + esc(l.t) + '<small>' + l.d + '</small></span><span class="st">' + l.m + '分</span></div>'; }).join('') + '</div>' : '<div class="box empty">実践タイマーを最後まで行うと記録されます。</div>') +
+    '<button class="btn plain" data-reset style="margin-top:8px;color:var(--ng)">学習の記録をすべて消す</button>';
+};
+
+function searchResults() {
+  var q = ui.q.trim().toLowerCase(), h = '';
+  var gs = GLOSS.filter(function (g) { return (ui.gcat === 'すべて' || g[2] === ui.gcat) && (!q || (g[0] + g[1] + g[3]).toLowerCase().indexOf(q) >= 0); });
+  if (q) {
+    var ls = LESSONS.filter(function (l) { return (l.t + l.b.join('') + l.p.join('')).toLowerCase().indexOf(q) >= 0; });
+    var ts = TIMELINE.filter(function (e) { return (e[0] + e[3] + e[4]).toLowerCase().indexOf(q) >= 0; });
+    if (ls.length) h += '<div class="sec">講義（' + ls.length + '）</div><div class="list">' + ls.map(lessonItem).join('') + '</div>';
+    if (ts.length) h += '<div class="sec">年表（' + ts.length + '）</div><div class="list">' + ts.map(function (e) { return '<div class="gl"><b>' + esc(e[3]) + '</b><small>' + e[0] + '</small><p>' + esc(e[4]) + '</p></div>'; }).join('') + '</div>';
+  }
+  h += '<div class="sec">用語（' + gs.length + '）</div>' + (gs.length ? '<div class="list">' + gs.map(function (g) { return '<div class="gl"><b>' + esc(g[0]) + '</b>' + (S.known[g[0]] ? '<span class="tag" style="color:var(--ok);border-color:#9DBFA5">習得</span>' : '') + '<span class="tag">' + g[2] + '</span><p>' + esc(g[3]) + '</p></div>'; }).join('') + '</div>' : '<div class="box empty">見つかりませんでした。</div>');
+  return h;
+}
+V.search = function () {
+  return top('検索・用語集', false) + '<input type="search" id="q" placeholder="用語・講義・年表を検索" value="' + esc(ui.q) + '" autocomplete="off">' +
+    '<div style="height:12px"></div>' + chips(['すべて'].concat(CATS), ui.gcat, 'data-gcat') + '<div id="results">' + searchResults() + '</div>';
+};
+
+V.sources = function () {
+  return top('出典一覧') + '<p class="note" style="margin-bottom:6px">本文・年表・用語集の年・人名・数値は、下の文献の書誌情報や抄録、公式サイトの記載と照合しています。全文を読んで確認したものではないため、引用する場合は原典を確認してください。</p>' +
+    SOURCES.map(function (g) { return '<div class="sec">' + g[0] + '</div><div class="list">' + g[1].map(function (r) { return '<div class="gl"><p style="color:var(--ink)">' + esc(r[0]) + '</p>' + (r[1] ? '<a href="https://doi.org/' + r[1] + '" target="_blank" rel="noopener" style="color:var(--accent);font-size:13px;word-break:break-all">doi:' + r[1] + '</a>' : '') + '</div>'; }).join('') + '</div>'; }).join('');
+};
+V.changelog = function () { return top('更新履歴') + '<div class="list">' + CHANGELOG.map(function (c) { return '<div class="gl"><b>' + c[0] + '</b><p>' + esc(c[1]) + '</p></div>'; }).join('') + '</div>'; };
+V.about = function () {
+  return top('このノートについて') + '<div class="box"><h2>使い方</h2><p class="note">講義で理解し、心の地図と年表で整理し、一問一答と記述演習で確かめ、実践タイマーで体験する。この順で回すと定着しやすくなります。まちがえた用語は「復習」に自動で集まります。</p></div>' +
+    '<div class="box"><h2>内容について</h2><p class="note">カバットジンらによる一般的な定義と、公表されている研究（本文中に年と研究者名を記載）にもとづく学習用の要約です。研究の解釈には幅があり、新しい知見で変わることがあります。</p><button class="btn plain" data-go="sources" style="margin-top:10px">出典一覧を見る</button></div>' +
+    '<div class="box"><h2>大切な注意</h2><p class="note">このノートは医療・心理の診断や治療の代わりにはなりません。実践中につらくなったら中断してください。治療中の方、強い不安や落ち込みが続いている方は、主治医や専門家に相談してください。</p></div>' +
+    '<div class="box"><h2>データの保存</h2><p class="note">学習の記録と記述演習の内容は、この端末のブラウザにだけ保存され、外部には送信されません。</p></div>';
+};
+
+/* ================= グラフ ================= */
+function hbars(pairs) { var mx = Math.max.apply(null, pairs.map(function (p) { return p[1]; }).concat([1])); return pairs.map(function (p) { return '<div class="hb"><span>' + esc(p[0]) + '</span><div><i style="width:' + (p[1] / mx * 100) + '%"></i></div><em>' + p[1] + '</em></div>'; }).join(''); }
+function trend(vals, unit) {
+  if (vals.length < 2) return '';
+  var W = 300, H = 70, mx = Math.max.apply(null, vals.concat([1])), pts = vals.map(function (v, i) { return [10 + i * (W - 20) / (vals.length - 1), H - 10 - v / mx * (H - 22)]; });
+  return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '"><polyline fill="none" stroke="#6F9A6F" stroke-width="2" points="' + pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ') + '"/>' + pts.map(function (p) { return '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="3.5" fill="#6F9A6F"/>'; }).join('') + '</svg><p class="note">初回 ' + vals[0] + unit + ' → 最新 ' + vals[vals.length - 1] + unit + '（' + vals.length + '回）</p>';
+}
+function radar(sc) {
+  var C = 150, R = 86, n = 5, h = '<svg class="chart" viewBox="0 0 300 270" style="max-width:340px;margin:0 auto">';
+  function pt(i, r) { var a = -Math.PI / 2 + i * 2 * Math.PI / n; return [C + Math.cos(a) * r, 132 + Math.sin(a) * r]; }
+  [0.2, 0.4, 0.6, 0.8, 1].forEach(function (k) { h += '<polygon fill="none" stroke="#E0DDD9" points="' + [0, 1, 2, 3, 4].map(function (i) { return pt(i, R * k).join(','); }).join(' ') + '"/>'; });
+  h += '<polygon fill="rgba(111,154,111,.28)" stroke="#6F9A6F" stroke-width="2" points="' + sc.map(function (v, i) { return pt(i, R * v / 5).join(','); }).join(' ') + '"/>';
+  FACETS.forEach(function (f, i) { var p = pt(i, R + 30); h += '<text x="' + p[0] + '" y="' + (p[1] + 4) + '" fill="#6B6660" font-size="12" text-anchor="middle">' + f + '</text>'; });
+  return h + '</svg>';
+}
+function pct(x) { return Math.round(x * 100); }
+
+/* ================= 心の実験室 ================= */
+function labByKey(k) { return LAB.filter(function (l) { return l.k === k; })[0]; }
+function progTotal() { return PROGRAM.reduce(function (a, w) { return a + w.i.length; }, 0); }
+function progCount() { return Object.keys(S.prog).filter(function (k) { return S.prog[k]; }).length; }
+function resHtml(k, r) {
+  var h = '<div class="box res">';
+  if (k === 'bc') {
+    var tot = r.ok + r.ng + r.rs;
+    h += '<b class="n">' + (tot ? pct(r.ok / tot) + '%' : '—') + '</b><span class="note">9回のセットを正しく数えられた割合（' + r.min + '分）</span>' +
+      '<p>正しく数えた ' + r.ok + '回 ／ 数えまちがい ' + r.ng + '回 ／ 自分で気づいて数え直し ' + r.rs + '回</p>' +
+      (tot ? '<p>' + (r.rs ? '数え直しは「それたことに自分で気づけた」回数でもあります。' : '') + (r.ng ? '数えまちがいは、気づかないうちに注意が離れていたサインです。' : '最後まで数を保てました。') + '</p>' : '<p>9回目まで数えたセットがありませんでした。もう少し長い時間で試してみてください。</p>');
+  } else if (k === 'probe') {
+    var t2 = r.on + r.aware + r.unaware, w = r.aware + r.unaware;
+    h += '<b class="n">' + pct(w / t2) + '%</b><span class="note">鐘が鳴った瞬間、心がさまよっていた割合（' + t2 + '回中' + w + '回）</span>' +
+      hbars([['呼吸にいた', r.on], ['さまよい（自覚あり）', r.aware], ['さまよい（自覚なし）', r.unaware]]) +
+      '<p>' + (r.unaware > r.aware ? '自覚のないさまよいが多めでした。「気づく」練習（講義 3-2）の伸びしろです。' : w ? 'さまよっていても、自分で気づけている場面がありました。その「気づき」が練習の核心です。' : '今回はずっと呼吸にとどまれていました。') + ' 割合が高いこと自体は失敗ではありません。</p>';
+  } else if (k === 'sart') {
+    h += '<b class="n">' + pct(r.com) + '%</b><span class="note">「3」でつい押してしまった割合</span>' +
+      '<p>押し忘れ ' + pct(r.om) + '% ／ 平均反応時間 ' + r.rt + 'ミリ秒</p><p>' + (r.com >= 0.5 ? '単調な作業で自動操縦になりやすい状態でした。多くの人がそうなります。' : r.com >= 0.2 ? 'ときどき自動操縦に入っていました。' : '注意を保ち続けられていました。') + ' 速く押すほど誤りは増えやすいので、反応時間とあわせて見てください。</p>';
+  } else if (k === 'label') {
+    var pairs = LABELS.map(function (l) { return [l, r.c[l] || 0]; }), sum = pairs.reduce(function (a, p) { return a + p[1]; }, 0), topL = pairs.slice().sort(function (a, b) { return b[1] - a[1]; })[0];
+    h += '<b class="n">' + sum + '回</b><span class="note">気づいて名前をつけた回数（' + r.min + '分）</span>' + hbars(pairs) +
+      (sum ? '<p>いちばん多かったのは「' + topL[0] + '」。' + sum + '回それて、' + sum + '回気づけたということです。</p>' : '<p>今回は記録がありませんでした。</p>');
+  } else if (k === 'facet') {
+    var lo = r.s.indexOf(Math.min.apply(null, r.s)), hi = r.s.indexOf(Math.max.apply(null, r.s));
+    h += radar(r.s) + hbars(FACETS.map(function (f, i) { return [f, Math.round(r.s[i] * 10) / 10]; })) +
+      '<p><b style="color:var(--ink)">高め：' + FACETS[hi] + '</b>　' + FACET_TIP[hi] + '</p><p><b style="color:var(--ink)">伸びしろ：' + FACETS[lo] + '</b>　' + FACET_TIP[lo] + '</p></div>' +
+      '<div class="sec">「' + FACETS[lo] + '」を育てるレッスン</div><div class="list">' + FACET_REC[lo].map(function (id) { return lessonItem(lessonById(id)); }).join('');
+  }
+  return h + '</div>';
+}
+function lastOf(k) { var a = S.lab[k]; return a[a.length - 1]; }
+function labSummary(k) {
+  var r = lastOf(k); if (!r) return '未実施';
+  if (k === 'bc') { var t = r.ok + r.ng + r.rs; return '前回 ' + (t ? pct(r.ok / t) + '%' : '—'); }
+  if (k === 'probe') return '前回 さまよい ' + pct((r.aware + r.unaware) / (r.on + r.aware + r.unaware)) + '%';
+  if (k === 'sart') return '前回 誤り ' + pct(r.com) + '%';
+  if (k === 'label') return '前回 ' + LABELS.reduce(function (a, l) { return a + (r.c[l] || 0); }, 0) + '回';
+  return '前回 ' + r.d;
+}
+V.lab = function () {
+  return top('心の実験室') + '<p class="note" style="margin-bottom:12px">講義で学んだ「さまよう心」や「自動操縦」を、自分の注意で確かめる場所です。研究で使われる課題の短縮版なので、結果は目安として見てください。</p><div class="list">' +
+    LAB.map(function (l) { return '<button class="item" data-go="exp/' + l.k + '"><span class="tt">' + esc(l.t) + '<small>' + esc(l.s) + '</small></span><span class="st" style="color:var(--soft)">' + labSummary(l.k) + '</span></button>'; }).join('') + '</div>' +
+    '<button class="btn" data-go="me">心のデータを見る</button>';
+};
+V.exp = function (k) {
+  var l = labByKey(k); if (!l) return V.lab();
+  if (l.m && l.m.indexOf(ui.exmin) < 0) ui.exmin = l.m[0];
+  var h = top(l.t) + '<div id="intro"><div class="box"><h2>やり方</h2><ol style="padding-left:1.3em;font-size:15px">' + l.how.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol><p class="note" style="margin-top:10px">' + esc(l.about) + '</p></div>';
+  if (k === 'facet') {
+    ui.fa = [];
+    h += '<div class="box">' + FQ.map(function (q, i) { return '<div class="fq">' + (i + 1) + '. ' + esc(q[1]) + '<div class="scale">' + [1, 2, 3, 4, 5].map(function (v) { return '<button data-fq="' + i + '" data-fv="' + v + '">' + v + '</button>'; }).join('') + '</div><div class="scale-l"><span>当てはまらない</span><span>当てはまる</span></div></div>'; }).join('') + '</div><button class="btn" data-fsubmit>結果を見る</button><p class="note center" id="fmsg" style="margin-top:8px"></p>';
+  } else {
+    h += (l.m ? '<div class="chips" style="justify-content:center">' + l.m.map(function (m) { return '<button class="chip' + (m === ui.exmin ? ' on' : '') + '" data-exmin="' + m + '">' + m + '分</button>'; }).join('') + '</div>' : '') +
+      (k === 'probe' ? '<div class="chips" style="justify-content:center"><button class="chip' + (S.opt.bell ? ' on' : '') + '" data-opt="bell">鐘の音</button></div>' : '') +
+      '<button class="btn" data-exstart="' + k + '">はじめる</button>';
+  }
+  var r = lastOf(k);
+  h += (r ? '<div class="sec">前回の結果（' + r.d + '）</div>' + resHtml(k, r) : '') + '</div><div id="stage"></div>';
+  return h;
+};
+
+var SPEED = /[?&]fast/.test(location.search) ? 0.02 : 1;
+var X = { t: [], i: [] };
+function later(f, ms) { var id = setTimeout(f, ms * SPEED); X.t.push(id); return id; }
+function every(f, ms) { X.i.push(setInterval(f, ms * SPEED)); }
+function labStop() { X.t.forEach(clearTimeout); X.i.forEach(clearInterval); X = { t: [], i: [] }; }
+function $(id) { return document.getElementById(id); }
+function finishExp(k, r, ok) {
+  labStop(); bell(); vib(200);
+  if (ok !== false) { r.d = today(); S.lab[k].push(r); if (S.lab[k].length > 60) S.lab[k].shift(); save(); }
+  $('stage').innerHTML = (ok !== false ? '<div class="sec">今回の結果</div>' + resHtml(k, r) : '<div class="box empty">回答がなかったため、記録しませんでした。</div>') +
+    '<div class="row"><button class="btn plain" data-go="lab">実験室へ</button><button class="btn" data-go="me">心のデータを見る</button></div>';
+  window.scrollTo(0, 0);
+}
+function countdown(sec, done) { X.left = sec; every(function () { X.left--; var el = $('xl'); if (el) el.textContent = fmt(Math.max(X.left, 0)); if (X.left <= 0) done(); }, 1000); }
+function startExp(k) {
+  labStop(); $('intro').style.display = 'none'; window.scrollTo(0, 0);
+  var st = $('stage'), min = ui.exmin; X.k = k;
+  if (k === 'bc') {
+    X.n = 0; X.ok = 0; X.ng = 0; X.rs = 0; bell();
+    st.innerHTML = '<div class="big" id="xl">' + fmt(min * 60) + '</div><p class="note center" style="margin-bottom:12px">吐く息ごとに1回。数は心の中で。</p><div class="row"><button class="btn tap" data-bc="b">息<small>1〜8回目</small></button><button class="btn tap plain" data-bc="9">9<small>9回目</small></button></div><button class="btn plain" data-bc="r" style="margin-top:10px">数がわからなくなった（1から数え直す）</button><button class="btn plain" data-go="lab" style="margin-top:10px;color:var(--soft)">中止する</button>';
+    countdown(min * 60, function () { finishExp('bc', { min: min, ok: X.ok, ng: X.ng, rs: X.rs }); });
+  } else if (k === 'probe') {
+    X.c = { on: 0, aware: 0, unaware: 0 }; bell();
+    X.idle = function () { st.innerHTML = '<div class="stage"><div class="circle">呼吸</div></div><div class="big" id="xl">' + fmt(Math.max(X.left, 0)) + '</div><p class="note center">目を閉じて、呼吸に注意を向けます。<br>鐘が鳴ったら画面を見てください。</p><button class="btn plain" data-go="lab" style="margin-top:14px;color:var(--soft)">中止する</button>'; };
+    X.sched = function () { later(function () {
+      if (X.left < 6) return; bell(); vib([200, 100, 200]);
+      st.innerHTML = '<div class="qtext center">鐘が鳴る直前、<br>注意はどこにありましたか？</div><button class="opt" data-pr="on">呼吸にいた</button><button class="opt" data-pr="aware">ほかのことを考えていた（自分で気づいていた）</button><button class="opt" data-pr="unaware">ほかのことを考えていた（鐘で初めて気づいた）</button>';
+      X.wait = later(function () { X.idle(); X.sched(); }, 20000);
+    }, (18 + Math.random() * 24) * 1000); };
+    countdown(min * 60, function () { var c = X.c; finishExp('probe', { min: min, on: c.on, aware: c.aware, unaware: c.unaware }, c.on + c.aware + c.unaware > 0); });
+    X.idle(); X.sched();
+  } else if (k === 'sart') {
+    var seq = []; for (var b = 0; b < 12; b++) seq = seq.concat(shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]));
+    X.res = []; X.j = 0;
+    st.innerHTML = '<div class="digit" id="dg">+</div><button class="btn tap" data-sa>タップ</button><p class="note center" style="margin-top:10px">「3」のときだけ押さない　<span id="xp"></span></p><button class="btn plain" data-go="lab" style="margin-top:14px;color:var(--soft)">中止する</button>';
+    var trial = function () {
+      if (X.j >= seq.length) {
+        var tg = X.res.filter(function (r) { return r.d === 3; }), go2 = X.res.filter(function (r) { return r.d !== 3; }), hits = go2.filter(function (r) { return r.hit; });
+        return finishExp('sart', { com: tg.filter(function (r) { return r.hit; }).length / tg.length, om: (go2.length - hits.length) / go2.length, rt: hits.length ? Math.round(hits.reduce(function (a, r) { return a + r.rt; }, 0) / hits.length / SPEED) : 0 });
+      }
+      X.cur = { d: seq[X.j], t: Date.now(), hit: false }; $('dg').textContent = X.cur.d; $('xp').textContent = (X.j + 1) + ' / ' + seq.length;
+      later(function () { $('dg').textContent = '+'; }, 300);
+      later(function () { X.res.push(X.cur); X.j++; trial(); }, 1100);
+    };
+    later(trial, 1200);
+  } else if (k === 'label') {
+    X.c = {}; bell();
+    st.innerHTML = '<div class="big" id="xl">' + fmt(min * 60) + '</div><p class="note center">それたと気づいたら、近いものを押して呼吸に戻ります。</p><div class="lbgrid">' + LABELS.map(function (l) { return '<button class="btn plain" data-lb="' + l + '">' + l + '<small>0</small></button>'; }).join('') + '</div><button class="btn plain" data-go="lab" style="margin-top:10px;color:var(--soft)">中止する</button>';
+    countdown(min * 60, function () { finishExp('label', { min: min, c: X.c }); });
+  }
+}
+
+/* ================= 8週間プログラム ================= */
+V.program = function () {
+  return top('学習プログラム') + '<p class="note" style="margin-bottom:12px">基本の8週間と、発展の4週間。講義・実験・実践を週ごとに組み合わせた自習プランです。MBSRやMBCTが8週間で構成されていることを参考にした、このノート独自の進め方で、公式のプログラムではありません。自分のペースで進めてください。</p><div class="list">' +
+    PROGRAM.map(function (w, i) { var d = w.i.filter(function (x, j) { return S.prog[i + '-' + j]; }).length; return '<button class="item" data-go="week/' + i + '"><span class="no" style="flex-basis:44px">' + (i < 8 ? '第' + (i + 1) + '週' : '発展' + (i - 7)) + '</span><span class="tt">' + esc(w.t) + '<small>' + esc(w.d) + '</small></span><span class="st"' + (d === w.i.length ? '' : ' style="color:var(--soft)"') + '>' + d + '/' + w.i.length + '</span></button>'; }).join('') + '</div>';
+};
+V.week = function (i) {
+  var w = PROGRAM[+i]; if (!w) return V.program();
+  return top((+i < 8 ? '第' + (+i + 1) + '週　' : '') + w.t) + '<p class="note" style="margin-bottom:12px">' + esc(w.d) + '</p><div class="list">' +
+    w.i.map(function (x, j) { return '<div class="prog-item"><input type="checkbox" data-prog="' + i + '-' + j + '"' + (S.prog[i + '-' + j] ? ' checked' : '') + ' aria-label="完了"><button data-go="' + x[1] + '">' + esc(x[0]) + '</button><span style="color:var(--accent)">→</span></div>'; }).join('') + '</div>' +
+    '<div class="row">' + (PROGRAM[+i - 1] ? '<button class="btn plain" data-go="week/' + (+i - 1) + '">← 前の週</button>' : '') + (PROGRAM[+i + 1] ? '<button class="btn plain" data-go="week/' + (+i + 1) + '">次の週 →</button>' : '') + '</div>';
+};
+
+/* ================= 心のデータ ================= */
+function recs() {
+  var out = [], seen = {};
+  function add(why, id) { if (!seen[id] && out.length < 4) { seen[id] = 1; out.push([why, id]); } }
+  var f = lastOf('facet'); if (f) { var lo = f.s.indexOf(Math.min.apply(null, f.s)); add('セルフチェックで「' + FACETS[lo] + '」が伸びしろ', FACET_REC[lo][0]); }
+  var p = lastOf('probe'); if (p) { if (p.unaware > p.aware) add('自覚のないさまよいが多かった', '3-2'); else if ((p.aware + p.unaware) / (p.on + p.aware + p.unaware) > 0.5) add('さまよいの割合が半分を超えた', '5-2'); }
+  var lb = {}; S.lab.label.forEach(function (r) { LABELS.forEach(function (l) { lb[l] = (lb[l] || 0) + (r.c[l] || 0); }); });
+  var topL = LABELS.slice().sort(function (a, b) { return (lb[b] || 0) - (lb[a] || 0); })[0]; if (lb[topL]) add('ラベリングで「' + topL + '」が最多', LABEL_REC[topL]);
+  var sa = lastOf('sart'); if (sa && sa.com >= 0.4) add('持続テストで自動操縦が出やすかった', '3-1');
+  var bc = lastOf('bc'); if (bc && bc.ok + bc.ng + bc.rs && bc.ok / (bc.ok + bc.ng + bc.rs) < 0.6) add('呼吸カウントが途切れやすかった', '5-2');
+  if (!S.log.length) add('まだ実践の記録がない', '5-1');
+  return out;
+}
+V.me = function () {
+  var h = top('心のデータ'), any = S.log.length || LAB.some(function (l) { return S.lab[l.k].length; });
+  if (!any) return h + '<div class="box empty">まだデータがありません。<br>実践タイマーか心の実験室を1つ行うと、ここに自分の傾向が表示されます。</div><div class="row"><button class="btn plain" data-go="practice">実践タイマー</button><button class="btn" data-go="lab">心の実験室</button></div>';
+  var rc = recs();
+  if (rc.length) h += '<div class="sec">あなたへのおすすめ</div><div class="list">' + rc.map(function (r) { var l = lessonById(r[1]); return '<button class="item" data-go="lesson/' + l.id + '"><span class="no">' + l.id + '</span><span class="tt">' + esc(l.t) + '<small>' + esc(r[0]) + '</small></span><span class="st" style="color:var(--accent)">→</span></button>'; }).join('') + '</div>';
+  var byDay = {}, reps = 0, total = 0; S.log.forEach(function (l) { byDay[l.d] = (byDay[l.d] || 0) + l.m; reps += l.n || 0; total += l.m; });
+  var days = [], dt = new Date(); dt.setDate(dt.getDate() - 13);
+  for (var i = 0; i < 14; i++) { var key = dt.getFullYear() + '-' + ('0' + (dt.getMonth() + 1)).slice(-2) + '-' + ('0' + dt.getDate()).slice(-2); days.push(byDay[key] || 0); dt.setDate(dt.getDate() + 1); }
+  var mx = Math.max.apply(null, days.concat([1]));
+  h += '<div class="sec">実践</div><div class="stats"><div class="stat"><b>' + total + '分</b><span>合計（連続' + streak() + '日）</span></div><div class="stat"><b>' + reps + '回</b><span>気づいて戻った回数</span></div></div>' +
+    '<div class="box"><span class="note">この14日間の実践時間（分）</span><div class="days">' + days.map(function (v) { return '<i class="' + (v ? '' : 'z') + '" style="height:' + (v ? Math.max(8, v / mx * 100) : 3) + '%" title="' + v + '分"></i>'; }).join('') + '</div></div>';
+  var bc = S.lab.bc.filter(function (r) { return r.ok + r.ng + r.rs; });
+  if (bc.length) h += '<div class="sec">呼吸カウントの正確さ</div>' + (bc.length > 1 ? '<div class="box">' + trend(bc.map(function (r) { return pct(r.ok / (r.ok + r.ng + r.rs)); }), '%') + '</div>' : resHtml('bc', bc[0]));
+  var pr = S.lab.probe;
+  if (pr.length) h += '<div class="sec">心がさまよっていた割合</div>' + (pr.length > 1 ? '<div class="box">' + trend(pr.map(function (r) { return pct((r.aware + r.unaware) / (r.on + r.aware + r.unaware)); }), '%') + '<p class="note">日常生活での報告値は約47％（2010年の研究）。瞑想中の値とは条件が違うので、自分の推移を見るために使います。</p></div>' : resHtml('probe', pr[0]));
+  var sa = S.lab.sart;
+  if (sa.length) h += '<div class="sec">「3」で押してしまった割合</div>' + (sa.length > 1 ? '<div class="box">' + trend(sa.map(function (r) { return pct(r.com); }), '%') + '</div>' : resHtml('sart', sa[0]));
+  if (S.lab.label.length) { var agg = {}; S.lab.label.forEach(function (r) { LABELS.forEach(function (l) { agg[l] = (agg[l] || 0) + (r.c[l] || 0); }); }); h += '<div class="sec">心が行きやすい場所（ラベリング ' + S.lab.label.length + '回分）</div><div class="box">' + hbars(LABELS.map(function (l) { return [l, agg[l] || 0]; })) + '</div>'; }
+  if (S.lab.facet.length) h += '<div class="sec">5つの側面（' + lastOf('facet').d + '）</div><div class="box">' + radar(lastOf('facet').s) + '</div>';
+  return h + '<p class="note">これらは自分の変化を見るための目安で、診断や他人との比較のためのものではありません。体調や時間帯でも変わります。</p><div class="row"><button class="btn" data-go="lab">心の実験室へ</button></div>';
+};
+
+/* ================= クイズ ================= */
+var quiz = null;
+function makeChoice(g, pool, reverse) {
+  var same = pool.filter(function (x) { return x[0] !== g[0] && x[2] === g[2]; }), other = GLOSS.filter(function (x) { return x[0] !== g[0] && x[2] !== g[2]; });
+  var wrong = shuffle(same).slice(0, 3); if (wrong.length < 3) wrong = wrong.concat(shuffle(GLOSS.filter(function (x) { return x[0] !== g[0] && wrong.indexOf(x) < 0 && x[2] === g[2]; })).slice(0, 3 - wrong.length));
+  if (wrong.length < 3) wrong = wrong.concat(shuffle(other).slice(0, 3 - wrong.length));
+  var opts = shuffle([g].concat(wrong)), k = reverse ? 3 : 0;
+  return { q: reverse ? '「' + g[0] + '」の説明として正しいものは？' : g[3], o: opts.map(function (x) { return x[k]; }), a: opts.indexOf(g), ex: g[0] + '：' + g[3], term: g[0] };
+}
+function startQuiz(title, qs, flip, backTo) { if (!qs.length) return; quiz = { title: title, qs: qs, i: 0, score: 0, flip: flip, back: backTo, shown: false, picked: -1 }; go('quiz'); }
+V.quiz = function () {
+  if (!quiz) return V.qa();
+  var z = quiz, h = top(z.title);
+  if (z.i >= z.qs.length) {
+    var r = Math.round(z.score / z.qs.length * 100);
+    return h + '<div class="box center"><p class="note">結果</p><div class="big">' + z.score + ' / ' + z.qs.length + '</div><p class="note">' + (r === 100 ? '全問正解です。' : r >= 70 ? 'よくできました。まちがえた用語は「復習」に入っています。' : '講義と用語集を見直してから、もう一度挑戦しましょう。') + '</p></div>' +
+      '<div class="row"><button class="btn plain" data-back>戻る</button><button class="btn" data-go="review">復習を見る</button></div>';
+  }
+  var q = z.qs[z.i];
+  h += '<div class="qhead"><span>' + (z.i + 1) + ' / ' + z.qs.length + '</span><span>正解 ' + z.score + '</span></div><div class="bar"><i style="width:' + (z.i / z.qs.length * 100) + '%"></i></div><div class="qtext">' + esc(q.q) + '</div>';
+  if (z.flip) {
+    h += z.shown ? '<div class="ans"><b>' + esc(q.term) + '</b></div><div class="row"><button class="btn plain" data-flip="0">まだ</button><button class="btn" data-flip="1">覚えた</button></div>' : '<button class="btn" data-reveal>答えを見る</button>';
+  } else {
+    h += q.o.map(function (o, i) { var c = z.picked < 0 ? '' : i === q.a ? ' right' : i === z.picked ? ' wrong' : ''; return '<button class="opt' + c + '" data-pick="' + i + '"' + (z.picked >= 0 ? ' disabled' : '') + '>' + esc(o) + '</button>'; }).join('');
+    if (z.picked >= 0) h += '<div class="ans">' + (z.picked === q.a ? '○ 正解。' : '× 不正解。') + esc(q.ex) + '</div><button class="btn" data-nextq>' + (z.i === z.qs.length - 1 ? '結果を見る' : '次へ') + '</button>';
+  }
+  return h;
+};
+function grade(q, ok) { if (ok) { quiz.score++; if (q.term) { S.known[q.term] = 1; delete S.weak[q.term]; } } else if (q.term) { S.weak[q.term] = 1; delete S.known[q.term]; } save(); }
+
+/* ================= 実践タイマー ================= */
+var sit = { p: null, min: 3, left: 0, tick: null, ph: null, on: false, n: 0 };
+var AC = null;
+function bell() {
+  if (!S.opt.bell) return;
+  try {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume();
+    var t = AC.currentTime;
+    [[528, .5], [1056, .18], [1590, .08]].forEach(function (f) {
+      var o = AC.createOscillator(), g = AC.createGain(); o.type = 'sine'; o.frequency.value = f[0];
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(f[1], t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 3.5);
+      o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t + 3.6);
+    });
+  } catch (e) {}
+}
+function vib(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} }
+function say(text) {
+  if (!S.opt.voice || !window.speechSynthesis) return;
+  try { speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(text.replace(/[「」]/g, '')); u.lang = 'ja-JP'; u.rate = 0.85; speechSynthesis.speak(u); } catch (e) {}
+}
+function fmt(s) { return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+function phase(isIn) { var c = document.getElementById('circle'); if (!c || !sit.on) return; c.className = 'circle ' + (isIn ? 'in' : 'out'); c.textContent = isIn ? '吸う' : '吐く'; sit.ph = setTimeout(function () { phase(!isIn); }, isIn ? 4000 : 6000); }
+function sitStop(finished) {
+  var was = sit.on; sit.on = false; clearInterval(sit.tick); clearTimeout(sit.ph);
+  var c = document.getElementById('circle'); if (!c) return;
+  c.className = 'circle out'; c.textContent = finished ? 'おつかれさま' : 'はじめる';
+  document.getElementById('sit-btn').textContent = finished ? 'もう一度' : 'スタート';
+  document.getElementById('left').textContent = fmt(sit.min * 60);
+  try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
+  if (finished && was) { bell(); S.log.push({ d: today(), t: sit.p.t, m: sit.min, n: sit.n }); if (S.log.length > 400) S.log.shift(); save(); document.getElementById('guide').textContent = sit.min + '分の実践を記録しました。' + (sit.n ? '気づいて戻った回数は' + sit.n + '回。' + sit.n + '回分の練習です。' : '今の体と心の状態を、ひとこと確かめてみましょう。'); }
+  else document.getElementById('guide').textContent = sit.p.s;
+}
+function sitStart() {
+  var total = sit.min * 60, g = sit.p.g; sit.on = true; sit.left = total; sit.n = 0; bell(); document.getElementById('reps').textContent = '';
+  document.getElementById('sit-btn').textContent = 'やめる';
+  var c = document.getElementById('circle'); if (sit.p.pace) phase(true); else c.textContent = sit.p.t;
+  function guide() { var i = Math.min(g.length - 1, Math.floor((total - sit.left) / (total / g.length))); var el = document.getElementById('guide'); if (el && el.textContent !== g[i]) { el.textContent = g[i]; say(g[i]); } }
+  guide();
+  sit.tick = setInterval(function () { sit.left--; var el = document.getElementById('left'); if (!el) { sitStop(false); return; } el.textContent = fmt(Math.max(sit.left, 0)); if (sit.left <= 0) sitStop(true); else guide(); }, 1000);
+}
+
+/* ================= ルーター ================= */
+function go(route) { if (location.hash === '#/' + route) render(); else location.hash = '#/' + route; }
+function render() {
+  if (sit.on) { sit.on = false; clearInterval(sit.tick); clearTimeout(sit.ph); try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {} }
+  labStop();
+  var parts = location.hash.replace(/^#\/?/, '').split('/'), name = parts[0] || 'home';
+  if (!V[name]) name = 'home';
+  var route = name + (parts[1] !== undefined ? '/' + parts[1] : '');
+  if (locked(route)) { ui.want = route; name = 'gate'; }
+  app.innerHTML = '<div class="view">' + V[name](parts[1]) + '</div>';
+  if (!S.unlocked) app.querySelectorAll('[data-go]').forEach(function (el) { if (locked(el.dataset.go)) el.classList.add('lk'); });
+  var tab = name === 'review' ? 'review' : name === 'search' ? 'search' : 'home';
+  document.querySelectorAll('#nav button').forEach(function (b) { b.classList.toggle('on', b.dataset.go === tab); });
+  if (render.last !== location.hash) window.scrollTo(0, 0);
+  render.last = location.hash;
+}
+window.addEventListener('hashchange', render);
+
+document.addEventListener('click', function (e) {
+  var mn = e.target.closest && e.target.closest('[data-mnode]');
+  if (mn) { document.querySelectorAll('.mn').forEach(function (g) { g.classList.toggle('on', g === mn); }); $('mapdesc').innerHTML = mapDesc(MAPS[ui.mapi], +mn.dataset.mnode); return; }
+  var t = e.target.closest('button, input[type=checkbox]'); if (!t) return;
+  var d = t.dataset;
+  if (d.go !== undefined) return go(d.go);
+  if (d.pass !== undefined) {
+    if (PASS.indexOf(passHash($('pass').value)) >= 0) { S.unlocked = 1; save(); var w = ui.want || 'home'; ui.want = null; if (location.hash === '#/' + w) render(); else go(w); }
+    else $('passmsg').textContent = '合言葉が違うようです。LINEのメッセージをもう一度確かめてください。';
+    return;
+  }
+  if (d.opt) { S.opt[d.opt] = S.opt[d.opt] ? 0 : 1; save(); t.classList.toggle('on', !!S.opt[d.opt]); if (S.opt[d.opt]) { if (d.opt === 'bell') bell(); else say('音声ガイドをオンにしました'); } return; }
+  if (d.rep !== undefined) { if (sit.on) { sit.n++; vib(20); $('reps').textContent = '気づき ' + sit.n + '回'; } return; }
+  if (d.exmin) { ui.exmin = +d.exmin; document.querySelectorAll('[data-exmin]').forEach(function (b) { b.classList.toggle('on', b === t); }); return; }
+  if (d.exstart) return startExp(d.exstart);
+  if (d.bc) { if (d.bc === 'b') X.n++; else if (d.bc === '9') { if (X.n === 8) X.ok++; else X.ng++; X.n = 0; } else { X.rs++; X.n = 0; } vib(15); return; }
+  if (d.pr) { X.c[d.pr]++; clearTimeout(X.wait); X.idle(); X.sched(); return; }
+  if (d.sa !== undefined) { if (X.cur && !X.cur.hit) { X.cur.hit = true; X.cur.rt = Date.now() - X.cur.t; } return; }
+  if (d.lb) { X.c[d.lb] = (X.c[d.lb] || 0) + 1; t.querySelector('small').textContent = X.c[d.lb]; vib(15); return; }
+  if (d.fq) { ui.fa[+d.fq] = +d.fv; t.parentNode.querySelectorAll('button').forEach(function (b) { b.classList.toggle('on', b === t); }); return; }
+  if (d.fsubmit !== undefined) {
+    var miss = FQ.map(function (q, i) { return ui.fa[i] ? 0 : i + 1; }).filter(Boolean);
+    if (miss.length) { $('fmsg').textContent = '未回答：' + miss.join('、') + '問目'; return; }
+    var sc = [0, 0, 0, 0, 0]; FQ.forEach(function (q, i) { sc[q[0]] += (q[2] ? 6 - ui.fa[i] : ui.fa[i]) / 3; });
+    $('intro').style.display = 'none'; return finishExp('facet', { s: sc });
+  }
+  if (d.prog) { if (t.checked) S.prog[d.prog] = 1; else delete S.prog[d.prog]; save(); return; }
+  if (d.back !== undefined) { if (history.length > 1 && render.last) history.back(); else go('home'); return; }
+  if (d.set) { ui[d.set] = d.set === 'qn' ? +d.val : d.val; return render(); }
+  if (d.theme) { ui.theme = d.theme; return render(); }
+  if (d.era) { ui.era = d.era; return render(); }
+  if (d.qcat) { ui.qcat = d.qcat; return render(); }
+  if (d.gcat) { ui.gcat = d.gcat; return render(); }
+  if (d.done) { if (S.done[d.done]) delete S.done[d.done]; else S.done[d.done] = 1; save(); return render(); }
+  if (d.mark) { if (S.mark[d.mark]) delete S.mark[d.mark]; else S.mark[d.mark] = 1; save(); return render(); }
+  if (d.term) { var g = glossByTerm(d.term); document.getElementById('term-pop').innerHTML = '<div class="ans"><b style="font-size:16px">' + esc(g[0]) + '</b>' + esc(g[3]) + '</div>'; return; }
+  if (d.node !== undefined) return t.classList.toggle('on');
+  if (d.ev !== undefined) return t.classList.toggle('on');
+  if (d.lq) {
+    var l = lessonById(d.lq), text = l.b.join(''), rel = GLOSS.filter(function (x) { return x[0].length > 1 && text.indexOf(x[0]) >= 0; });
+    var cat = { '理論': '基礎', '歴史': '歴史', '心理': '心理', '科学': '科学', '実践': '実践', '日常': '応用', '仏教': '仏教', '臨床': '臨床', '深化': '仏教' }[l.th];
+    rel = shuffle(rel).concat(shuffle(GLOSS.filter(function (x) { return x[2] === cat && rel.indexOf(x) < 0; })));
+    return startQuiz('確認問題 ' + l.id, rel.slice(0, 5).map(function (x) { return makeChoice(x, GLOSS, false); }), false, 'lesson/' + l.id);
+  }
+  if (d.startqa !== undefined) {
+    var pool = GLOSS.filter(function (x) { return ui.qcat === 'すべて' || x[2] === ui.qcat; });
+    var pick = shuffle(pool).sort(function (a, b) { return (S.known[a[0]] ? 1 : 0) - (S.known[b[0]] ? 1 : 0); }).slice(0, ui.qn);
+    if (ui.qmode === '正誤') return startQuiz('正誤判定', shuffle(TF).slice(0, ui.qn).map(function (x) { return { q: x[0], o: ['○ 正しい', '× 誤り'], a: x[1] ? 0 : 1, ex: x[2] }; }), false, 'qa');
+    var flip = ui.qmode === 'めくる';
+    return startQuiz('一問一答', shuffle(pick).map(function (x) { return flip ? { q: x[3], term: x[0] } : makeChoice(x, pool, ui.qmode === '逆引き'); }), flip, 'qa');
+  }
+  if (d.weakquiz !== undefined) return startQuiz('苦手な用語', shuffle(Object.keys(S.weak).map(glossByTerm).filter(Boolean)).map(function (x) { return makeChoice(x, GLOSS, false); }), false, 'review');
+  if (d.yearquiz !== undefined) {
+    var evs = TIMELINE.filter(function (x) { return x[5]; }), years = evs.map(function (x) { return x[0]; }).filter(function (y, i, a) { return a.indexOf(y) === i; });
+    return startQuiz('年代クイズ', shuffle(evs).slice(0, 10).map(function (x) {
+      var near = years.filter(function (y) { return y !== x[0]; }).sort(function (a, b) { return Math.abs(parseInt(a) - x[1]) - Math.abs(parseInt(b) - x[1]); }).slice(0, 5);
+      var o = shuffle([x[0]].concat(shuffle(near).slice(0, 3)));
+      return { q: x[3] + '　これは何年？', o: o, a: o.indexOf(x[0]), ex: x[0] + '。' + x[4] };
+    }), false, 'timeline');
+  }
+  if (d.reveal !== undefined) { quiz.shown = true; return render(); }
+  if (d.flip) { grade(quiz.qs[quiz.i], d.flip === '1'); quiz.i++; quiz.shown = false; return render(); }
+  if (d.pick) { quiz.picked = +d.pick; grade(quiz.qs[quiz.i], quiz.picked === quiz.qs[quiz.i].a); return render(); }
+  if (d.nextq !== undefined) { quiz.i++; quiz.picked = -1; return render(); }
+  if (d.essayShow) { var i = d.essayShow, s = S.essay[i] || { c: [] }; s.t = document.getElementById('essay-in').value; s.open = 1; S.essay[i] = s; save(); document.getElementById('essay-ans').style.display = ''; document.getElementById('essay-ans').scrollIntoView({ behavior: 'smooth' }); return; }
+  if (d.essayChk) { var s2 = S.essay[d.essayChk] || { t: '', c: [], open: 1 }; s2.c[+d.j] = t.checked; S.essay[d.essayChk] = s2; save(); return; }
+  if (d.min) { if (sit.on) sitStop(false); sit.min = +d.min; document.querySelectorAll('[data-min]').forEach(function (b) { b.classList.toggle('on', b === t); }); document.getElementById('left').textContent = fmt(sit.min * 60); return; }
+  if (d.sit !== undefined) { if (sit.on) sitStop(false); else sitStart(); return; }
+  if (d.reset !== undefined) { if (confirm('学習の記録（講義、用語、記述演習、実践、実験室、プログラム）をすべて消します。元に戻せません。よろしいですか？')) { var un = S.unlocked; S = blank(); S.unlocked = un; save(); render(); } return; }
+});
+document.addEventListener('keydown', function (e) { if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('[data-mnode]')) { e.preventDefault(); e.target.closest('[data-mnode]').dispatchEvent(new MouseEvent('click', { bubbles: true })); } });
+document.addEventListener('input', function (e) {
+  if (e.target.id === 'q') { ui.q = e.target.value; document.getElementById('results').innerHTML = searchResults(); }
+  if (e.target.id === 'essay-in') document.getElementById('cnt').textContent = e.target.value.length;
+});
+render();
+})();
+</script>
+</body>
+</html>
