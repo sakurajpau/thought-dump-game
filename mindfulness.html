@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#070B14">
 <title>マインドフルネス学習ノート</title>
-<meta name="description" content="マインドフルネスを体系的に学ぶ学習アプリ。全34レッスンの講義、心の地図、年表、一問一答、記述演習、実践タイマー、復習、用語集。">
+<meta name="description" content="学ぶ・測る・実践するがつながるマインドフルネス学習アプリ。全34レッスンの講義、心の実験室、8週間プログラム、年表、一問一答、記述演習、実践タイマー。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="マインドフルネス学習ノート">
 <meta property="og:description" content="講義・心の地図・年表・一問一答・記述演習・実践タイマーで、マインドフルネスを基礎から深く学ぶ。">
@@ -128,6 +128,30 @@
   .tag { display: inline-block; font-size: 11px; color: var(--accent); border: 1px solid var(--line2); border-radius: 999px; padding: 0 8px; margin-left: 6px; vertical-align: 2px; }
   .empty { color: var(--dim); text-align: center; padding: 22px 0; font-size: 14px; }
 
+  .tap { height: 128px; font-size: 30px; border-radius: 24px; line-height: 1.3; }
+  .tap small { display: block; font-size: 13px; font-weight: 500; opacity: .8; }
+  .digit { font-size: 104px; font-weight: 800; text-align: center; height: 170px; line-height: 170px; font-variant-numeric: tabular-nums; }
+  .lbgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .lbgrid .btn { padding: 18px 8px; } .lbgrid .btn small { display: block; font-weight: 500; opacity: .75; font-size: 12px; }
+  .hb { display: flex; align-items: center; gap: 8px; font-size: 13px; margin: 7px 0; }
+  .hb span { flex: 0 0 104px; line-height: 1.4; color: var(--soft); } .hb div { flex: 1; background: #0A1222; border-radius: 5px; overflow: hidden; }
+  .hb i { display: block; height: 10px; background: var(--accent); border-radius: 5px; min-width: 2px; } .hb em { font-style: normal; flex: 0 0 34px; text-align: right; color: var(--soft); }
+  .days { display: flex; align-items: flex-end; gap: 4px; height: 84px; margin-top: 10px; }
+  .days i { flex: 1; background: var(--accent); border-radius: 4px 4px 0 0; min-height: 3px; opacity: .9; } .days i.z { background: var(--line); }
+  .scale { display: flex; gap: 6px; margin: 8px 0 4px; }
+  .scale button { flex: 1; padding: 10px 0; border-radius: 10px; border: 1px solid var(--line); background: #0A101D; font-size: 15px; color: var(--soft); }
+  .scale button.on { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); font-weight: 700; }
+  .scale-l { display: flex; justify-content: space-between; font-size: 11px; color: var(--dim); }
+  .fq { padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 15px; } .fq:last-of-type { border-bottom: none; }
+  .res b.n { font-size: 40px; font-weight: 800; display: block; line-height: 1.3; font-variant-numeric: tabular-nums; }
+  .res p { color: var(--soft); font-size: 14px; margin-top: 6px; }
+  svg.chart { display: block; width: 100%; height: auto; }
+  .prog-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .prog-item:last-child { border-bottom: none; }
+  .prog-item input { width: 22px; height: 22px; accent-color: #8DBBFF; flex: 0 0 auto; }
+  .prog-item button { flex: 1; text-align: left; background: none; border: none; font-size: 15px; line-height: 1.5; }
+  .prog-item small { display: block; color: var(--dim); font-size: 12px; }
+  button.circle { font-family: inherit; }
   nav#nav { position: fixed; left: 0; right: 0; bottom: 0; background: #0F172A; border-top: 1px solid var(--line); padding: 8px 8px calc(8px + env(safe-area-inset-bottom)); z-index: 10; }
   nav#nav div { max-width: 640px; margin: 0 auto; display: flex; gap: 6px; }
   nav#nav button { flex: 1; background: none; border: none; border-radius: 14px; padding: 9px 4px 7px; color: var(--soft); font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 2px; }
@@ -289,8 +313,9 @@ var LESSONS = [
   'マインドフルネスは主に質問紙で測定します。代表的なものが2003年の[[MAAS]]で、「気づかないうちに物事をしている」などの項目から、日常での注意深さを測ります。',
   '2006年にベアらが作った[[FFMQ（5因子マインドフルネス質問紙）]]は、5つの側面に分けて測ります。①[[観察]]（感覚や感情に気づく）、②[[描写]]（体験を言葉にする）、③[[意識した行動]]（自動操縦でなく行動する）、④[[判断しない]]（体験を評価しない）、⑤[[反応しない]]（思考や感情に巻き込まれない）。',
   'この5側面は、自分の得意・不得意を知る手がかりになります。たとえば「観察」は得意でも「判断しない」が苦手、という人は少なくありません。',
-  'ただし質問紙には限界があります。自分の不注意に気づける人ほど点数が低く出る、という逆説も指摘されています。'],
-  p: ['MAAS（2003年）とFFMQ（2006年）が代表的', '5側面＝観察・描写・意識した行動・判断しない・反応しない', '自己報告の限界がある'] },
+  'ただし質問紙には限界があります。自分の不注意に気づける人ほど点数が低く出る、という逆説も指摘されています。',
+  'そこで、行動で測る方法も使われます。呼吸を1から9まで数え続ける[[呼吸カウント課題]]（2014年、レビンソンら）、作業中にランダムな合図で「今、注意はどこにあったか」を尋ねる[[思考プローブ]]、数字が出るたびに押し、特定の数字のときだけ押さない[[持続的注意課題（SART）]]（1997年、ロバートソンら）などです。このノートの「心の実験室」で、短縮版を自分で体験できます。'],
+  p: ['MAAS（2003年）とFFMQ（2006年）が代表的', '5側面＝観察・描写・意識した行動・判断しない・反応しない', '自己報告の限界を補うため、行動で測る課題もある'] },
 
 { id: '5-1', u: 4, th: '実践', t: '始める前に：姿勢と環境', g: '実践の準備と基本姿勢を整えられる', b: [
   '姿勢の基本は[[「背すじは伸びて、力は抜けている」]]。椅子なら浅めに座り、足の裏を床につけます。床に座っても、横になっても構いません。',
@@ -427,6 +452,9 @@ var GLOSS = [
 ['FFMQ', 'えふえふえむきゅー', '科学', '5因子マインドフルネス質問紙。観察・描写・意識した行動・判断しない・反応しないの5側面を測る。'],
 ['MAAS', 'まーす', '科学', '2003年に作られた、日常での注意深さを測る質問紙。'],
 ['Mind the Hype', 'まいんどざはいぷ', '科学', '2018年にヴァン・ダムらが発表した、マインドフルネス研究の問題点を指摘した論文。'],
+['呼吸カウント課題', 'こきゅうかうんとかだい', '科学', '呼吸を1から9まで数え続け、その正確さでマインドフルネスを行動として測る課題。2014年にレビンソンらが妥当性を報告。'],
+['思考プローブ', 'しこうぷろーぶ', '科学', '作業中にランダムな合図を出し、その瞬間の注意の状態を答えてもらうことで、マインドワンダリングを測る方法。'],
+['SART', 'さーと', '科学', '持続的注意課題。数字が出るたびに押し、特定の数字だけ押さない。押してしまう誤りが不注意の指標になる。'],
 ['有害事象', 'ゆうがいじしょう', '科学', '実践に伴って起こる望ましくない体験。不安の高まり、つらい記憶のよみがえりなど。'],
 ['呼吸瞑想', 'こきゅうめいそう', '実践', '自然な呼吸の感覚に注意を置き、それたら気づいて戻す基本の実践。'],
 ['数息', 'すそく', '実践', '呼吸を数えることで注意を保つ方法。'],
@@ -530,15 +558,62 @@ var PRACTICES = [
   { k: 'free', t: '静かなタイマー', s: 'ガイドなしで座る', g: ['注意の錨を1つ決めて、座ります。'] }
 ];
 
+var LAB = [
+  { k: 'bc', t: '呼吸カウント課題', s: '呼吸を数え続けられるかを測る', m: [1, 3, 5],
+    how: ['自然な呼吸のまま、吐く息を1から9まで心の中で数えます。', '1〜8回目は「息」、9回目は「9」のボタンを押します。押したらまた1から。', '数がわからなくなったら、正直に「数え直す」を押します。画面に今の数は表示されません。'],
+    about: '2014年にレビンソンらが、マインドフルネスを行動で測る方法として妥当性を報告した課題の短縮版です。元の研究は約18分間で、この結果は目安です。' },
+  { k: 'probe', t: '思考サンプリング', s: '心がさまよう割合を測る', m: [3, 5, 10],
+    how: ['目を閉じて、呼吸に注意を向けて座ります。', 'ランダムなタイミングで鐘が鳴り、スマホが振動します。そのとき画面を見ます。', '鐘が鳴る「直前」に注意がどこにあったかを、3つから正直に選びます。'],
+    about: '研究で使われる「思考プローブ法」の体験版です。音を出せる環境で行ってください。日常生活では起きている時間の約47％で心がさまよっているという報告（2010年）があります。' },
+  { k: 'sart', t: '注意の持続テスト', s: '自動操縦の出やすさを測る',
+    how: ['1〜9の数字が次々に表示されます（約2分、108回）。', '数字が出るたびに、できるだけ速く「タップ」を押します。', 'ただし「3」のときだけは押しません。'],
+    about: '1997年にロバートソンらが作った持続的注意課題（SART）の短縮版です。単調な反応が続くと自動操縦になり、「3」でもつい押してしまいます。その誤りの割合が不注意の指標です。' },
+  { k: 'label', t: 'ラベリング観察', s: '浮かぶ考えの種類を記録する', m: [3, 5, 10],
+    how: ['呼吸に注意を向けて座ります。目は軽く開けていて構いません。', '注意がそれたと気づいたら、それが何だったかに近いボタンを押します。', '押したら、内容には深入りせず呼吸に戻ります。'],
+    about: 'ラベリングの実践を記録にしたものです。繰り返すと、自分の心がどこへ行きやすいかの傾向が見えてきます。' },
+  { k: 'facet', t: '5つの側面セルフチェック', s: '得意・不得意をふり返る',
+    how: ['ここ1〜2週間の自分にどのくらい当てはまるかを、15問に答えます。'],
+    about: '研究で使われる5つの側面（観察・描写・意識した行動・判断しない・反応しない）の考え方を参考にした、このノート独自のふり返り用の質問です。FFMQそのものではなく、診断や評価のためのものでもありません。' }
+];
+var LABELS = ['計画', '心配', '回想', '評価・批判', '空想', '体の感覚', '音・まわり'];
+var LABEL_REC = { '計画': '3-4', '心配': '3-3', '回想': '3-3', '評価・批判': '5-6', '空想': '3-1', '体の感覚': '5-3', '音・まわり': '1-4' };
+var FACETS = ['観察', '描写', '意識した行動', '判断しない', '反応しない'];
+var FACET_REC = [['5-3', '5-5'], ['3-6', '5-7'], ['3-1', '6-4'], ['1-3', '5-6'], ['3-3', '6-2']];
+var FACET_TIP = ['体や五感の感覚に気づく力。ボディスキャンや食べる瞑想で育ちます。', '体験を言葉にする力。ラベリングや、感情に名前をつける練習で育ちます。', '自動操縦ではなく、今していることに注意を向けて行動する力。日常の動作を1つ選ぶ実践で育ちます。', '自分の考えや感情を良い・悪いと決めつけない力。7つの態度と慈悲の瞑想が助けになります。', '思考や感情に巻き込まれず、間を置く力。脱中心化とRAINの練習で育ちます。'];
+/* [側面, 質問, 逆転項目か] */
+var FQ = [
+  [0, '歩いているとき、足や体の動きの感覚に気づいている', 0], [1, '自分の気持ちを言葉にするのは得意なほうだ', 0], [2, '気づくと、今まで何をしていたか覚えていないことがある', 1],
+  [3, '「こんな気持ちになるべきではない」と自分に言ってしまう', 1], [4, '嫌な考えが浮かんでも、巻き込まれずに眺めていられる', 0],
+  [0, '食べものの味や香り、食感の変化に注意を向けている', 0], [1, '体で感じていることを、言葉で説明できる', 0], [2, 'ほかのことを考えながら作業していることが多い', 1],
+  [3, '自分の考えを「良い」「悪い」と決めつけてしまう', 1], [4, '動揺しても、少し間を置いてから行動できる', 0],
+  [0, '風や日差し、音など、まわりの感覚によく気づく', 0], [1, '今の気分に合う言葉が見つからないことが多い', 1], [2, '急いでいて、目の前のことに注意が向いていないことがある', 1],
+  [3, 'つらい感情が出てきても、自分を責めずにいられる', 0], [4, 'つらい気持ちが出ても、やがて過ぎ去るものだと見ていられる', 0]
+];
+
+/* 8週間プログラム：[表示名, 行き先] */
+var PROGRAM = [
+  { t: '自動操縦に気づく', d: 'ふだんどれだけ「心ここにあらず」で過ごしているかを知る週。', i: [['講義 1-1 定義', 'lesson/1-1'], ['講義 1-5 よくある誤解', 'lesson/1-5'], ['講義 3-1 自動操縦とさまよう心', 'lesson/3-1'], ['講義 5-1 姿勢と環境', 'lesson/5-1'], ['実験：注意の持続テスト', 'exp/sart'], ['実践：ボディスキャンを3日以上', 'sit/body'], ['日常：食事の最初の3口を味わう（講義 5-5）', 'lesson/5-5']] },
+  { t: '体に戻る', d: '注意の置き場所として、体と呼吸を使えるようにする週。', i: [['講義 1-2 注意と態度', 'lesson/1-2'], ['講義 1-3 7つの態度', 'lesson/1-3'], ['講義 5-3 ボディスキャン', 'lesson/5-3'], ['講義 3-6 思考・感情・身体感覚', 'lesson/3-6'], ['実験：呼吸カウント課題（1回目の測定）', 'exp/bc'], ['実践：呼吸瞑想を毎日5分', 'sit/breath'], ['心の地図：体験の4要素', 'map/1']] },
+  { t: 'さまよう心を知る', d: '「それる→気づく→戻す」を練習の1回として数える週。', i: [['講義 3-2 注意の4ステップ', 'lesson/3-2'], ['講義 5-2 呼吸瞑想', 'lesson/5-2'], ['講義 5-4 歩く瞑想', 'lesson/5-4'], ['講義 4-1 デフォルト・モード・ネットワーク', 'lesson/4-1'], ['実験：思考サンプリング', 'exp/probe'], ['実践：呼吸瞑想10分（気づいたら円をタップ）', 'sit/breath'], ['心の地図：注意のサイクル', 'map/0']] },
+  { t: '反応に気づく', d: '刺激と反応のあいだに「間」を見つける週。', i: [['講義 3-5 二本の矢', 'lesson/3-5'], ['講義 3-4 「すること」と「あること」', 'lesson/3-4'], ['講義 6-1 STOPと3分間呼吸空間法', 'lesson/6-1'], ['実験：ラベリング観察', 'exp/label'], ['実践：3分間呼吸空間法を1日3回', 'sit/space'], ['心の地図：ストレスへの反応と対応', 'map/3'], ['記述演習 4：二本の矢', 'essay/3']] },
+  { t: 'あるがままに置いておく', d: '不快なものを消そうとせず、そこにあることを許す週。', i: [['講義 1-4 集中瞑想と観察瞑想', 'lesson/1-4'], ['講義 3-3 反すうと脱中心化', 'lesson/3-3'], ['講義 5-7 思考と感情を観察する', 'lesson/5-7'], ['講義 6-2 RAIN', 'lesson/6-2'], ['実験：ラベリング観察（2回目）', 'exp/label'], ['実践：静かなタイマーで10分', 'sit/free'], ['記述演習 5：反すうと脱中心化', 'essay/4']] },
+  { t: '考えは事実ではない', d: '考えを「心の出来事」として眺め、その歴史的な背景も学ぶ週。', i: [['講義 2-1 仏教の「サティ」', 'lesson/2-1'], ['講義 2-2 西洋への伝わり方', 'lesson/2-2'], ['講義 2-3 MBSRの誕生', 'lesson/2-3'], ['講義 2-4 心理療法への統合', 'lesson/2-4'], ['年代・年表を通して読む', 'timeline'], ['実践：呼吸瞑想10分', 'sit/breath'], ['日常：「〜という考えが浮かんでいる」と言い換える（講義 3-3）', 'lesson/3-3']] },
+  { t: '自分と人をいたわる', d: '気づきに、やさしさを加える週。', i: [['講義 5-6 慈悲の瞑想とセルフ・コンパッション', 'lesson/5-6'], ['講義 6-3 聴く・話す', 'lesson/6-3'], ['講義 6-5 眠る前・ストレスの場面で', 'lesson/6-5'], ['講義 2-5 社会への広がりと批判', 'lesson/2-5'], ['実験：5つの側面セルフチェック', 'exp/facet'], ['実践：慈悲の瞑想を3日以上', 'sit/metta'], ['記述演習 9：セルフ・コンパッション', 'essay/8']] },
+  { t: 'これからも続ける', d: '科学的な限界も知ったうえで、自分の続け方を決める週。', i: [['講義 4-2 脳は変わるのか', 'lesson/4-2'], ['講義 4-3 効果のエビデンス', 'lesson/4-3'], ['講義 4-4 研究の限界と有害事象', 'lesson/4-4'], ['講義 4-5 マインドフルネスを測る', 'lesson/4-5'], ['講義 6-4 習慣にする', 'lesson/6-4'], ['講義 6-6 安全に続けるために', 'lesson/6-6'], ['実験：呼吸カウント課題（2回目。第2週と比べる）', 'exp/bc'], ['心のデータで8週間をふり返る', 'me']] }
+];
+
 var CHANGELOG = [
+  ['v3.0', '心の実験室（呼吸カウント課題・思考サンプリング・注意の持続テスト・ラベリング観察・5つの側面セルフチェック）、8週間プログラム、心のデータ、鐘と音声ガイド、実践中の「気づき」カウントを追加。'],
   ['v2.0', '学習アプリ型に全面刷新。全34レッスン、心の地図、年表、一問一答、記述演習、実践タイマー、復習、検索・用語集を追加。'],
   ['v1.0', 'ノート形式の初版を公開。']
 ];
 
 /* ================= 状態 ================= */
 var KEY = 'mf-notebook-v2';
-var S = { done: {}, mark: {}, weak: {}, known: {}, essay: {}, log: [], best: {} };
+function blank() { return { done: {}, mark: {}, weak: {}, known: {}, essay: {}, log: [], best: {}, prog: {}, opt: { bell: 1, voice: 0 }, lab: { bc: [], probe: [], sart: [], label: [], facet: [] } }; }
+var S = blank();
 try { var raw = JSON.parse(localStorage.getItem(KEY)); if (raw) for (var k in S) if (raw[k]) S[k] = raw[k]; } catch (e) {}
+LAB.forEach(function (l) { if (!S.lab[l.k]) S.lab[l.k] = []; });
 function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
 
 /* ================= ユーティリティ ================= */
@@ -568,18 +643,20 @@ var ICON = {
   clock: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l-3 3"/></svg>',
   cards: '<svg viewBox="0 0 24 24"><path d="M4 16h16M4 20h16M6 12h12a2 2 0 0 0 0-8H6a2 2 0 0 0 0 8z"/></svg>',
   pen: '<svg viewBox="0 0 24 24"><path d="M4 20l4-1L20 7l-3-3L5 16zM3 6h6M3 10h3"/></svg>',
+  flask: '<svg viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3M7.5 15h9"/></svg>',
+  cal: '<svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 3v4M16 3v4M8 14h3"/></svg>',
   leaf: '<svg viewBox="0 0 24 24"><path d="M5 19c0-9 5-14 15-14 0 10-5 15-14 14M5 19c3-5 6-8 10-10"/></svg>'
 };
 
 /* ================= 画面 ================= */
 var V = {};
-var ui = { courseMode: '順番に', theme: '理論', era: 'すべて', gcat: 'すべて', q: '', qcat: 'すべて', qmode: 'めくる', qn: 10 };
+var ui = { exmin: 3, fa: [], courseMode: '順番に', theme: '理論', era: 'すべて', gcat: 'すべて', q: '', qcat: 'すべて', qmode: 'めくる', qn: 10 };
 
 V.home = function () {
   var dc = doneCount(), next = LESSONS.filter(function (l) { return !S.done[l.id]; })[0];
   return '<div class="brand">MINDFULNESS STUDY NOTEBOOK</div><div class="home-title">マインドフルネス<br>学習ノート</div>' +
-    '<p class="lead">基礎・歴史・心のしくみ・科学・実践を、体系的に。</p>' +
-    '<div class="links"><button data-go="changelog">更新履歴</button><button data-go="about">このノートについて</button></div>' +
+    '<p class="lead">学ぶ・測る・実践する。自分の心のデータで、理解を確かめる。</p>' +
+    '<div class="links"><button data-go="changelog">更新履歴</button><button data-go="me">心のデータ</button><button data-go="about">このノートについて</button></div>' +
     '<button class="hero" data-go="course">' + '<h2>' + ICON.book + '講義</h2><p>順番に・テーマ別・目的別で学ぶ（全' + LESSONS.length + 'レッスン）</p>' +
     '<div class="bar"><i style="width:' + (dc / LESSONS.length * 100) + '%"></i></div>' +
     '<div class="go">' + (dc === 0 ? '学習を始める' : dc === LESSONS.length ? 'すべて学習済み' : '続きから（' + dc + ' / ' + LESSONS.length + '）') + '</div><span class="arrow">→</span></button>' +
@@ -589,6 +666,8 @@ V.home = function () {
     '<button class="tile" data-go="timeline">' + ICON.clock + '<h3>年代・年表</h3><p>2500年の流れを理解</p></button>' +
     '<button class="tile" data-go="qa">' + ICON.cards + '<h3>一問一答</h3><p>重要用語の確認</p></button>' +
     '<button class="tile" data-go="essays">' + ICON.pen + '<h3>記述演習</h3><p>説明する力を鍛える</p></button>' +
+    '<button class="tile" data-go="lab">' + ICON.flask + '<h3>心の実験室</h3><p>自分の注意を測ってみる</p></button>' +
+    '<button class="tile" data-go="program">' + ICON.cal + '<h3>8週間プログラム</h3><p>' + progCount() + ' / ' + progTotal() + ' 完了</p></button>' +
     '<button class="tile" data-go="practice" style="grid-column:1/3;min-height:0">' + ICON.leaf + '<h3>実践タイマー</h3><p>呼吸瞑想・ボディスキャン・慈悲の瞑想・3分間呼吸空間法</p></button>' +
     '</div>' +
     '<footer>このノートは学習用の一般的な情報で、医療・心理の診断や治療の代わりにはなりません。学習の記録はこの端末のブラウザにだけ保存されます。<br><a href="index.html">思考の実況ゲーム</a>　／　<a href="kokoro.html">KoKoRo voice card</a></footer>';
@@ -677,7 +756,9 @@ V.sit = function (k) {
   var p = PRACTICES.filter(function (x) { return x.k === k; })[0]; if (!p) return V.practice();
   sit.p = p; sit.min = p.fix || 3;
   return top(p.t) + (p.fix ? '' : '<div class="chips" style="justify-content:center">' + [1, 3, 5, 10, 15].map(function (m) { return '<button class="chip' + (m === sit.min ? ' on' : '') + '" data-min="' + m + '">' + m + '分</button>'; }).join('') + '</div>') +
-    '<div class="stage"><div class="circle" id="circle">はじめる</div></div><div class="big" id="left">' + sit.min + ':00</div><div class="guide" id="guide">' + esc(p.s) + '</div>' +
+    '<div class="chips" style="justify-content:center"><button class="chip' + (S.opt.bell ? ' on' : '') + '" data-opt="bell">鐘の音</button><button class="chip' + (S.opt.voice ? ' on' : '') + '" data-opt="voice">音声ガイド</button></div>' +
+    '<div class="stage"><button class="circle" id="circle" data-rep>はじめる</button></div><div class="big" id="left">' + sit.min + ':00</div><div class="guide" id="guide">' + esc(p.s) + '</div>' +
+    '<p class="note center" style="margin-bottom:10px">心がそれたと気づいたら、円をタップ。<span id="reps"></span></p>' +
     '<button class="btn" id="sit-btn" data-sit>スタート</button>';
 };
 
@@ -688,6 +769,7 @@ V.review = function () {
   return top('復習', false) + '<div class="stats">' +
     '<div class="stat"><b>' + doneCount() + ' / ' + LESSONS.length + '</b><span>講義</span></div><div class="stat"><b>' + known + ' / ' + GLOSS.length + '</b><span>習得した用語</span></div>' +
     '<div class="stat"><b>' + es + ' / ' + ESSAYS.length + '</b><span>記述演習</span></div><div class="stat"><b>' + total + '分</b><span>実践（連続' + streak() + '日）</span></div></div>' +
+    '<button class="btn" data-go="me" style="margin-bottom:4px">心のデータを見る</button>' +
     '<div class="sec">苦手な用語（' + weak.length + '）</div>' + (weak.length ? '<button class="btn" data-weakquiz style="margin-bottom:10px">苦手な用語だけ復習する</button><div class="list">' + weak.map(function (t) { var g = glossByTerm(t); return '<div class="gl"><b>' + esc(g[0]) + '</b><span class="tag">' + g[2] + '</span><p>' + esc(g[3]) + '</p></div>'; }).join('') + '</div>' : '<div class="box empty">一問一答でまちがえた用語がここに集まります。</div>') +
     '<div class="sec">あとで復習するレッスン（' + marks.length + '）</div>' + (marks.length ? '<div class="list">' + marks.map(lessonItem).join('') + '</div>' : '<div class="box empty">レッスンの「☆ あとで復習」で保存できます。</div>') +
     '<div class="sec">実践の記録</div>' + (S.log.length ? '<div class="list">' + S.log.slice(-7).reverse().map(function (l) { return '<div class="item"><span class="tt">' + esc(l.t) + '<small>' + l.d + '</small></span><span class="st">' + l.m + '分</span></div>'; }).join('') + '</div>' : '<div class="box empty">実践タイマーを最後まで行うと記録されます。</div>') +
@@ -717,6 +799,184 @@ V.about = function () {
     '<div class="box"><h2>内容について</h2><p class="note">カバットジンらによる一般的な定義と、公表されている研究（本文中に年と研究者名を記載）にもとづく学習用の要約です。研究の解釈には幅があり、新しい知見で変わることがあります。</p></div>' +
     '<div class="box"><h2>大切な注意</h2><p class="note">このノートは医療・心理の診断や治療の代わりにはなりません。実践中につらくなったら中断してください。治療中の方、強い不安や落ち込みが続いている方は、主治医や専門家に相談してください。</p></div>' +
     '<div class="box"><h2>データの保存</h2><p class="note">学習の記録と記述演習の内容は、この端末のブラウザにだけ保存され、外部には送信されません。</p></div>';
+};
+
+/* ================= グラフ ================= */
+function hbars(pairs) { var mx = Math.max.apply(null, pairs.map(function (p) { return p[1]; }).concat([1])); return pairs.map(function (p) { return '<div class="hb"><span>' + esc(p[0]) + '</span><div><i style="width:' + (p[1] / mx * 100) + '%"></i></div><em>' + p[1] + '</em></div>'; }).join(''); }
+function trend(vals, unit) {
+  if (vals.length < 2) return '';
+  var W = 300, H = 70, mx = Math.max.apply(null, vals.concat([1])), pts = vals.map(function (v, i) { return [10 + i * (W - 20) / (vals.length - 1), H - 10 - v / mx * (H - 22)]; });
+  return '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '"><polyline fill="none" stroke="#8DBBFF" stroke-width="2" points="' + pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ') + '"/>' + pts.map(function (p) { return '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="3.5" fill="#8DBBFF"/>'; }).join('') + '</svg><p class="note">初回 ' + vals[0] + unit + ' → 最新 ' + vals[vals.length - 1] + unit + '（' + vals.length + '回）</p>';
+}
+function radar(sc) {
+  var C = 150, R = 86, n = 5, h = '<svg class="chart" viewBox="0 0 300 270" style="max-width:340px;margin:0 auto">';
+  function pt(i, r) { var a = -Math.PI / 2 + i * 2 * Math.PI / n; return [C + Math.cos(a) * r, 132 + Math.sin(a) * r]; }
+  [0.2, 0.4, 0.6, 0.8, 1].forEach(function (k) { h += '<polygon fill="none" stroke="#24304A" points="' + [0, 1, 2, 3, 4].map(function (i) { return pt(i, R * k).join(','); }).join(' ') + '"/>'; });
+  h += '<polygon fill="rgba(141,187,255,.25)" stroke="#8DBBFF" stroke-width="2" points="' + sc.map(function (v, i) { return pt(i, R * v / 5).join(','); }).join(' ') + '"/>';
+  FACETS.forEach(function (f, i) { var p = pt(i, R + 30); h += '<text x="' + p[0] + '" y="' + (p[1] + 4) + '" fill="#A3AEC2" font-size="12" text-anchor="middle">' + f + '</text>'; });
+  return h + '</svg>';
+}
+function pct(x) { return Math.round(x * 100); }
+
+/* ================= 心の実験室 ================= */
+function labByKey(k) { return LAB.filter(function (l) { return l.k === k; })[0]; }
+function progTotal() { return PROGRAM.reduce(function (a, w) { return a + w.i.length; }, 0); }
+function progCount() { return Object.keys(S.prog).filter(function (k) { return S.prog[k]; }).length; }
+function resHtml(k, r) {
+  var h = '<div class="box res">';
+  if (k === 'bc') {
+    var tot = r.ok + r.ng + r.rs;
+    h += '<b class="n">' + (tot ? pct(r.ok / tot) + '%' : '—') + '</b><span class="note">9回のセットを正しく数えられた割合（' + r.min + '分）</span>' +
+      '<p>正しく数えた ' + r.ok + '回 ／ 数えまちがい ' + r.ng + '回 ／ 自分で気づいて数え直し ' + r.rs + '回</p>' +
+      (tot ? '<p>' + (r.rs ? '数え直しは「それたことに自分で気づけた」回数でもあります。' : '') + (r.ng ? '数えまちがいは、気づかないうちに注意が離れていたサインです。' : '最後まで数を保てました。') + '</p>' : '<p>9回目まで数えたセットがありませんでした。もう少し長い時間で試してみてください。</p>');
+  } else if (k === 'probe') {
+    var t2 = r.on + r.aware + r.unaware, w = r.aware + r.unaware;
+    h += '<b class="n">' + pct(w / t2) + '%</b><span class="note">鐘が鳴った瞬間、心がさまよっていた割合（' + t2 + '回中' + w + '回）</span>' +
+      hbars([['呼吸にいた', r.on], ['さまよい（自覚あり）', r.aware], ['さまよい（自覚なし）', r.unaware]]) +
+      '<p>' + (r.unaware > r.aware ? '自覚のないさまよいが多めでした。「気づく」練習（講義 3-2）の伸びしろです。' : w ? 'さまよっていても、自分で気づけている場面がありました。その「気づき」が練習の核心です。' : '今回はずっと呼吸にとどまれていました。') + ' 割合が高いこと自体は失敗ではありません。</p>';
+  } else if (k === 'sart') {
+    h += '<b class="n">' + pct(r.com) + '%</b><span class="note">「3」でつい押してしまった割合</span>' +
+      '<p>押し忘れ ' + pct(r.om) + '% ／ 平均反応時間 ' + r.rt + 'ミリ秒</p><p>' + (r.com >= 0.5 ? '単調な作業で自動操縦になりやすい状態でした。多くの人がそうなります。' : r.com >= 0.2 ? 'ときどき自動操縦に入っていました。' : '注意を保ち続けられていました。') + ' 速く押すほど誤りは増えやすいので、反応時間とあわせて見てください。</p>';
+  } else if (k === 'label') {
+    var pairs = LABELS.map(function (l) { return [l, r.c[l] || 0]; }), sum = pairs.reduce(function (a, p) { return a + p[1]; }, 0), topL = pairs.slice().sort(function (a, b) { return b[1] - a[1]; })[0];
+    h += '<b class="n">' + sum + '回</b><span class="note">気づいて名前をつけた回数（' + r.min + '分）</span>' + hbars(pairs) +
+      (sum ? '<p>いちばん多かったのは「' + topL[0] + '」。' + sum + '回それて、' + sum + '回気づけたということです。</p>' : '<p>今回は記録がありませんでした。</p>');
+  } else if (k === 'facet') {
+    var lo = r.s.indexOf(Math.min.apply(null, r.s)), hi = r.s.indexOf(Math.max.apply(null, r.s));
+    h += radar(r.s) + hbars(FACETS.map(function (f, i) { return [f, Math.round(r.s[i] * 10) / 10]; })) +
+      '<p><b style="color:var(--ink)">高め：' + FACETS[hi] + '</b>　' + FACET_TIP[hi] + '</p><p><b style="color:var(--ink)">伸びしろ：' + FACETS[lo] + '</b>　' + FACET_TIP[lo] + '</p></div>' +
+      '<div class="sec">「' + FACETS[lo] + '」を育てるレッスン</div><div class="list">' + FACET_REC[lo].map(function (id) { return lessonItem(lessonById(id)); }).join('');
+  }
+  return h + '</div>';
+}
+function lastOf(k) { var a = S.lab[k]; return a[a.length - 1]; }
+function labSummary(k) {
+  var r = lastOf(k); if (!r) return '未実施';
+  if (k === 'bc') { var t = r.ok + r.ng + r.rs; return '前回 ' + (t ? pct(r.ok / t) + '%' : '—'); }
+  if (k === 'probe') return '前回 さまよい ' + pct((r.aware + r.unaware) / (r.on + r.aware + r.unaware)) + '%';
+  if (k === 'sart') return '前回 誤り ' + pct(r.com) + '%';
+  if (k === 'label') return '前回 ' + LABELS.reduce(function (a, l) { return a + (r.c[l] || 0); }, 0) + '回';
+  return '前回 ' + r.d;
+}
+V.lab = function () {
+  return top('心の実験室') + '<p class="note" style="margin-bottom:12px">講義で学んだ「さまよう心」や「自動操縦」を、自分の注意で確かめる場所です。研究で使われる課題の短縮版なので、結果は目安として見てください。</p><div class="list">' +
+    LAB.map(function (l) { return '<button class="item" data-go="exp/' + l.k + '"><span class="tt">' + esc(l.t) + '<small>' + esc(l.s) + '</small></span><span class="st" style="color:var(--soft)">' + labSummary(l.k) + '</span></button>'; }).join('') + '</div>' +
+    '<button class="btn" data-go="me">心のデータを見る</button>';
+};
+V.exp = function (k) {
+  var l = labByKey(k); if (!l) return V.lab();
+  if (l.m && l.m.indexOf(ui.exmin) < 0) ui.exmin = l.m[0];
+  var h = top(l.t) + '<div id="intro"><div class="box"><h2>やり方</h2><ol style="padding-left:1.3em;font-size:15px">' + l.how.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol><p class="note" style="margin-top:10px">' + esc(l.about) + '</p></div>';
+  if (k === 'facet') {
+    ui.fa = [];
+    h += '<div class="box">' + FQ.map(function (q, i) { return '<div class="fq">' + (i + 1) + '. ' + esc(q[1]) + '<div class="scale">' + [1, 2, 3, 4, 5].map(function (v) { return '<button data-fq="' + i + '" data-fv="' + v + '">' + v + '</button>'; }).join('') + '</div><div class="scale-l"><span>当てはまらない</span><span>当てはまる</span></div></div>'; }).join('') + '</div><button class="btn" data-fsubmit>結果を見る</button><p class="note center" id="fmsg" style="margin-top:8px"></p>';
+  } else {
+    h += (l.m ? '<div class="chips" style="justify-content:center">' + l.m.map(function (m) { return '<button class="chip' + (m === ui.exmin ? ' on' : '') + '" data-exmin="' + m + '">' + m + '分</button>'; }).join('') + '</div>' : '') +
+      (k === 'probe' ? '<div class="chips" style="justify-content:center"><button class="chip' + (S.opt.bell ? ' on' : '') + '" data-opt="bell">鐘の音</button></div>' : '') +
+      '<button class="btn" data-exstart="' + k + '">はじめる</button>';
+  }
+  var r = lastOf(k);
+  h += (r ? '<div class="sec">前回の結果（' + r.d + '）</div>' + resHtml(k, r) : '') + '</div><div id="stage"></div>';
+  return h;
+};
+
+var SPEED = /[?&]fast/.test(location.search) ? 0.02 : 1;
+var X = { t: [], i: [] };
+function later(f, ms) { var id = setTimeout(f, ms * SPEED); X.t.push(id); return id; }
+function every(f, ms) { X.i.push(setInterval(f, ms * SPEED)); }
+function labStop() { X.t.forEach(clearTimeout); X.i.forEach(clearInterval); X = { t: [], i: [] }; }
+function $(id) { return document.getElementById(id); }
+function finishExp(k, r, ok) {
+  labStop(); bell(); vib(200);
+  if (ok !== false) { r.d = today(); S.lab[k].push(r); if (S.lab[k].length > 60) S.lab[k].shift(); save(); }
+  $('stage').innerHTML = (ok !== false ? '<div class="sec">今回の結果</div>' + resHtml(k, r) : '<div class="box empty">回答がなかったため、記録しませんでした。</div>') +
+    '<div class="row"><button class="btn plain" data-go="lab">実験室へ</button><button class="btn" data-go="me">心のデータを見る</button></div>';
+  window.scrollTo(0, 0);
+}
+function countdown(sec, done) { X.left = sec; every(function () { X.left--; var el = $('xl'); if (el) el.textContent = fmt(Math.max(X.left, 0)); if (X.left <= 0) done(); }, 1000); }
+function startExp(k) {
+  labStop(); $('intro').style.display = 'none'; window.scrollTo(0, 0);
+  var st = $('stage'), min = ui.exmin; X.k = k;
+  if (k === 'bc') {
+    X.n = 0; X.ok = 0; X.ng = 0; X.rs = 0; bell();
+    st.innerHTML = '<div class="big" id="xl">' + fmt(min * 60) + '</div><p class="note center" style="margin-bottom:12px">吐く息ごとに1回。数は心の中で。</p><div class="row"><button class="btn tap" data-bc="b">息<small>1〜8回目</small></button><button class="btn tap plain" data-bc="9">9<small>9回目</small></button></div><button class="btn plain" data-bc="r" style="margin-top:10px">数がわからなくなった（1から数え直す）</button><button class="btn plain" data-go="lab" style="margin-top:10px;color:var(--soft)">中止する</button>';
+    countdown(min * 60, function () { finishExp('bc', { min: min, ok: X.ok, ng: X.ng, rs: X.rs }); });
+  } else if (k === 'probe') {
+    X.c = { on: 0, aware: 0, unaware: 0 }; bell();
+    X.idle = function () { st.innerHTML = '<div class="stage"><div class="circle">呼吸</div></div><div class="big" id="xl">' + fmt(Math.max(X.left, 0)) + '</div><p class="note center">目を閉じて、呼吸に注意を向けます。<br>鐘が鳴ったら画面を見てください。</p><button class="btn plain" data-go="lab" style="margin-top:14px;color:var(--soft)">中止する</button>'; };
+    X.sched = function () { later(function () {
+      if (X.left < 6) return; bell(); vib([200, 100, 200]);
+      st.innerHTML = '<div class="qtext center">鐘が鳴る直前、<br>注意はどこにありましたか？</div><button class="opt" data-pr="on">呼吸にいた</button><button class="opt" data-pr="aware">ほかのことを考えていた（自分で気づいていた）</button><button class="opt" data-pr="unaware">ほかのことを考えていた（鐘で初めて気づいた）</button>';
+      X.wait = later(function () { X.idle(); X.sched(); }, 20000);
+    }, (18 + Math.random() * 24) * 1000); };
+    countdown(min * 60, function () { var c = X.c; finishExp('probe', { min: min, on: c.on, aware: c.aware, unaware: c.unaware }, c.on + c.aware + c.unaware > 0); });
+    X.idle(); X.sched();
+  } else if (k === 'sart') {
+    var seq = []; for (var b = 0; b < 12; b++) seq = seq.concat(shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]));
+    X.res = []; X.j = 0;
+    st.innerHTML = '<div class="digit" id="dg">+</div><button class="btn tap" data-sa>タップ</button><p class="note center" style="margin-top:10px">「3」のときだけ押さない　<span id="xp"></span></p><button class="btn plain" data-go="lab" style="margin-top:14px;color:var(--soft)">中止する</button>';
+    var trial = function () {
+      if (X.j >= seq.length) {
+        var tg = X.res.filter(function (r) { return r.d === 3; }), go2 = X.res.filter(function (r) { return r.d !== 3; }), hits = go2.filter(function (r) { return r.hit; });
+        return finishExp('sart', { com: tg.filter(function (r) { return r.hit; }).length / tg.length, om: (go2.length - hits.length) / go2.length, rt: hits.length ? Math.round(hits.reduce(function (a, r) { return a + r.rt; }, 0) / hits.length / SPEED) : 0 });
+      }
+      X.cur = { d: seq[X.j], t: Date.now(), hit: false }; $('dg').textContent = X.cur.d; $('xp').textContent = (X.j + 1) + ' / ' + seq.length;
+      later(function () { $('dg').textContent = '+'; }, 300);
+      later(function () { X.res.push(X.cur); X.j++; trial(); }, 1100);
+    };
+    later(trial, 1200);
+  } else if (k === 'label') {
+    X.c = {}; bell();
+    st.innerHTML = '<div class="big" id="xl">' + fmt(min * 60) + '</div><p class="note center">それたと気づいたら、近いものを押して呼吸に戻ります。</p><div class="lbgrid">' + LABELS.map(function (l) { return '<button class="btn plain" data-lb="' + l + '">' + l + '<small>0</small></button>'; }).join('') + '</div><button class="btn plain" data-go="lab" style="margin-top:10px;color:var(--soft)">中止する</button>';
+    countdown(min * 60, function () { finishExp('label', { min: min, c: X.c }); });
+  }
+}
+
+/* ================= 8週間プログラム ================= */
+V.program = function () {
+  return top('8週間プログラム') + '<p class="note" style="margin-bottom:12px">講義・実験・実践を週ごとに組み合わせた自習プランです。MBSRやMBCTが8週間で構成されていることを参考にした、このノート独自の進め方で、公式のプログラムではありません。自分のペースで進めてください。</p><div class="list">' +
+    PROGRAM.map(function (w, i) { var d = w.i.filter(function (x, j) { return S.prog[i + '-' + j]; }).length; return '<button class="item" data-go="week/' + i + '"><span class="no">第' + (i + 1) + '週</span><span class="tt">' + esc(w.t) + '<small>' + esc(w.d) + '</small></span><span class="st"' + (d === w.i.length ? '' : ' style="color:var(--soft)"') + '>' + d + '/' + w.i.length + '</span></button>'; }).join('') + '</div>';
+};
+V.week = function (i) {
+  var w = PROGRAM[+i]; if (!w) return V.program();
+  return top('第' + (+i + 1) + '週　' + w.t) + '<p class="note" style="margin-bottom:12px">' + esc(w.d) + '</p><div class="list">' +
+    w.i.map(function (x, j) { return '<div class="prog-item"><input type="checkbox" data-prog="' + i + '-' + j + '"' + (S.prog[i + '-' + j] ? ' checked' : '') + ' aria-label="完了"><button data-go="' + x[1] + '">' + esc(x[0]) + '</button><span style="color:var(--accent)">→</span></div>'; }).join('') + '</div>' +
+    '<div class="row">' + (PROGRAM[+i - 1] ? '<button class="btn plain" data-go="week/' + (+i - 1) + '">← 前の週</button>' : '') + (PROGRAM[+i + 1] ? '<button class="btn plain" data-go="week/' + (+i + 1) + '">次の週 →</button>' : '') + '</div>';
+};
+
+/* ================= 心のデータ ================= */
+function recs() {
+  var out = [], seen = {};
+  function add(why, id) { if (!seen[id] && out.length < 4) { seen[id] = 1; out.push([why, id]); } }
+  var f = lastOf('facet'); if (f) { var lo = f.s.indexOf(Math.min.apply(null, f.s)); add('セルフチェックで「' + FACETS[lo] + '」が伸びしろ', FACET_REC[lo][0]); }
+  var p = lastOf('probe'); if (p) { if (p.unaware > p.aware) add('自覚のないさまよいが多かった', '3-2'); else if ((p.aware + p.unaware) / (p.on + p.aware + p.unaware) > 0.5) add('さまよいの割合が半分を超えた', '5-2'); }
+  var lb = {}; S.lab.label.forEach(function (r) { LABELS.forEach(function (l) { lb[l] = (lb[l] || 0) + (r.c[l] || 0); }); });
+  var topL = LABELS.slice().sort(function (a, b) { return (lb[b] || 0) - (lb[a] || 0); })[0]; if (lb[topL]) add('ラベリングで「' + topL + '」が最多', LABEL_REC[topL]);
+  var sa = lastOf('sart'); if (sa && sa.com >= 0.4) add('持続テストで自動操縦が出やすかった', '3-1');
+  var bc = lastOf('bc'); if (bc && bc.ok + bc.ng + bc.rs && bc.ok / (bc.ok + bc.ng + bc.rs) < 0.6) add('呼吸カウントが途切れやすかった', '5-2');
+  if (!S.log.length) add('まだ実践の記録がない', '5-1');
+  return out;
+}
+V.me = function () {
+  var h = top('心のデータ'), any = S.log.length || LAB.some(function (l) { return S.lab[l.k].length; });
+  if (!any) return h + '<div class="box empty">まだデータがありません。<br>実践タイマーか心の実験室を1つ行うと、ここに自分の傾向が表示されます。</div><div class="row"><button class="btn plain" data-go="practice">実践タイマー</button><button class="btn" data-go="lab">心の実験室</button></div>';
+  var rc = recs();
+  if (rc.length) h += '<div class="sec">あなたへのおすすめ</div><div class="list">' + rc.map(function (r) { var l = lessonById(r[1]); return '<button class="item" data-go="lesson/' + l.id + '"><span class="no">' + l.id + '</span><span class="tt">' + esc(l.t) + '<small>' + esc(r[0]) + '</small></span><span class="st" style="color:var(--accent)">→</span></button>'; }).join('') + '</div>';
+  var byDay = {}, reps = 0, total = 0; S.log.forEach(function (l) { byDay[l.d] = (byDay[l.d] || 0) + l.m; reps += l.n || 0; total += l.m; });
+  var days = [], dt = new Date(); dt.setDate(dt.getDate() - 13);
+  for (var i = 0; i < 14; i++) { var key = dt.getFullYear() + '-' + ('0' + (dt.getMonth() + 1)).slice(-2) + '-' + ('0' + dt.getDate()).slice(-2); days.push(byDay[key] || 0); dt.setDate(dt.getDate() + 1); }
+  var mx = Math.max.apply(null, days.concat([1]));
+  h += '<div class="sec">実践</div><div class="stats"><div class="stat"><b>' + total + '分</b><span>合計（連続' + streak() + '日）</span></div><div class="stat"><b>' + reps + '回</b><span>気づいて戻った回数</span></div></div>' +
+    '<div class="box"><span class="note">この14日間の実践時間（分）</span><div class="days">' + days.map(function (v) { return '<i class="' + (v ? '' : 'z') + '" style="height:' + (v ? Math.max(8, v / mx * 100) : 3) + '%" title="' + v + '分"></i>'; }).join('') + '</div></div>';
+  var bc = S.lab.bc.filter(function (r) { return r.ok + r.ng + r.rs; });
+  if (bc.length) h += '<div class="sec">呼吸カウントの正確さ</div>' + (bc.length > 1 ? '<div class="box">' + trend(bc.map(function (r) { return pct(r.ok / (r.ok + r.ng + r.rs)); }), '%') + '</div>' : resHtml('bc', bc[0]));
+  var pr = S.lab.probe;
+  if (pr.length) h += '<div class="sec">心がさまよっていた割合</div>' + (pr.length > 1 ? '<div class="box">' + trend(pr.map(function (r) { return pct((r.aware + r.unaware) / (r.on + r.aware + r.unaware)); }), '%') + '<p class="note">日常生活での報告値は約47％（2010年の研究）。瞑想中の値とは条件が違うので、自分の推移を見るために使います。</p></div>' : resHtml('probe', pr[0]));
+  var sa = S.lab.sart;
+  if (sa.length) h += '<div class="sec">「3」で押してしまった割合</div>' + (sa.length > 1 ? '<div class="box">' + trend(sa.map(function (r) { return pct(r.com); }), '%') + '</div>' : resHtml('sart', sa[0]));
+  if (S.lab.label.length) { var agg = {}; S.lab.label.forEach(function (r) { LABELS.forEach(function (l) { agg[l] = (agg[l] || 0) + (r.c[l] || 0); }); }); h += '<div class="sec">心が行きやすい場所（ラベリング ' + S.lab.label.length + '回分）</div><div class="box">' + hbars(LABELS.map(function (l) { return [l, agg[l] || 0]; })) + '</div>'; }
+  if (S.lab.facet.length) h += '<div class="sec">5つの側面（' + lastOf('facet').d + '）</div><div class="box">' + radar(lastOf('facet').s) + '</div>';
+  return h + '<p class="note">これらは自分の変化を見るための目安で、診断や他人との比較のためのものではありません。体調や時間帯でも変わります。</p><div class="row"><button class="btn" data-go="lab">心の実験室へ</button></div>';
 };
 
 /* ================= クイズ ================= */
@@ -750,7 +1010,25 @@ V.quiz = function () {
 function grade(q, ok) { if (ok) { quiz.score++; if (q.term) { S.known[q.term] = 1; delete S.weak[q.term]; } } else if (q.term) { S.weak[q.term] = 1; delete S.known[q.term]; } save(); }
 
 /* ================= 実践タイマー ================= */
-var sit = { p: null, min: 3, left: 0, tick: null, ph: null, on: false };
+var sit = { p: null, min: 3, left: 0, tick: null, ph: null, on: false, n: 0 };
+var AC = null;
+function bell() {
+  if (!S.opt.bell) return;
+  try {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume();
+    var t = AC.currentTime;
+    [[528, .5], [1056, .18], [1590, .08]].forEach(function (f) {
+      var o = AC.createOscillator(), g = AC.createGain(); o.type = 'sine'; o.frequency.value = f[0];
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(f[1], t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 3.5);
+      o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t + 3.6);
+    });
+  } catch (e) {}
+}
+function vib(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} }
+function say(text) {
+  if (!S.opt.voice || !window.speechSynthesis) return;
+  try { speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(text.replace(/[「」]/g, '')); u.lang = 'ja-JP'; u.rate = 0.85; speechSynthesis.speak(u); } catch (e) {}
+}
 function fmt(s) { return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
 function phase(isIn) { var c = document.getElementById('circle'); if (!c || !sit.on) return; c.className = 'circle ' + (isIn ? 'in' : 'out'); c.textContent = isIn ? '吸う' : '吐く'; sit.ph = setTimeout(function () { phase(!isIn); }, isIn ? 4000 : 6000); }
 function sitStop(finished) {
@@ -759,14 +1037,15 @@ function sitStop(finished) {
   c.className = 'circle out'; c.textContent = finished ? 'おつかれさま' : 'はじめる';
   document.getElementById('sit-btn').textContent = finished ? 'もう一度' : 'スタート';
   document.getElementById('left').textContent = fmt(sit.min * 60);
-  if (finished && was) { S.log.push({ d: today(), t: sit.p.t, m: sit.min }); if (S.log.length > 400) S.log.shift(); save(); document.getElementById('guide').textContent = sit.min + '分の実践を記録しました。今の体と心の状態を、ひとこと確かめてみましょう。'; }
+  try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
+  if (finished && was) { bell(); S.log.push({ d: today(), t: sit.p.t, m: sit.min, n: sit.n }); if (S.log.length > 400) S.log.shift(); save(); document.getElementById('guide').textContent = sit.min + '分の実践を記録しました。' + (sit.n ? '気づいて戻った回数は' + sit.n + '回。' + sit.n + '回分の練習です。' : '今の体と心の状態を、ひとこと確かめてみましょう。'); }
   else document.getElementById('guide').textContent = sit.p.s;
 }
 function sitStart() {
-  var total = sit.min * 60, g = sit.p.g; sit.on = true; sit.left = total;
+  var total = sit.min * 60, g = sit.p.g; sit.on = true; sit.left = total; sit.n = 0; bell(); document.getElementById('reps').textContent = '';
   document.getElementById('sit-btn').textContent = 'やめる';
   var c = document.getElementById('circle'); if (sit.p.pace) phase(true); else c.textContent = sit.p.t;
-  function guide() { var i = Math.min(g.length - 1, Math.floor((total - sit.left) / (total / g.length))); var el = document.getElementById('guide'); if (el && el.textContent !== g[i]) el.textContent = g[i]; }
+  function guide() { var i = Math.min(g.length - 1, Math.floor((total - sit.left) / (total / g.length))); var el = document.getElementById('guide'); if (el && el.textContent !== g[i]) { el.textContent = g[i]; say(g[i]); } }
   guide();
   sit.tick = setInterval(function () { sit.left--; var el = document.getElementById('left'); if (!el) { sitStop(false); return; } el.textContent = fmt(Math.max(sit.left, 0)); if (sit.left <= 0) sitStop(true); else guide(); }, 1000);
 }
@@ -774,7 +1053,8 @@ function sitStart() {
 /* ================= ルーター ================= */
 function go(route) { if (location.hash === '#/' + route) render(); else location.hash = '#/' + route; }
 function render() {
-  if (sit.on) { sit.on = false; clearInterval(sit.tick); clearTimeout(sit.ph); }
+  if (sit.on) { sit.on = false; clearInterval(sit.tick); clearTimeout(sit.ph); try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {} }
+  labStop();
   var parts = location.hash.replace(/^#\/?/, '').split('/'), name = parts[0] || 'home';
   if (!V[name]) name = 'home';
   app.innerHTML = '<div class="view">' + V[name](parts[1]) + '</div>';
@@ -789,6 +1069,22 @@ document.addEventListener('click', function (e) {
   var t = e.target.closest('button, input[type=checkbox]'); if (!t) return;
   var d = t.dataset;
   if (d.go !== undefined) return go(d.go);
+  if (d.opt) { S.opt[d.opt] = S.opt[d.opt] ? 0 : 1; save(); t.classList.toggle('on', !!S.opt[d.opt]); if (S.opt[d.opt]) { if (d.opt === 'bell') bell(); else say('音声ガイドをオンにしました'); } return; }
+  if (d.rep !== undefined) { if (sit.on) { sit.n++; vib(20); $('reps').textContent = '気づき ' + sit.n + '回'; } return; }
+  if (d.exmin) { ui.exmin = +d.exmin; document.querySelectorAll('[data-exmin]').forEach(function (b) { b.classList.toggle('on', b === t); }); return; }
+  if (d.exstart) return startExp(d.exstart);
+  if (d.bc) { if (d.bc === 'b') X.n++; else if (d.bc === '9') { if (X.n === 8) X.ok++; else X.ng++; X.n = 0; } else { X.rs++; X.n = 0; } vib(15); return; }
+  if (d.pr) { X.c[d.pr]++; clearTimeout(X.wait); X.idle(); X.sched(); return; }
+  if (d.sa !== undefined) { if (X.cur && !X.cur.hit) { X.cur.hit = true; X.cur.rt = Date.now() - X.cur.t; } return; }
+  if (d.lb) { X.c[d.lb] = (X.c[d.lb] || 0) + 1; t.querySelector('small').textContent = X.c[d.lb]; vib(15); return; }
+  if (d.fq) { ui.fa[+d.fq] = +d.fv; t.parentNode.querySelectorAll('button').forEach(function (b) { b.classList.toggle('on', b === t); }); return; }
+  if (d.fsubmit !== undefined) {
+    var miss = FQ.map(function (q, i) { return ui.fa[i] ? 0 : i + 1; }).filter(Boolean);
+    if (miss.length) { $('fmsg').textContent = '未回答：' + miss.join('、') + '問目'; return; }
+    var sc = [0, 0, 0, 0, 0]; FQ.forEach(function (q, i) { sc[q[0]] += (q[2] ? 6 - ui.fa[i] : ui.fa[i]) / 3; });
+    $('intro').style.display = 'none'; return finishExp('facet', { s: sc });
+  }
+  if (d.prog) { if (t.checked) S.prog[d.prog] = 1; else delete S.prog[d.prog]; save(); return; }
   if (d.back !== undefined) { if (history.length > 1 && render.last) history.back(); else go('home'); return; }
   if (d.set) { ui[d.set] = d.set === 'qn' ? +d.val : d.val; return render(); }
   if (d.theme) { ui.theme = d.theme; return render(); }
@@ -829,7 +1125,7 @@ document.addEventListener('click', function (e) {
   if (d.essayChk) { var s2 = S.essay[d.essayChk] || { t: '', c: [], open: 1 }; s2.c[+d.j] = t.checked; S.essay[d.essayChk] = s2; save(); return; }
   if (d.min) { if (sit.on) sitStop(false); sit.min = +d.min; document.querySelectorAll('[data-min]').forEach(function (b) { b.classList.toggle('on', b === t); }); document.getElementById('left').textContent = fmt(sit.min * 60); return; }
   if (d.sit !== undefined) { if (sit.on) sitStop(false); else sitStart(); return; }
-  if (d.reset !== undefined) { if (confirm('学習の記録（講義の進み具合、用語、記述演習、実践の記録）をすべて消します。元に戻せません。よろしいですか？')) { S = { done: {}, mark: {}, weak: {}, known: {}, essay: {}, log: [], best: {} }; save(); render(); } return; }
+  if (d.reset !== undefined) { if (confirm('学習の記録（講義、用語、記述演習、実践、実験室、プログラム）をすべて消します。元に戻せません。よろしいですか？')) { S = blank(); save(); render(); } return; }
 });
 document.addEventListener('input', function (e) {
   if (e.target.id === 'q') { ui.q = e.target.value; document.getElementById('results').innerHTML = searchResults(); }
