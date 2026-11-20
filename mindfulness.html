@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>マインドフルネス学習ノート</title>
+<meta name="description" content="マインドフルネスの意味・歴史・しくみ・実践を、ノート、用語カード、確認クイズ、呼吸タイマーで学べる学習ノート。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="マインドフルネス学習ノート">
+<meta property="og:description" content="ノート・用語カード・クイズ・呼吸タイマーで、マインドフルネスを基礎から学ぶ。">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@400;500&family=DM+Sans:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #F7F5F2;
+    --surface: #FFFFFF;
+    --paper: #FFFDF7;
+    --line: #E8E2D6;
+    --ink: #1C1C1C;
+    --ink-soft: #6B6660;
+    --green: #7FA37F;
+    --green-soft: #E4EEE2;
+    --marker: #FBEFA6;
+    --red: #B9655F;
+    --accent: #3D3530;
+    --radius: 16px;
+  }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 28px 16px 72px;
+    line-height: 1.8;
+  }
+
+  .wrap { max-width: 640px; margin: 0 auto; }
+
+  header { text-align: center; margin-bottom: 22px; }
+  .eyebrow {
+    font-family: 'DM Sans', sans-serif; font-size: 11px; letter-spacing: 0.15em;
+    color: var(--ink-soft); text-transform: uppercase; margin-bottom: 8px;
+  }
+  h1 { font-family: 'Noto Serif JP', serif; font-size: 26px; font-weight: 500; line-height: 1.4; }
+  .subtitle { margin-top: 6px; font-size: 13px; color: var(--ink-soft); }
+
+  .progress { margin: 18px auto 0; max-width: 320px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-soft); margin-bottom: 4px; }
+  .progress-bar { height: 5px; background: #E0DDD9; border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 0; background: var(--green); transition: width 0.4s; }
+
+  nav.tabs {
+    position: sticky; top: 0; z-index: 5; background: var(--bg);
+    display: flex; gap: 6px; padding: 10px 0; margin-bottom: 14px; overflow-x: auto;
+  }
+  .tab {
+    flex: 1 0 auto; padding: 9px 14px; border: 1px solid #DDD9D3; background: var(--surface);
+    border-radius: 999px; font-family: inherit; font-size: 13px; color: var(--ink-soft); cursor: pointer; white-space: nowrap;
+  }
+  .tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .panel { display: none; }
+  .panel.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  /* ノート */
+  .page {
+    position: relative; background: var(--paper); border-radius: var(--radius);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.07); margin-bottom: 14px; overflow: hidden;
+  }
+  .page::before { content: ''; position: absolute; left: 34px; top: 0; bottom: 0; width: 1px; background: #EBC4BE; }
+  .page-head {
+    width: 100%; display: flex; align-items: center; gap: 12px; padding: 16px 16px 16px 46px;
+    background: none; border: none; font-family: inherit; text-align: left; cursor: pointer; color: var(--ink);
+  }
+  .page-no { font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--ink-soft); letter-spacing: 0.08em; }
+  .page-title { flex: 1; font-family: 'Noto Serif JP', serif; font-size: 17px; font-weight: 500; }
+  .page-check { font-size: 12px; color: var(--green); visibility: hidden; }
+  .page.done .page-check { visibility: visible; }
+  .chev { color: var(--ink-soft); transition: transform 0.2s; }
+  .page.open .chev { transform: rotate(90deg); }
+  .page-body {
+    display: none; padding: 0 18px 20px 46px; font-size: 14.5px;
+    background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 25px, var(--line) 25px, var(--line) 26px);
+    line-height: 26px;
+  }
+  .page.open .page-body { display: block; }
+  .page-body p, .page-body ul, .page-body ol { margin-bottom: 26px; }
+  .page-body ul, .page-body ol { padding-left: 1.3em; }
+  .page-body h3 { font-size: 14.5px; font-weight: 500; color: var(--green); line-height: 26px; }
+  mark { background: linear-gradient(transparent 55%, var(--marker) 55%); color: inherit; font-weight: 500; }
+  .red { color: var(--red); font-weight: 500; }
+  .point {
+    background: var(--green-soft); border-radius: 10px; padding: 12px 14px; margin-bottom: 26px;
+    line-height: 1.7; font-size: 13.5px;
+  }
+  .point b { display: block; font-size: 11px; letter-spacing: 0.1em; color: var(--green); }
+  .timeline { list-style: none; padding-left: 0 !important; }
+  .timeline li { display: flex; gap: 12px; }
+  .timeline .yr { flex: 0 0 76px; font-family: 'DM Sans', sans-serif; font-weight: 500; color: var(--red); }
+  .done-btn {
+    padding: 8px 16px; border-radius: 999px; border: 1px solid var(--green); background: var(--surface);
+    color: var(--green); font-family: inherit; font-size: 13px; cursor: pointer; line-height: 1.5;
+  }
+  .page.done .done-btn { background: var(--green); color: #fff; }
+
+  /* カード共通 */
+  .card { background: var(--surface); border-radius: var(--radius); padding: 24px 20px; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .card h2 { font-family: 'Noto Serif JP', serif; font-size: 18px; font-weight: 500; margin-bottom: 6px; }
+  .hint { font-size: 12.5px; color: var(--ink-soft); }
+  .btn {
+    padding: 13px 18px; background: var(--accent); color: #fff; border: none; border-radius: 12px;
+    font-size: 14px; font-family: inherit; font-weight: 500; cursor: pointer; letter-spacing: 0.04em;
+  }
+  .btn:active { transform: scale(0.98); opacity: 0.9; }
+  .btn.ghost { background: transparent; color: var(--ink-soft); border: 1px solid #DDD; }
+  .row { display: flex; gap: 8px; margin-top: 14px; }
+  .row .btn { flex: 1; }
+
+  /* 用語カード */
+  .flash {
+    min-height: 210px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; cursor: pointer; border: 1px dashed #D8D2C6; background: var(--paper);
+    border-radius: var(--radius); padding: 24px 20px; user-select: none;
+  }
+  .flash-side { font-family: 'DM Sans', sans-serif; font-size: 11px; letter-spacing: 0.15em; color: var(--ink-soft); margin-bottom: 12px; }
+  .flash-text { font-family: 'Noto Serif JP', serif; font-size: 22px; line-height: 1.6; }
+  .flash.back .flash-text { font-family: 'Noto Sans JP', sans-serif; font-size: 15px; line-height: 1.9; text-align: left; }
+  .counter { text-align: center; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink-soft); margin-top: 12px; }
+
+  /* クイズ */
+  .q-no { font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--ink-soft); letter-spacing: 0.1em; }
+  .q-text { font-size: 16px; font-weight: 500; margin: 6px 0 16px; line-height: 1.7; }
+  .opt {
+    display: block; width: 100%; text-align: left; padding: 12px 14px; margin-bottom: 8px;
+    border: 1px solid #DDD9D3; border-radius: 12px; background: var(--surface);
+    font-family: inherit; font-size: 14px; line-height: 1.6; color: var(--ink); cursor: pointer;
+  }
+  .opt:disabled { cursor: default; opacity: 0.75; }
+  .opt.right { border-color: var(--green); background: var(--green-soft); opacity: 1; }
+  .opt.wrong { border-color: var(--red); background: #F6E5E3; opacity: 1; }
+  .explain { display: none; font-size: 13.5px; background: var(--bg); border-radius: 10px; padding: 12px 14px; margin-top: 6px; }
+  .score-big { font-family: 'DM Sans', sans-serif; font-size: 44px; font-weight: 500; text-align: center; }
+  .score-msg { text-align: center; font-size: 14px; color: var(--ink-soft); margin-bottom: 8px; }
+
+  /* 実践 */
+  .breath-stage { height: 240px; display: flex; align-items: center; justify-content: center; }
+  .circle {
+    width: 110px; height: 110px; border-radius: 50%; background: var(--green-soft); border: 2px solid var(--green);
+    display: flex; align-items: center; justify-content: center; font-size: 15px; color: #4F6F4F;
+    transition: transform 4s ease-in-out;
+  }
+  .circle.in { transform: scale(1.9); transition-duration: 4s; }
+  .circle.out { transform: scale(1); transition-duration: 6s; }
+  .time-left { text-align: center; font-family: 'DM Sans', sans-serif; font-size: 28px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .mins { display: flex; gap: 8px; justify-content: center; margin: 12px 0 4px; }
+  .min-btn { padding: 7px 16px; border-radius: 999px; border: 1px solid #DDD9D3; background: var(--surface); font-family: inherit; font-size: 13px; cursor: pointer; color: var(--ink-soft); }
+  .min-btn.active { background: var(--green); border-color: var(--green); color: #fff; }
+  .steps { padding-left: 1.3em; font-size: 14px; margin-top: 8px; }
+
+  /* メモ */
+  textarea {
+    width: 100%; min-height: 96px; padding: 12px 14px; border: 1px solid #DDD9D3; border-radius: 12px;
+    font-family: inherit; font-size: 15px; line-height: 1.7; resize: vertical; background: var(--paper); outline: none; margin-top: 10px;
+  }
+  textarea:focus { border-color: var(--accent); }
+  .memo-item { border-left: 4px solid var(--green); background: var(--surface); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; font-size: 14px; white-space: pre-wrap; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .memo-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-soft); margin-bottom: 4px; }
+  .memo-del { background: none; border: none; color: var(--ink-soft); cursor: pointer; font-size: 12px; font-family: inherit; }
+  .empty { text-align: center; font-size: 13px; color: var(--ink-soft); padding: 20px 0; }
+
+  footer { margin-top: 28px; font-size: 11.5px; color: var(--ink-soft); line-height: 1.8; text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Mindfulness Study Notebook</div>
+    <h1>マインドフルネス学習ノート</h1>
+    <p class="subtitle">読む・覚える・確かめる・やってみる</p>
+    <div class="progress">
+      <div class="progress-label"><span>ノートの進み具合</span><span id="progress-text">0 / 6</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-tab="notes">ノート</button>
+    <button class="tab" data-tab="cards">用語カード</button>
+    <button class="tab" data-tab="quiz">確認クイズ</button>
+    <button class="tab" data-tab="practice">実践</button>
+    <button class="tab" data-tab="memo">自分メモ</button>
+  </nav>
+
+  <!-- ノート -->
+  <section class="panel active" id="panel-notes">
+    <article class="page open" data-id="c1">
+      <button class="page-head"><span class="page-no">01</span><span class="page-title">マインドフルネスとは</span><span class="page-check">✓ 学習済み</span><span class="chev">›</span></button>
+      <div class="page-body">
+        <p>マインドフルネスとは、<mark>「今この瞬間」の体験に、意図的に、評価をせずに注意を向けること</mark>。また、そうして生まれる「気づき」の状態のこと。</p>
+        <p>ポイントは3つ。<span class="red">① 意図的に</span>（なんとなくではなく自分で向ける）、<span class="red">② 今この瞬間に</span>（過去の後悔や未来の心配ではなく）、<span class="red">③ 評価をせずに</span>（良い・悪いと決めつけず、ただ観察する）。</p>
+        <div class="point"><b>POINT</b>「何も考えない」ことではない。考えが浮かんだことに<strong>気づいて、注意をやさしく戻す</strong>。この「気づく→戻す」の繰り返しが練習そのもの。</div>
+        <button class="done-btn">このページを学習済みにする</button>
+      </div>
+    </article>
+
+    <article class="page" data-id="c2">
+      <button class="page-head"><span class="page-no">02</span><span class="page-title">歴史とルーツ</span><span class="page-check">✓ 学習済み</span><span class="chev">›</span></button>
+      <div class="page-body">
+        <p>語源は仏教の言葉、パーリ語の<mark>「サティ（sati）」</mark>。「気づき」「心にとどめておくこと」という意味で、漢字では「念」と訳される。</p>
+        <ul class="timeline">
+          <li><span class="yr">約2500年前</span><span>ブッダの教えの中で、サティ（気づき）の実践が説かれる。</span></li>
+          <li><span class="yr">1979年</span><span>ジョン・カバットジンが米マサチューセッツ大学医学部で<mark>MBSR（マインドフルネスストレス低減法）</mark>を始める。宗教色を除いた8週間のプログラム。</span></li>
+          <li><span class="yr">1990年代〜</span><span>シーガル、ウィリアムズ、ティーズデールが<mark>MBCT（マインドフルネス認知療法）</mark>を開発。うつ病の再発予防を目的とする。</span></li>
+          <li><span class="yr">2000年代〜</span><span>企業研修や学校教育にも広がり、研究論文も急増する。</span></li>
+        </ul>
+        <div class="point"><b>POINT</b>ルーツは仏教の瞑想だが、現代のマインドフルネスは<strong>宗教と切り離された心のトレーニング</strong>として医療・心理の分野で発展した。</div>
+        <button class="done-btn">このページを学習済みにする</button>
+      </div>
+    </article>
+
+    <article class="page" data-id="c3">
+      <button class="page-head"><span class="page-no">03</span><span class="page-title">心のしくみ</span><span class="page-check">✓ 学習済み</span><span class="chev">›</span></button>
+      <div class="page-body">
+        <h3>自動操縦モード</h3>
+        <p>食べながらスマホを見る、歩きながら考えごとをする。体は動いているのに心は別の場所にある状態を<mark>自動操縦（オートパイロット）</mark>という。</p>
+        <h3>マインドワンダリング</h3>
+        <p>心が今していることから離れてさまようこと。同じ悩みをぐるぐる考え続ける<mark>反すう</mark>は、気分の落ち込みを長引かせやすい。</p>
+        <h3>「すること」と「あること」</h3>
+        <p>問題を解決しようと頭を働かせ続ける<span class="red">「することモード（doing）」</span>から、今の体験をそのまま受けとめる<span class="red">「あることモード（being）」</span>へ切り替える練習でもある。</p>
+        <div class="point"><b>POINT</b>考えや感情を「自分そのもの」ではなく、<strong>心に浮かんでは消える出来事</strong>として一歩引いて眺める。これを「脱中心化」という。</div>
+        <button class="done-btn">このページを学習済みにする</button>
+      </div>
+    </article>
+
+    <article class="page" data-id="c4">
+      <button class="page-head"><span class="page-no">04</span><span class="page-title">基本の実践</span><span class="page-check">✓ 学習済み</span><span class="chev">›</span></button>
+      <div class="page-body">
+        <ul>
+          <li><mark>呼吸瞑想</mark>：鼻先やお腹など、呼吸を感じる場所に注意を置く。それたら気づいて戻す。</li>
+          <li><mark>ボディスキャン</mark>：足先から頭まで、体の各部分の感覚を順番に観察していく。</li>
+          <li><mark>歩く瞑想</mark>：足の裏が地面に触れる感覚、重心の移動をていねいに感じながら歩く。</li>
+          <li><mark>食べる瞑想</mark>：ひと口を、見た目・香り・食感・味まで五感でじっくり味わう。レーズン1粒で行う練習が有名。</li>
+          <li><mark>慈悲の瞑想</mark>：自分や他者の幸せを願う言葉を心の中で唱える。</li>
+        </ul>
+        <div class="point"><b>POINT</b>どの実践も共通点は同じ。<strong>注意を置く対象を決める → それる → 気づく → 責めずに戻す</strong>。</div>
+        <button class="done-btn">このページを学習済みにする</button>
+      </div>
+    </article>
+
+    <article class="page" data-id="c5">
+      <button class="page-head"><span class="page-no">05</span><span class="page-title">日常に取り入れる</span><span class="page-check">✓ 学習済み</span><span class="chev">›</span></button>
+      <div class="page-body">
+        <h3>STOP（ストップ）</h3>
+        <ol>
+          <li><span class="red">S</span>top：いったん手を止める</li>
+          <li><span class="red">T</span>ake a breath：ひと呼吸する</li>
+          <li><span class="red">O</span>bserve：体・気持ち・考えを観察する</li>
+          <li><span class="red">P</span>roceed：次の行動に戻る</li>
+        </ol>
+        <h3>3分間呼吸空間法</h3>
+        <p>① 今の状態に気づく → ② 呼吸に注意を集める → ③ 注意を体全体に広げる。各1分ほど。MBCTで使われる短い練習。</p>
+        <h3>ふだんの動作で</h3>
+        <p>歯みがき、皿洗い、お茶を飲む最初のひと口。<mark>「いつもの動作を1つだけ、ていねいに感じる」</mark>ことから始められる。</p>
+        <div class="point"><b>POINT</b>長さより<strong>続けること</strong>。1日1分でも、毎日同じタイミングに結びつけると習慣になりやすい。</div>
+        <button class="done-btn">このページを学習済みにする</button>
+      </div>
+    </article>
+
+    <article class="page" data-id="c6">
+      <button class="page-head"><span class="page-no">06</span><span class="page-title">よくある誤解と注意点</span><span class="page-check">✓ 学習済み</span><span class="chev">›</span></button>
+      <div class="page-body">
+        <ul>
+          <li><span class="red">×「無になること」</span> → 雑念は浮かんで当たり前。気づければ成功。</li>
+          <li><span class="red">×「リラックスが目的」</span> → リラックスは結果として起こることがあるだけ。目的は気づくこと。</li>
+          <li><span class="red">×「ポジティブに考えること」</span> → 不快な感覚や感情も、変えようとせずそのまま観察する。</li>
+          <li><span class="red">×「すぐ効果が出る」</span> → 筋トレと同じで、少しずつ育つスキル。</li>
+        </ul>
+        <div class="point"><b>注意</b>つらい記憶や強い不安があるとき、瞑想で苦しさが増すことがある。無理に続けず中断してよい。心身の治療中の人は、<strong>主治医や専門家に相談</strong>してから取り組む。マインドフルネスは治療の代わりではない。</div>
+        <button class="done-btn">このページを学習済みにする</button>
+      </div>
+    </article>
+  </section>
+
+  <!-- 用語カード -->
+  <section class="panel" id="panel-cards">
+    <div class="flash" id="flash" role="button" tabindex="0">
+      <div class="flash-side" id="flash-side">用語</div>
+      <div class="flash-text" id="flash-text"></div>
+    </div>
+    <p class="counter"><span id="flash-count"></span>　タップで裏返す</p>
+    <div class="row">
+      <button class="btn ghost" id="flash-prev">← 前へ</button>
+      <button class="btn ghost" id="flash-shuffle">シャッフル</button>
+      <button class="btn" id="flash-next">次へ →</button>
+    </div>
+  </section>
+
+  <!-- クイズ -->
+  <section class="panel" id="panel-quiz">
+    <div class="card" id="quiz-card"></div>
+  </section>
+
+  <!-- 実践 -->
+  <section class="panel" id="panel-practice">
+    <div class="card">
+      <h2>呼吸タイマー</h2>
+      <p class="hint">円が広がるあいだ吸い（4秒）、縮むあいだ吐きます（6秒）。考えごとに気づいたら、そっと呼吸に戻ります。</p>
+      <div class="mins" id="mins">
+        <button class="min-btn active" data-min="1">1分</button>
+        <button class="min-btn" data-min="3">3分</button>
+        <button class="min-btn" data-min="5">5分</button>
+      </div>
+      <div class="breath-stage"><div class="circle" id="circle">はじめる</div></div>
+      <div class="time-left" id="time-left">1:00</div>
+      <div class="row"><button class="btn" id="breath-btn">スタート</button></div>
+    </div>
+    <div class="card">
+      <h2>3分間呼吸空間法</h2>
+      <ol class="steps">
+        <li><strong>気づく</strong>：今どんな考え・気持ち・体の感覚がある？ そのまま認める。</li>
+        <li><strong>集める</strong>：注意を呼吸に集め、お腹の動きを感じる。</li>
+        <li><strong>広げる</strong>：注意を体全体、姿勢、表情へと広げる。</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- メモ -->
+  <section class="panel" id="panel-memo">
+    <div class="card">
+      <h2>自分メモ</h2>
+      <p class="hint">学んで気づいたこと、実践してみた感想を書き残せます。この端末のブラウザにだけ保存されます。</p>
+      <textarea id="memo-input" placeholder="例：呼吸を数えていたら、5回目くらいで夕飯のことを考えていた。"></textarea>
+      <div class="row"><button class="btn" id="memo-save">ノートに書きとめる</button></div>
+    </div>
+    <div id="memo-list"></div>
+  </section>
+
+  <footer>
+    このノートは学習用の一般的な情報です。医療・心理の診断や治療の代わりにはなりません。<br>
+    <a href="index.html" style="color:inherit">思考の実況ゲーム</a>　／　<a href="kokoro.html" style="color:inherit">KoKoRo voice card</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  /* タブ */
+  $('tabs').addEventListener('click', function (e) {
+    var t = e.target.closest('.tab'); if (!t) return;
+    document.querySelectorAll('.tab').forEach(function (b) { b.classList.toggle('active', b === t); });
+    document.querySelectorAll('.panel').forEach(function (p) { p.classList.toggle('active', p.id === 'panel-' + t.dataset.tab); });
+    if (t.dataset.tab !== 'practice') stopBreath(false);
+  });
+
+  /* ノート */
+  var done = store.get('mf-done', []);
+  var pages = document.querySelectorAll('.page');
+  function renderProgress() {
+    pages.forEach(function (p) {
+      var d = done.indexOf(p.dataset.id) >= 0;
+      p.classList.toggle('done', d);
+      p.querySelector('.done-btn').textContent = d ? '✓ 学習済み（取り消す）' : 'このページを学習済みにする';
+    });
+    $('progress-text').textContent = done.length + ' / ' + pages.length;
+    $('progress-fill').style.width = (done.length / pages.length * 100) + '%';
+  }
+  pages.forEach(function (p) {
+    p.querySelector('.page-head').addEventListener('click', function () { p.classList.toggle('open'); });
+    p.querySelector('.done-btn').addEventListener('click', function () {
+      var i = done.indexOf(p.dataset.id);
+      if (i >= 0) done.splice(i, 1); else done.push(p.dataset.id);
+      store.set('mf-done', done); renderProgress();
+    });
+  });
+  renderProgress();
+
+  /* 用語カード */
+  var cards = [
+    ['マインドフルネス', '今この瞬間の体験に、意図的に、評価をせずに注意を向けること。'],
+    ['サティ（sati）', 'マインドフルネスの語源となったパーリ語。「気づき」「心にとどめること」。漢訳は「念」。'],
+    ['MBSR', 'マインドフルネスストレス低減法。1979年にジョン・カバットジンが始めた8週間のプログラム。'],
+    ['MBCT', 'マインドフルネス認知療法。うつ病の再発予防のために開発された。'],
+    ['自動操縦', '体は動いているのに、心が別のところにある状態。オートパイロット。'],
+    ['反すう', '同じ悩みや考えを、ぐるぐると繰り返し考え続けること。'],
+    ['脱中心化', '考えや感情を「自分そのもの」ではなく、心に浮かぶ出来事として一歩引いて眺めること。'],
+    ['ボディスキャン', '足先から頭まで、体の各部分の感覚に順番に注意を向けていく実践。'],
+    ['することモード／あることモード', '問題を解決しようとする心の状態（doing）と、今の体験をそのまま受けとめる状態（being）。'],
+    ['STOP', 'Stop（止まる）・Take a breath（呼吸）・Observe（観察）・Proceed（進む）。日常で使える短い実践。'],
+    ['3分間呼吸空間法', '気づく → 呼吸に集める → 体全体に広げる、の3ステップで行う短い瞑想。'],
+    ['慈悲の瞑想', '自分や他者の幸せ・安らぎを願う言葉を心の中で繰り返す実践。']
+  ];
+  var ci = 0, back = false;
+  function renderFlash() {
+    $('flash').classList.toggle('back', back);
+    $('flash-side').textContent = back ? '意味' : '用語';
+    $('flash-text').textContent = cards[ci][back ? 1 : 0];
+    $('flash-count').textContent = (ci + 1) + ' / ' + cards.length;
+  }
+  function flip() { back = !back; renderFlash(); }
+  $('flash').addEventListener('click', flip);
+  $('flash').addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
+  $('flash-next').addEventListener('click', function () { ci = (ci + 1) % cards.length; back = false; renderFlash(); });
+  $('flash-prev').addEventListener('click', function () { ci = (ci - 1 + cards.length) % cards.length; back = false; renderFlash(); });
+  $('flash-shuffle').addEventListener('click', function () {
+    for (var i = cards.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = cards[i]; cards[i] = cards[j]; cards[j] = t; }
+    ci = 0; back = false; renderFlash();
+  });
+  renderFlash();
+
+  /* クイズ */
+  var quiz = [
+    { q: 'マインドフルネスの説明として最も近いものは？', o: ['頭の中を完全に空っぽにすること', '今この瞬間の体験に、評価をせずに注意を向けること', '物事を前向きに考え直すこと', '深くリラックスして眠ること'], a: 1, e: '「無になる」「ポジティブに考える」ではなく、今の体験に評価をせず気づいていることです。' },
+    { q: 'マインドフルネスの語源「サティ」は何語？', o: ['サンスクリット語のヨーガ用語', 'ラテン語', 'パーリ語', '古代ギリシャ語'], a: 2, e: 'サティ（sati）はパーリ語で「気づき」。漢字では「念」と訳されます。' },
+    { q: '1979年にMBSR（マインドフルネスストレス低減法）を始めた人物は？', o: ['ジョン・カバットジン', 'ジークムント・フロイト', 'アーロン・ベック', 'カール・ロジャーズ'], a: 0, e: 'カバットジンがマサチューセッツ大学医学部で始めました。' },
+    { q: 'MBCT（マインドフルネス認知療法）が主な目的として開発されたのは？', o: ['記憶力の向上', 'うつ病の再発予防', '睡眠時間の短縮', '運動能力の向上'], a: 1, e: 'うつ病を繰り返す人の再発予防のために開発されました。' },
+    { q: '瞑想中に考えごとをしていると気づいた。どうするのがよい？', o: ['失敗なので最初からやり直す', '自分を厳しく叱って集中する', '気づいたことを認め、やさしく注意を戻す', '考えごとを最後まで続ける'], a: 2, e: '「気づいて戻す」ことこそが練習です。それるのは失敗ではありません。' },
+    { q: '足先から頭まで、体の感覚を順番に観察する実践は？', o: ['歩く瞑想', 'ボディスキャン', '慈悲の瞑想', '食べる瞑想'], a: 1, e: 'ボディスキャンは体の各部分に順に注意を向けていきます。' },
+    { q: '「STOP」の「O」が表すものは？', o: ['Open（開く）', 'Observe（観察する）', 'Organize（整理する）', 'Overcome（乗り越える）'], a: 1, e: 'Stop → Take a breath → Observe → Proceed の順です。' },
+    { q: '瞑想中に強い苦しさを感じたときの対応として適切なのは？', o: ['効果が出ている証拠なので我慢して続ける', '時間を倍にする', '無理せず中断し、必要なら専門家に相談する', '誰にも言わず毎日続ける'], a: 2, e: '無理は禁物です。治療中の人は主治医や専門家に相談してから取り組みましょう。' }
+  ];
+  var qi = 0, score = 0;
+  function renderQuiz() {
+    var c = $('quiz-card');
+    if (qi >= quiz.length) {
+      var best = Math.max(store.get('mf-best', 0), score); store.set('mf-best', best);
+      var msg = score === quiz.length ? '満点です。しっかり身についています。' : score >= 6 ? 'よくできました。間違えた所はノートで確認しましょう。' : 'ノートを読み返してから、もう一度挑戦してみましょう。';
+      c.innerHTML = '<div class="q-no">RESULT</div><div class="score-big">' + score + ' / ' + quiz.length + '</div><p class="score-msg">' + msg + '<br>自己ベスト：' + best + ' 問</p><div class="row"><button class="btn" id="quiz-retry">もう一度</button></div>';
+      $('quiz-retry').addEventListener('click', function () { qi = 0; score = 0; renderQuiz(); });
+      return;
+    }
+    var it = quiz[qi];
+    c.innerHTML = '<div class="q-no">Q' + (qi + 1) + ' / ' + quiz.length + '</div><div class="q-text">' + esc(it.q) + '</div>' +
+      it.o.map(function (o, i) { return '<button class="opt" data-i="' + i + '">' + esc(o) + '</button>'; }).join('') +
+      '<div class="explain" id="explain"></div><div class="row" id="quiz-next-row" style="display:none"><button class="btn" id="quiz-next">' + (qi === quiz.length - 1 ? '結果を見る' : '次の問題へ') + '</button></div>';
+    c.querySelectorAll('.opt').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var i = +b.dataset.i, ok = i === it.a;
+        if (ok) score++;
+        c.querySelectorAll('.opt').forEach(function (x) { x.disabled = true; if (+x.dataset.i === it.a) x.classList.add('right'); });
+        if (!ok) b.classList.add('wrong');
+        $('explain').style.display = 'block';
+        $('explain').textContent = (ok ? '○ 正解。' : '× 不正解。') + it.e;
+        $('quiz-next-row').style.display = 'flex';
+      });
+    });
+    $('quiz-next').addEventListener('click', function () { qi++; renderQuiz(); });
+  }
+  renderQuiz();
+
+  /* 呼吸タイマー */
+  var total = 60, left = 60, tick = null, phaseT = null, running = false;
+  function fmt(s) { return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+  function phase(isIn) {
+    var c = $('circle');
+    c.classList.toggle('in', isIn); c.classList.toggle('out', !isIn);
+    c.textContent = isIn ? '吸う' : '吐く';
+    phaseT = setTimeout(function () { phase(!isIn); }, isIn ? 4000 : 6000);
+  }
+  function stopBreath(finished) {
+    if (!running && !finished) return;
+    running = false; clearInterval(tick); clearTimeout(phaseT);
+    var c = $('circle'); c.classList.remove('in'); c.classList.add('out');
+    c.textContent = finished ? 'おつかれさま' : 'はじめる';
+    left = total; $('time-left').textContent = fmt(left); $('breath-btn').textContent = 'スタート';
+  }
+  $('breath-btn').addEventListener('click', function () {
+    if (running) { stopBreath(false); return; }
+    running = true; left = total; $('breath-btn').textContent = 'やめる';
+    phase(true);
+    tick = setInterval(function () {
+      left--; $('time-left').textContent = fmt(Math.max(left, 0));
+      if (left <= 0) stopBreath(true);
+    }, 1000);
+  });
+  $('mins').addEventListener('click', function (e) {
+    var b = e.target.closest('.min-btn'); if (!b) return;
+    stopBreath(false);
+    document.querySelectorAll('.min-btn').forEach(function (x) { x.classList.toggle('active', x === b); });
+    total = left = +b.dataset.min * 60; $('time-left').textContent = fmt(left); $('circle').textContent = 'はじめる';
+  });
+
+  /* メモ */
+  var memos = store.get('mf-memos', []);
+  function renderMemos() {
+    $('memo-list').innerHTML = memos.length ? memos.map(function (m, i) {
+      return '<div class="memo-item"><div class="memo-meta"><span>' + esc(m.d) + '</span><button class="memo-del" data-i="' + i + '">削除</button></div>' + esc(m.t) + '</div>';
+    }).join('') : '<p class="empty">まだメモはありません。</p>';
+  }
+  $('memo-save').addEventListener('click', function () {
+    var t = $('memo-input').value.trim(); if (!t) return;
+    var d = new Date();
+    memos.unshift({ t: t, d: d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate() });
+    store.set('mf-memos', memos); $('memo-input').value = ''; renderMemos();
+  });
+  $('memo-list').addEventListener('click', function (e) {
+    var b = e.target.closest('.memo-del'); if (!b) return;
+    memos.splice(+b.dataset.i, 1); store.set('mf-memos', memos); renderMemos();
+  });
+  renderMemos();
+})();
+</script>
+</body>
+</html>
