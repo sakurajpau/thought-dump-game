@@ -170,6 +170,9 @@
   .kk-name b { font-weight: 500; }
   .kk-foot { margin: 18px 0 0; } .kk-foot .kk-mark { width: 26px; height: 26px; } .kk-foot .kk-name { font-size: 16px; } .kk-at { color: var(--dim); font-size: 12px; margin-left: 4px; }
   .tile h3 { font-size: 18px; }
+  .mapsvg { max-width: 420px; margin: 0 auto; font-family: inherit; }
+  .mn { cursor: pointer; outline: none; } .mn .ring { opacity: 0; transition: opacity .15s; } .mn.on .ring, .mn:focus-visible .ring { opacity: 1; }
+  #mapdesc { margin-top: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
   nav#nav { box-shadow: 0 -1px 6px rgba(0,0,0,.05); }
   nav#nav { position: fixed; left: 0; right: 0; bottom: 0; background: #FFFFFF; border-top: 1px solid var(--line); padding: 8px 8px calc(8px + env(safe-area-inset-bottom)); z-index: 10; }
   nav#nav div { max-width: 640px; margin: 0 auto; display: flex; gap: 6px; }
@@ -695,6 +698,7 @@ var SOURCES = [
 ];
 
 var CHANGELOG = [
+  ['v4.2', '心の地図12枚を図解に描き直し。'],
   ['v4.1', 'KoKoRoBeing の配色に変更し、名前とマークを追加。'],
   ['v4.0', '発展編を追加。第7章 仏教心理学、第8章 プログラムと理論、第9章 実践を深める（21レッスン）。用語31語、心の地図6枚、記述演習7問、正誤判定30問、つまずき相談室、発展プログラム4週間、実践ガイド2種。'],
   ['v3.1', '本文・年表・用語集を原典の書誌情報と照合して修正。出典一覧を追加。'],
@@ -1095,14 +1099,120 @@ V.lesson = function (id) {
 };
 
 V.maps = function () {
-  return top('心の地図') + '<p class="note" style="margin-bottom:12px">しくみを流れで捉えます。図を選んでください。</p><div class="list">' +
+  return top('心の地図') + '<p class="note" style="margin-bottom:12px">しくみを図解でつかみます。図を選んでください。</p><div class="list">' +
     MAPS.map(function (m, i) { return '<button class="item" data-go="map/' + i + '"><span class="no">' + (i + 1) + '</span><span class="tt">' + esc(m.t) + '<small>' + esc(m.s) + '</small></span><span class="st" style="color:var(--accent)">→</span></button>'; }).join('') + '</div>';
 };
+/* ---- 心の地図：図解 ---- */
+var IC = {
+  target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/>',
+  cloud: '<path d="M7 17h10a4 4 0 0 0 0-8 5 5 0 0 0-9.6-1A4 4 0 0 0 7 17z"/>',
+  spark: '<path d="M12 3v5M12 16v5M3 12h5M16 12h5M6 6l3 3M15 15l3 3M18 6l-3 3M9 15l-3 3"/>',
+  back: '<path d="M9 5l-5 4 5 4M4 9h10a5.5 5.5 0 0 1 0 11h-4"/>',
+  heart: '<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.500-7 10-7 10z"/>',
+  body: '<circle cx="12" cy="6" r="3"/><path d="M6 21v-5a6 6 0 0 1 12 0v5"/>',
+  arrow: '<path d="M4 12h15M13 6l6 6-6 6"/>',
+  bolt: '<path d="M13 3L5 13h6l-1 8 8-10h-6z"/>',
+  dart: '<path d="M4 20L19 5M19 5h-7M19 5v7M4 20l1-5M4 20l5-1"/>',
+  darts: '<path d="M3 15L13 5M13 5H8M13 5v5M11 21L21 11M21 11h-5M21 11v5"/>',
+  flame: '<path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3.500 2-4.500 0 2 1 3 2 3 1-3-1-5 1-8.500z"/>',
+  pause: '<circle cx="12" cy="12" r="9"/><path d="M10 8.500v7M14 8.500v7"/>',
+  fork: '<path d="M12 21V12M12 12L6 5M12 12l6-7M6 5h4M6 5v4M18 5h-4M18 5v4"/>',
+  sit: '<circle cx="12" cy="6" r="2.800"/><path d="M12 9c-3 0-4 3-4.500 6L4 18h16l-3.500-3c-.5-3-1.500-6-4.500-6zM4 20.500h16"/>',
+  temple: '<path d="M3 10l9-6 9 6M6 10v9M18 10v9M3 20h18M10 20v-5h4v5"/>',
+  cross: '<path d="M10 4h4v6h6v4h-6v6h-4v-6H4v-4h6z"/>',
+  book: '<path d="M12 6c-2-1.500-5-2-8-1.500v13c3-.5 6 0 8 1.500 2-1.500 5-2 8-1.500v-13c-3-.5-6 0-8 1.500zM12 6v13"/>',
+  people: '<circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.500"/><path d="M2 20c0-4 3-6 6-6s6 2 6 6M15 14.500c3-.5 6 1.500 6 5"/>',
+  star: '<path d="M12 3l2.700 5.600 6.100.8-4.500 4.300 1.100 6.100L12 17l-5.400 2.800 1.100-6.100L3.200 9.400l6.100-.8z"/>',
+  moon: '<path d="M19 14A8 8 0 1 1 10 5a6.500 6.500 0 0 0 9 9z"/>',
+  swirl: '<path d="M4 12a8 8 0 1 1 8 8 5 5 0 1 1 5-5 2.500 2.500 0 1 1-2.500-2.500"/>',
+  question: '<path d="M9 9a3 3 0 1 1 4.500 2.600c-1 .6-1.500 1.300-1.500 2.400M12 18h.01"/>',
+  eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
+  leaf: '<path d="M5 19c0-9 5-14 15-14 0 10-5 15-14 14M5 19c3-5 6-8 10-10"/>',
+  touch: '<circle cx="8.500" cy="12" r="5"/><circle cx="15.500" cy="12" r="5"/>',
+  tone: '<path d="M4 8h7M7.500 4.500v7M13 16h7"/>',
+  chain: '<path d="M9 15l6-6M8 12l-2 2a3.500 3.500 0 0 0 5 5l2-2M16 12l2-2a3.500 3.500 0 0 0-5-5l-2 2"/>',
+  bowl: '<path d="M4 11a8 8 0 0 0 16 0zM9 20h6M12 4v3"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l-3 3"/>',
+  flag: '<path d="M6 21V4M6 5h12l-3 4 3 4H6"/>',
+  user: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.500 18.500c1-3 3-4 5.500-4s4.500 1 5.500 4"/>'
+};
+var PAL = ['#7D8A9C', '#C08A8A', '#C7A35A', '#8A7BA8', '#5F8F8C', '#6F8BA8', '#8FA88A', '#D19A6A', '#A86B5A'];
+/* 地図ごとの描き方：ty=形, ic=項目のアイコン, c=中央, hi=強調する項目 */
+var MAPVIZ = [
+  { ty: 'cycle', ic: ['target', 'cloud', 'spark', 'back'], c: 'sit' },
+  { ty: 'web', ic: ['cloud', 'heart', 'body', 'arrow'], c: 'user' },
+  { ty: 'path', ic: ['bolt', 'dart', 'flame', 'darts'] },
+  { ty: 'path', ic: ['bolt', 'flame', 'pause', 'fork'], hi: 2 },
+  { ty: 'radial', ic: ['body', 'tone', 'heart', 'eye'], c: 'sit' },
+  { ty: 'path', ic: ['sit', 'temple', 'cross', 'book', 'people'] },
+  { ty: 'path', ic: ['touch', 'tone', 'spark', 'star', 'chain'], hi: 2 },
+  { ty: 'radial', ic: ['star', 'flame', 'moon', 'swirl', 'question'], c: 'cloud' },
+  { ty: 'balance', ic: ['eye', 'sun', 'leaf'] },
+  { ty: 'radial', ic: ['target', 'body', 'heart', 'user'], c: 'sit' },
+  { ty: 'radial', ic: ['bowl', 'cloud', 'clock', 'eye', 'star', 'flag'], ct: ['心理的', '柔軟性'] },
+  { ty: 'path', ic: [] }
+];
+function ico(name, x, y, k, col) { return '<g transform="translate(' + (x - 12 * k).toFixed(1) + ' ' + (y - 12 * k).toFixed(1) + ') scale(' + k + ')" fill="none" stroke="' + (col || '#fff') + '" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + IC[name] + '</g>'; }
+function wrapLabel(t, max) {
+  t = t.replace(/^★\s*/, '');
+  if (t.length <= max) return [t];
+  var k = t.indexOf('（'); if (k < 2) { k = Math.ceil(t.length / 2); var d = t.lastIndexOf('・', k + 1); if (d > 1 && d < t.length - 2) k = d + 1; }
+  return [t.slice(0, k), t.slice(k)];
+}
+function mnode(j, x, y, label, icon, col, side, hi) {
+  var r = hi ? 30 : 26, lines = wrapLabel(label, side === 'below' ? 7 : 9), h = '<g class="mn' + (j === 0 ? ' on' : '') + '" data-mnode="' + j + '" tabindex="0" role="button" aria-label="' + esc(label) + '">';
+  h += side === 'below' ? '<rect x="' + (x - 52) + '" y="' + (y - r - 6) + '" width="104" height="' + (2 * r + 50) + '" fill="transparent"/>' : '<rect x="' + (side === 'right' ? x - r - 6 : x - r - 170) + '" y="' + (y - r - 6) + '" width="' + (2 * r + 176) + '" height="' + (2 * r + 12) + '" fill="transparent"/>';
+  if (hi) h += '<circle cx="' + x + '" cy="' + y + '" r="40" fill="#F4E6B0" opacity=".7"/>';
+  h += '<circle class="ring" cx="' + x + '" cy="' + y + '" r="' + (r + 5) + '" fill="none" stroke="#3D3530" stroke-width="2"/><circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="' + col + '"/>';
+  h += icon ? ico(icon, x, y, 1.15) : '<text x="' + x + '" y="' + (y + 7) + '" text-anchor="middle" font-size="20" font-weight="700" fill="#fff">' + (j + 1) + '</text>';
+  var tx = side === 'right' ? x + r + 14 : side === 'left' ? x - r - 14 : x, ty = side === 'below' ? y + r + 20 : y - (lines.length - 1) * 9 + 5, an = side === 'right' ? 'start' : side === 'left' ? 'end' : 'middle';
+  lines.forEach(function (l, k) { h += '<text x="' + tx + '" y="' + (ty + k * 18) + '" text-anchor="' + an + '" font-size="14" font-weight="700" fill="#1C1C1C">' + esc(l) + '</text>'; });
+  return h + '</g>';
+}
+function hub(x, y, v) {
+  var h = '<circle cx="' + x + '" cy="' + y + '" r="38" fill="#E4EEE7" stroke="#BFD3C3"/>';
+  if (v.ct) v.ct.forEach(function (l, k) { h += '<text x="' + x + '" y="' + (y - 3 + k * 16) + '" text-anchor="middle" font-size="12.500" font-weight="700" fill="#3D3530">' + l + '</text>'; });
+  else h += ico(v.c, x, y, 1.9, '#3D3530');
+  return h;
+}
+function drawMap(m, v) {
+  var n = m.n, W = 340, H, h = '', DEFS = '<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1l8 4-8 4" fill="none" stroke="#8E8983" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>';
+  function ring(i, R, cx, cy, off) { var a = -Math.PI / 2 + (off || 0) + i * 2 * Math.PI / n.length; return [cx + Math.cos(a) * R, cy + Math.sin(a) * R]; }
+  if (v.ty === 'cycle') {
+    H = 372; var cx = 170, cy = 168, R = 112;
+    h += hub(cx, cy, v);
+    n.forEach(function (x, i) {
+      var a0 = -Math.PI / 2 + i * 2 * Math.PI / n.length + 0.56, a1 = -Math.PI / 2 + (i + 1) * 2 * Math.PI / n.length - 0.56;
+      h += '<path d="M' + (cx + Math.cos(a0) * R).toFixed(1) + ' ' + (cy + Math.sin(a0) * R).toFixed(1) + 'A' + R + ' ' + R + ' 0 0 1 ' + (cx + Math.cos(a1) * R).toFixed(1) + ' ' + (cy + Math.sin(a1) * R).toFixed(1) + '" fill="none" stroke="#8E8983" stroke-width="2" stroke-dasharray="1 6" stroke-linecap="round" marker-end="url(#ah)"/>';
+    });
+    n.forEach(function (x, i) { var p = ring(i, R, cx, cy); h += mnode(i, +p[0].toFixed(1), +p[1].toFixed(1), x[0], v.ic[i], PAL[i], 'below'); });
+  } else if (v.ty === 'web' || v.ty === 'radial') {
+    H = 384; var cx2 = 170, cy2 = 172, R2 = 118, off = n.length === 4 && v.ty === 'web' ? 0 : 0, pts = n.map(function (x, i) { return ring(i, R2, cx2, cy2, off); });
+    if (v.ty === 'web') pts.forEach(function (p, i) { pts.forEach(function (q, k) { if (k > i) h += '<line x1="' + p[0].toFixed(1) + '" y1="' + p[1].toFixed(1) + '" x2="' + q[0].toFixed(1) + '" y2="' + q[1].toFixed(1) + '" stroke="#BFD3C3" stroke-width="2"/>'; }); });
+    else pts.forEach(function (p) { h += '<line x1="' + cx2 + '" y1="' + cy2 + '" x2="' + p[0].toFixed(1) + '" y2="' + p[1].toFixed(1) + '" stroke="#BFD3C3" stroke-width="2" stroke-dasharray="1 6" stroke-linecap="round"/>'; });
+    h += hub(cx2, cy2, v);
+    pts.forEach(function (p, i) { h += mnode(i, +p[0].toFixed(1), +p[1].toFixed(1), n[i][0], v.ic[i], PAL[i % PAL.length], 'below'); });
+  } else if (v.ty === 'balance') {
+    H = 330;
+    h += '<path d="M170 96V262M120 270h100" stroke="#8E8983" stroke-width="3" stroke-linecap="round"/><path d="M70 150L170 128L270 150" fill="none" stroke="#8E8983" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M70 150v24M270 150v24" stroke="#8E8983" stroke-width="2" stroke-dasharray="1 5" stroke-linecap="round"/>';
+    h += mnode(0, 170, 58, n[0][0], v.ic[0], PAL[2], 'right') + mnode(1, 70, 204, n[1][0], v.ic[1], PAL[7], 'below') + mnode(2, 270, 204, n[2][0], v.ic[2], PAL[4], 'below');
+  } else {
+    var step = n.length > 6 ? 84 : 96; H = 56 + (n.length - 1) * step + 56;
+    var P = n.map(function (x, i) { return [i % 2 ? 276 : 64, 56 + i * step]; });
+    P.forEach(function (p, i) { if (!i) return; var q = P[i - 1], my = (q[1] + p[1]) / 2, d = q[0] < p[0] ? 1 : -1;
+      h += '<path d="M' + (q[0] + d * 10) + ' ' + (q[1] + 34) + 'C' + (q[0] + d * 10) + ' ' + (my + 14) + ' ' + p[0] + ' ' + (my - 22) + ' ' + p[0] + ' ' + (p[1] - (v.hi === i ? 46 : 36)) + '" fill="none" stroke="#8E8983" stroke-width="2" stroke-dasharray="1 6" stroke-linecap="round" marker-end="url(#ah)"/>'; });
+    P.forEach(function (p, i) { h += mnode(i, p[0], p[1], n[i][0], v.ic[i], v.hi === i ? '#B5852F' : PAL[i % PAL.length], i % 2 ? 'left' : 'right', v.hi === i); });
+  }
+  return '<svg class="chart mapsvg" viewBox="0 0 ' + W + ' ' + H + '" role="group" aria-label="' + esc(m.t) + '">' + DEFS + h + '</svg>';
+}
+function mapDesc(m, j) { return '<div class="n" style="background:' + '#3D3530' + ';color:#fff">' + (j + 1) + '</div><div><b>' + esc(m.n[j][0].replace(/^★\s*/, '')) + '</b><p>' + esc(m.n[j][1]) + '</p></div>'; }
 V.map = function (i) {
   var m = MAPS[+i]; if (!m) return V.maps();
-  return top(m.t) + '<p class="note" style="margin-bottom:14px">' + esc(m.s) + '。項目をタップすると説明が開きます。</p>' +
-    m.n.map(function (n, j) { return (j ? '<div class="flow">' + (m.list ? '・' : '↓') + '</div>' : '') + '<button class="node' + (j === 0 ? ' on' : '') + '" data-node><span class="n">' + (j + 1) + '</span><div><b>' + esc(n[0]) + '</b><p>' + esc(n[1]) + '</p></div></button>'; }).join('') +
-    (m.loop ? '<div class="flow">↺ 1 に戻って繰り返す</div>' : '') +
+  ui.mapi = +i;
+  return top(m.t) + '<p class="note" style="margin-bottom:10px">' + esc(m.s) + '。図の丸をタップすると説明が切り替わります。</p>' +
+    '<div class="box" style="padding:10px 6px">' + drawMap(m, MAPVIZ[+i] || { ty: 'path', ic: [] }) + '</div>' +
+    '<div class="node on" id="mapdesc" style="cursor:default">' + mapDesc(m, 0) + '</div>' +
     '<div class="row">' + (MAPS[+i - 1] ? '<button class="btn plain" data-go="map/' + (+i - 1) + '">← 前の図</button>' : '') + (MAPS[+i + 1] ? '<button class="btn plain" data-go="map/' + (+i + 1) + '">次の図 →</button>' : '') + '</div>';
 };
 
@@ -1463,6 +1573,8 @@ function render() {
 window.addEventListener('hashchange', render);
 
 document.addEventListener('click', function (e) {
+  var mn = e.target.closest && e.target.closest('[data-mnode]');
+  if (mn) { document.querySelectorAll('.mn').forEach(function (g) { g.classList.toggle('on', g === mn); }); $('mapdesc').innerHTML = mapDesc(MAPS[ui.mapi], +mn.dataset.mnode); return; }
   var t = e.target.closest('button, input[type=checkbox]'); if (!t) return;
   var d = t.dataset;
   if (d.go !== undefined) return go(d.go);
@@ -1525,6 +1637,7 @@ document.addEventListener('click', function (e) {
   if (d.sit !== undefined) { if (sit.on) sitStop(false); else sitStart(); return; }
   if (d.reset !== undefined) { if (confirm('学習の記録（講義、用語、記述演習、実践、実験室、プログラム）をすべて消します。元に戻せません。よろしいですか？')) { S = blank(); save(); render(); } return; }
 });
+document.addEventListener('keydown', function (e) { if ((e.key === 'Enter' || e.key === ' ') && e.target.closest && e.target.closest('[data-mnode]')) { e.preventDefault(); e.target.closest('[data-mnode]').dispatchEvent(new MouseEvent('click', { bubbles: true })); } });
 document.addEventListener('input', function (e) {
   if (e.target.id === 'q') { ui.q = e.target.value; document.getElementById('results').innerHTML = searchResults(); }
   if (e.target.id === 'essay-in') document.getElementById('cnt').textContent = e.target.value.length;
