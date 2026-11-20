@@ -993,7 +993,7 @@ var TF = [
 var V = {};
 
 /* ================= 体験版とLINE特典 ================= */
-var LINE_URL = '';  /* LINE公式アカウントの友だち追加URLを入れると、ボタンが表示されます */
+var LINE_URL = 'https://lin.ee/v6xlqGl';  /* LINE公式アカウントの友だち追加URLを入れると、ボタンが表示されます */
 var PASS = [2544450637, 215762741, 2548008397, 2612834544];
 function passHash(t) { var x = 5381; t = t.replace(/[\s　]/g, '').toLowerCase(); for (var i = 0; i < t.length; i++) x = ((x << 5) + x + t.charCodeAt(i)) >>> 0; return x; }
 var FREE_SIT = { breath: 1, space: 1 }, FREE_EXP = { sart: 1 };
@@ -1105,7 +1105,7 @@ V.home = function () {
     '<button class="tile" data-go="practice">' + ICON.leaf + '<h3>実践タイマー</h3><p>7種類のガイド付き</p></button>' +
     '<button class="tile" data-go="help">' + ICON.help + '<h3>つまずき相談室</h3><p>困ったときの対処</p></button>' +
     '</div>' +
-    '<footer>このノートは学習用の一般的な情報で、医療・心理の診断や治療の代わりにはなりません。学習の記録はこの端末のブラウザにだけ保存されます。<br><a href="index.html">思考の実況ゲーム</a>　／　<a href="kokoro.html">KoKoRo voice card</a><div class="kk kk-foot"><svg class="kk-mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M33 13.5A15 15 0 1 0 34.5 24" fill="none" stroke="#3E6A5A" stroke-width="3.4" stroke-linecap="round"/><circle cx="20" cy="20" r="3.2" fill="#C9A35B"/></svg><span class="kk-name"><span>KoKoRo</span>Being</span><span class="kk-at">@KoKoRoBeing</span></div></footer>';
+    '<footer>このノートは学習用の一般的な情報で、医療・心理の診断や治療の代わりにはなりません。学習の記録はこの端末のブラウザにだけ保存されます。<br><a href="https://kokorobeing.com/">KoKoRoBeing のサイト</a>　／　<a href="index.html">思考の実況ゲーム</a>　／　<a href="kokoro.html">KoKoRo voice card</a><div class="kk kk-foot"><svg class="kk-mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M33 13.5A15 15 0 1 0 34.5 24" fill="none" stroke="#3E6A5A" stroke-width="3.4" stroke-linecap="round"/><circle cx="20" cy="20" r="3.2" fill="#C9A35B"/></svg><span class="kk-name"><span>KoKoRo</span>Being</span><span class="kk-at">@KoKoRoBeing</span></div></footer>';
 };
 
 V.course = function () {
